@@ -5,25 +5,26 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
+@*@Html.Partial("_SearchBar", new RealEstateV1.Busniss.SearchItem())*@
 
-<div class="internal-login-search ">
+<div>
 
     @*<ul class="nav navbar-nav navbar-right">
-        <li><a href="/Account/Login" id="loginLink">العقارات المفضلة</a></li>
-        <li><a href="/Account/Register" id="registerLink">الاسم</a></li>
+            <li><a href="/Account/Login" id="loginLink">العقارات المفضلة</a></li>
+            <li><a href="/Account/Register" id="registerLink">الاسم</a></li>
 
-    </ul>*@
+        </ul>*@
     @*<select data-val="true" data-val-number="The field المدينة must be a number." data-val-required="The المدينة field is required." id="City" name="City">
-        <option value="1">Damam</option>
-        <option value="2">jeddah</option>
-    </select>*@
+            <option value="1">Damam</option>
+            <option value="2">jeddah</option>
+        </select>*@
     @Html.DropDownList("City", (SelectList)ViewBag.Cites)
     @Html.DropDownList("town", (SelectList)ViewBag.town)
 </div>
+
 <h2>معلومات محلية</h2>
 
-
-@*<table class="table" style="display:none;">
+<table class="table" style="display:none;">
     <tr>
         <th>
             @Html.DisplayNameFor(model => model.TownName)
@@ -33,34 +34,32 @@
         </th>
         <th></th>
     </tr>
-</table>*@
+</table>
+
+
 <div id="container">
     <div class="row">
 
-        <ul >
+        <ul class="list col-lg-9 col-sm-7">
 
-                @if (Model == null)
+            @if (Model == null)
+            {
+                <li>
+                    لايوجد بيانات
+                </li>
+            }
+            else
+            {
+                foreach (var item in Model)
                 {
-                    <li>
-                        لايوجد بيانات
-                    </li>
-                }
-                else
-                {
-                    foreach (var item in Model)
+                    foreach (var it in item.Comment)
                     {
-                        @Html.Partial("_TownPartial", item);
+                        @Html.Partial("_TownPartial", it);
                     }
                 }
-
-            </ul>
-
-        @*<ul class="col-lg-9 col-sm-7">
-            @for (int i = 0; i < 10; i++)
-            {
-                @Html.Partial("_TownPartial", null);
             }
-        </ul>*@
+
+        </ul>
 
         <aside class="left-col list col-lg-3 col-sm-5">
             <div class="block ads">
@@ -123,7 +122,7 @@
                     },
                     error: function (xhr, ajaxOptions, thrownError) {
                         alert('Failed to retrieve states. ' + xhr + " - " + ajaxOptions + " - " + thrownError);
-                        
+
                     }
                 });
             });
@@ -142,7 +141,7 @@
                     },
                     error: function (xhr, ajaxOptions, thrownError) {
                         alert('Failed to retrieve states. ' + xhr + " - " + ajaxOptions + " - " + thrownError);
-                       
+
                     }
                 });
             });

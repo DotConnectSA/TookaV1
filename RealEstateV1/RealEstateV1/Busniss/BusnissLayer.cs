@@ -42,8 +42,9 @@ namespace RealEstateV1.Busniss
             DB.SaveChanges();
 
         }
-        public static void AddRepaly(int DiscussID,string text)
+        public static void AddDiscussRepaly(int DiscussID, string text)
         {
+            //if flag==true then its replay for discuss else its for towncomment
             RealEstateContext DB = new RealEstateContext();
             T_Replay rep = new T_Replay();
             rep.CreatedDate = DateTime.Now;
@@ -51,6 +52,19 @@ namespace RealEstateV1.Busniss
             rep.Replaytxt = text;
             rep.ReportNo = 0;
             DB.TDiscuss.Single(a => a.ID == DiscussID).Replay.Add(rep);
+            DB.SaveChanges();
+        }
+
+        public static void AddCommentRepaly(int CommentID, string text)
+        {
+            //if flag==true then its replay for discuss else its for towncomment
+            RealEstateContext DB = new RealEstateContext();
+            T_Replay rep = new T_Replay();
+            rep.CreatedDate = DateTime.Now;
+            rep.Customer = getCurrentCustomer(DB);
+            rep.Replaytxt = text;
+            rep.ReportNo = 0;
+            DB.TTownComment.Single(a => a.ID == CommentID).Replay.Add(rep);
             DB.SaveChanges();
         }
         public static T_Customer getCurrentCustomer(RealEstateContext DB)
@@ -80,7 +94,7 @@ namespace RealEstateV1.Busniss
             DB.SaveChanges();
         }
 
-        public static void AddTownComment(float Rate,string Title, string Comment)
+        public static void AddTownComment(float Rate, string Title, string Comment, int Town_ID)
         {
             RealEstateContext DB = new RealEstateContext();
             T_TownComment townCom = new T_TownComment();
@@ -88,9 +102,13 @@ namespace RealEstateV1.Busniss
             townCom.CreateDate = DateTime.Now;
             townCom.Comment = Comment;
             townCom.Title = Title;
+            townCom.DisLikeNo = 0;
+            townCom.LikeNo = 0;
+            townCom.ReportNo = 0;
             townCom.Customer = getCurrentCustomer(DB);
 
-            DB.TTownComment.Add(townCom);
+            DB.TTown.Single(a => a.ID == Town_ID).Comment.Add(townCom);
+
             DB.SaveChanges();
         }
 
@@ -225,10 +243,28 @@ namespace RealEstateV1.Busniss
             return true;
 
         }
+
+        public static bool reportC(int CommentID)
+        {
+            RealEstateContext DB = new RealEstateContext();
+            //DB.TTownComment.Single(a => a.ID == CommentID).ReportNo++;
+            T_TownComment comm = DB.TTownComment.Find(CommentID);
+            comm.ReportNo++;
+            DB.Entry(comm).State = EntityState.Modified;
+            DB.SaveChanges();
+            return true;
+        }
         public static bool LikeD(int DiscussID)
         {
             RealEstateContext DB = new RealEstateContext();
             DB.TDiscuss.Single(a => a.ID == DiscussID).LikeNo++;
+            DB.SaveChanges();
+            return true;
+        }
+        public static bool LikeC(int CommentID)
+        {
+            RealEstateContext DB = new RealEstateContext();
+            DB.TTownComment.Single(a => a.ID == CommentID).LikeNo++;
             DB.SaveChanges();
             return true;
         }
@@ -238,7 +274,13 @@ namespace RealEstateV1.Busniss
             DB.TDiscuss.Single(a => a.ID == DiscussID).DisLikeNo++;
             DB.SaveChanges();
             return true;
-
+        }
+        public static bool DisLikeC(int CommentID)
+        {
+            RealEstateContext DB = new RealEstateContext();
+            DB.TTownComment.Single(a => a.ID == CommentID).DisLikeNo++;
+            DB.SaveChanges();
+            return true;
         }
         public static bool reportR(int ReplayID)
         {

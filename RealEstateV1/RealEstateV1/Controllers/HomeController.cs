@@ -136,9 +136,9 @@ namespace RealEstateV1.Controllers
         }
 
         [Authorize]
-        public ActionResult AddTownComment(float Rate,string Title,string Comment)
+        public ActionResult AddTownComment(float Rate, string Title, string Comment, int Town_ID)
         {
-            Busniss.BusnissLayer.AddTownComment(Rate,Title, Comment);
+            Busniss.BusnissLayer.AddTownComment(Rate, Title, Comment, Town_ID);
 
             return Json(true, JsonRequestBehavior.AllowGet);
         }
@@ -244,12 +244,30 @@ namespace RealEstateV1.Controllers
             return Json(result, JsonRequestBehavior.AllowGet);
         }
 
+        [Authorize]
+        //[AcceptVerbs(HttpVerbs.Post)]
+        public ActionResult LikeC(int ID)
+        {
+            bool result = Busniss.BusnissLayer.LikeC(ID);
+
+            return Json(result, JsonRequestBehavior.AllowGet);
+        }
+
 
         [Authorize]
         //[AcceptVerbs(HttpVerbs.Post)]
         public ActionResult DisLikeD(int ID)
         {
             bool result = Busniss.BusnissLayer.DisLikeD(ID);
+
+            return Json(result, JsonRequestBehavior.AllowGet);
+        }
+
+        [Authorize]
+        //[AcceptVerbs(HttpVerbs.Post)]
+        public ActionResult DisLikeC(int ID)
+        {
+            bool result = Busniss.BusnissLayer.DisLikeC(ID);
 
             return Json(result, JsonRequestBehavior.AllowGet);
         }
@@ -263,6 +281,14 @@ namespace RealEstateV1.Controllers
             return Json(result, JsonRequestBehavior.AllowGet);
         }
 
+        [Authorize]
+        //[AcceptVerbs(HttpVerbs.Post)]
+        public ActionResult reportC(int ID)
+        {
+            bool result = Busniss.BusnissLayer.reportC(ID);
+            return Json(result, JsonRequestBehavior.AllowGet);
+        }
+
 
         [Authorize]
         //[AcceptVerbs(HttpVerbs.Post)]
@@ -271,11 +297,18 @@ namespace RealEstateV1.Controllers
             bool result = Busniss.BusnissLayer.reportR(ID);
             return Json(result, JsonRequestBehavior.AllowGet);
         }
-        
+
         [Authorize]
-        public ActionResult AddRepaly(int ID, string test)
+        public ActionResult AddDiscussRepaly(int ID, string test)
         {
-            Busniss.BusnissLayer.AddRepaly(ID,test);
+            Busniss.BusnissLayer.AddDiscussRepaly(ID, test);
+            return Json(true, JsonRequestBehavior.AllowGet);
+        }
+
+        [Authorize]
+        public ActionResult AddCommentRepaly(int ID, string test)
+        {
+            Busniss.BusnissLayer.AddCommentRepaly(ID, test);
             return Json(true, JsonRequestBehavior.AllowGet);
         }
 
@@ -293,10 +326,11 @@ namespace RealEstateV1.Controllers
             return View();
         }
 
-        public ActionResult TownInformation(int townID)
+        public ActionResult TownInformation(int townID = 0)
         {
             initialization();
-           T_Town t= Busniss.BusnissLayer.GetTownID(townID);
+            //T_Town t= Busniss.BusnissLayer.GetTownID(townID);
+            T_Town t = null;
             return View(t);
         }
 

@@ -27,7 +27,6 @@ namespace RealEstateV1.Models
         [Display(Name = "عدد التقارير")]
         public int ReportNo { get; set; }
         public virtual T_Customer Customer { get; set; }
-        public virtual T_Town Town { get; set; }
         [Display(Name = "الردود")]
         public virtual Collection<T_Replay> Replay { get; set; }
         //virtual user, town
