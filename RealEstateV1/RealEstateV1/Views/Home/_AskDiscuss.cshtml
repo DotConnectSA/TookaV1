@@ -1,0 +1,35 @@
+﻿
+
+
+<textarea id="textD" placeholder="الموضوع"></textarea>
+
+<input type="button" class="btn btn-primary" id="sendD" value="ارسل"/>
+
+
+<script type="text/javascript">
+
+    $(function () {
+
+        $("#sendD").click(function () {
+
+        var topbic = $("#textD").val();
+
+        $.ajax({
+            cache: false,
+            type: "POST",
+            url: "@(Url.Action("AddDiscuss"))",
+            data: { Topic: topbic },
+            success: function (data) {
+                $("#textD").val("");
+                window.location.href = "/Home/Discuss/";
+            },
+            error: function (xhr, ajaxOptions, thrownError) {
+                alert('Failed to retrieve states. ' + xhr + " - " + ajaxOptions + " - " + thrownError);
+
+            }
+        });
+        });
+    });
+</script>
+
+

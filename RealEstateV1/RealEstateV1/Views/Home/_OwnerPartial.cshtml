@@ -1,0 +1,24 @@
+﻿@model RealEstateV1.Models.T_Owner
+<dt><img src="'@Model.customer.ImgeUrl'" alt=""></dt>
+<dd>
+    <p>
+        @Html.DisplayFor(modelItem => Model.customer.Name)
+    </p>
+    <p>
+        @Html.DisplayFor(modelItem => Model.customer.address.Town.City.City)   ,@Html.DisplayFor(modelItem => Model.customer.address.Town.TownName).@Html.DisplayFor(modelItem => Model.customer.address.Street)        
+    </p>
+    <p>
+     هاتف   @Html.DisplayFor(modelItem => Model.customer.Phone)
+    </p>
+    <p>
+     جوال   @Html.DisplayFor(modelItem => Model.Description)
+    </p>
+    <p>
+     العقارات التي تم بيعها   @RealEstateV1.Busniss.BusnissLayer.GetSoldRE(Model.ID).Count()
+    </p>
+    <p>
+        النشاطات @RealEstateV1.Busniss.BusnissLayer.GetOwnerActivityNO(Model.ID)
+    </p>
+    <img src="'@Model.logo'" alt="">
+    @Html.ActionLink("تفاصيل", "Owner", "Home",  new { id = Model.ID.ToString() },null)
+</dd>

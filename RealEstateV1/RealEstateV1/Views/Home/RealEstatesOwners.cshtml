@@ -1,0 +1,74 @@
+﻿@model IEnumerable<RealEstateV1.Models.T_Owner>
+
+@{
+    ViewBag.Title = "Owners";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>عقاريون</h2>
+
+
+
+<div id="container">
+    <ul class="list">
+
+        @if (Model == null)
+        {
+            <li>
+                لايوجد بيانات
+            </li>
+        }
+        else
+        {
+            foreach (var item in Model)
+            {
+                @Html.Partial("_OwnerPartial", item);
+            }
+        }
+
+    </ul>
+    <aside class="left-col list">
+        <div class="block ads">
+
+            <div class="content">
+                <a href="#">
+                    <img src="@Url.Content("~/Content/images/ad1.jpg")" />
+                </a>
+            </div>
+        </div>
+        <div class="block ads">
+
+            <div class="content">
+                <a href="#">
+                    <img src="@Url.Content("~/Content/images/ad2.jpg")" />
+                </a>
+            </div>
+        </div>
+
+        <div class="block blue">
+            <h3>عقارات قريبة</h3>
+            <div class="content">
+                <ul>
+                    @for (int i = 0; i < 2; i++)
+                    {
+                        @Html.Partial("_miniRE")
+                    }
+                </ul>
+            </div>
+        </div>
+
+        <div class="block">
+            <h3>نقاشات عقارية</h3>
+            <div class="content">
+                @Html.Partial("_AskDiscuss")
+            </div>
+        </div>
+        <div class="block google">
+
+            <div class="content">
+                <img src="@Url.Content("~/Content/images/google.png")" />
+            </div>
+        </div>
+    </aside>
+    <div class="clear"></div>
+</div>

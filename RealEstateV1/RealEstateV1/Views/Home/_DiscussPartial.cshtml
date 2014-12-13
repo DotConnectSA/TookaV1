@@ -1,0 +1,126 @@
+﻿@model RealEstateV1.Models.T_Discuss
+
+<li>
+    <div class="comments-holder">
+        <div class="comment-links">
+            <a href="" onclick="reportD(@(Model.ID))">تبليغ</a>
+            <a href="" onclick="DisLikeD(@(Model.ID))"><div id="Dislikeme@(Model.ID)" > @Model.DisLikeNo</div></a>
+            <a href="" onclick="LikeD(@(Model.ID))"><div id="likeme@(Model.ID)">@Model.LikeNo</div></a>
+        </div>
+        <div class="comment-body">
+            <span class="avatar-name">@Model.Customer.Name</span>
+            <span class="time">@Model.CreatedDate</span>
+            <p>@Model.Topic</p>
+
+            <a href="" onclick="AddRepaly(@(Model.ID))" class="responde btn">الرد</a><span class="times">@Model.Replay.Count عدد الردود</span>
+            <br/>
+            <textarea id="sendR@(Model.ID)" placeholder="" style="margin: 0 50px 10px 10px;max-width:500px"></textarea>
+            @foreach (var item in @Model.Replay)
+            {
+                <div class="responde">
+                    <div class="comment-body">
+                        <span class="avatar-name">@item.Customer.Name</span>
+                        <span class="time">@item.CreatedDate</span>
+                        <a href="" onclick="reportR(@(item.ID))">تبليغ</a>
+                        <p>@item.Replaytxt</p>
+                        
+                    </div>
+                </div>
+            }
+          
+          
+            <div class="clear"></div>
+        </div>
+        </div>
+</li>
+
+<Script type="text/javascript">
+
+    function LikeD(id) {
+
+        $.ajax({
+            cache: false,
+            type: "POST",
+            url: "@(Url.Action("LikeD"))",
+            data: { "ID": id },
+            success: function (data) {
+                //var like = $("#likeme" + id);
+                //var n = parseInt(like.text())+1;
+                //like.text() = n;
+                window.location.href = "/Home/Discuss/";
+            },
+            error: function (xhr, ajaxOptions, thrownError) {
+                alert('Failed to retrieve states. ' + xhr + " - " + ajaxOptions + " - " + thrownError);
+            }
+        });
+    }
+
+    function DisLikeD(id) {
+        $.ajax({
+            cache: false,
+            type: "POST",
+            url: "@(Url.Action("DisLikeD"))",
+            data: { "ID": id },
+            success: function (data) {
+
+                //var dlike = $("#Dislikeme" + id);
+                //var n = parseInt(dlike.text()) + 1;
+                //dlike.text() = n;
+                window.location.href = "/Home/Discuss/";
+            },
+            error: function (xhr, ajaxOptions, thrownError) {
+                alert('Failed to retrieve states. ' + xhr + " - " + ajaxOptions + " - " + thrownError);
+            }
+        });
+    }
+
+    function reportD(id) {
+        $.ajax({
+            cache: false,
+            type: "POST",
+            url: "@(Url.Action("reportD"))",
+            data: { "ID": id },
+            success: function (data) {
+                alert("تم التبليغ بنجاح");
+            },
+            error: function (xhr, ajaxOptions, thrownError) {
+                alert('Failed to retrieve states. ' + xhr + " - " + ajaxOptions + " - " + thrownError);
+            }
+        });
+
+    }
+
+    function reportR(id) {
+        $.ajax({
+            cache: false,
+            type: "POST",
+            url: "@(Url.Action("reportR"))",
+            data: { "ID": id },
+            success: function (data) {
+                alert("تم التبليغ بنجاح");
+            },
+            error: function (xhr, ajaxOptions, thrownError) {
+                alert('Failed to retrieve states. ' + xhr + " - " + ajaxOptions + " - " + thrownError);
+            }
+        });
+
+    }
+
+    function AddRepaly(id) {
+        var i = "#sendR" + id;
+        var rep = $(i).val();
+        $.ajax({
+            cache: false,
+            type: "POST",
+            url: "@(Url.Action("AddRepaly"))",
+            data: { ID: id, test: rep },
+            success: function (data) {
+                window.location.href = "/Home/Discuss/";
+            },
+            error: function (xhr, ajaxOptions, thrownError) {
+                alert('Failed to retrieve states. ' + xhr + " - " + ajaxOptions + " - " + thrownError);
+            }
+        });
+
+    }
+</Script>
