@@ -136,14 +136,6 @@ namespace RealEstateV1.Controllers
         }
 
         [Authorize]
-        public ActionResult AddDiscuss(string Topic)
-        {
-            Busniss.BusnissLayer.AddDiscuss(Topic);
-
-            return Json(true, JsonRequestBehavior.AllowGet);
-        }
-
-        [Authorize]
         public ActionResult AddTownComment(float Rate,string Title,string Comment)
         {
             Busniss.BusnissLayer.AddTownComment(Rate,Title, Comment);
