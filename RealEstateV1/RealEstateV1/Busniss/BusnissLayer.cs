@@ -35,6 +35,11 @@ namespace RealEstateV1.Busniss
             SelectList a = new SelectList(GetCites(), "ID", "City");
             return a;
         }
+        public static T_TownComment GetCommentByID(int id)
+        {
+            RealEstateContext DB = new RealEstateContext();
+            return DB.TTownComment.Single(a => a.ID == id);
+        }
         public static void AddOwnerShown(int ownerID)
         {
             RealEstateContext DB = new RealEstateContext();
@@ -210,7 +215,7 @@ namespace RealEstateV1.Busniss
             
             return a;
         }
-        public static List<T_Town> GetTwonByCityID(int cityID)
+        public static List<T_Town> GetTownByCityID(int cityID)
         {
             RealEstateContext DB = new RealEstateContext();
             return DB.TTown.Where(a=>a.City.ID==cityID).ToList();
@@ -220,9 +225,9 @@ namespace RealEstateV1.Busniss
             RealEstateContext DB = new RealEstateContext();
             return DB.TRealEstate.SingleOrDefault(a => a.ID == REID);
         }
-        public static List<DropDown> GetTownByCityID(int cityID)
+        public static List<DropDown> GetTownByCityIDDropDown(int cityID)
         {
-            var states = GetTwonByCityID(cityID);
+            var states = GetTownByCityID(cityID);
             var result = (from s in states
                           select new DropDown
                           {

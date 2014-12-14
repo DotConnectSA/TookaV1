@@ -96,7 +96,7 @@ namespace RealEstateV1.Controllers
             }
             int id = 0;
             bool isValid = Int32.TryParse(CityID, out id);
-            var result = Busniss.BusnissLayer.GetTwonByCityID(id);
+            var result = Busniss.BusnissLayer.GetTownByCityIDDropDown(id);
             return Json(result, JsonRequestBehavior.AllowGet);        
         }
 
@@ -122,9 +122,15 @@ namespace RealEstateV1.Controllers
             }
             int id = 0;
             bool isValid = Int32.TryParse(townID, out id);
-            var result = Busniss.BusnissLayer.GetTwonByCityID(id);
-            return Json(result, JsonRequestBehavior.AllowGet);
+            var result = Busniss.BusnissLayer.GetTownID(id);
+            return Json(result.Comment.ToList(), JsonRequestBehavior.AllowGet);
 
+        }
+
+        public ActionResult GetComment(int CommentID)
+        {
+            var result = Busniss.BusnissLayer.GetCommentByID(CommentID);
+            return PartialView("_TownPartial", result);
         }
 
         [Authorize]
@@ -326,13 +332,16 @@ namespace RealEstateV1.Controllers
             return View();
         }
 
-        public ActionResult TownInformation(int townID = 0)
+        public ActionResult TownInformation(int CityID = 1, int townID = 1)
         {
             initialization();
-            //T_Town t= Busniss.BusnissLayer.GetTownID(townID);
-            T_Town t = null;
+
+            T_Town t = Busniss.BusnissLayer.GetTownID(townID);
+
+
             return View(t);
         }
+
 
         public ActionResult Owner(int id)
         {

@@ -13,6 +13,7 @@
             <span class="avatar-name">@Model.Customer.Name</span>
             <span class="time">@Model.CreateDate</span>
             <p>@Model.Title</p>
+            <p>@Model.Rate</p>
             <p>@Model.Comment</p>
 
             <a href="" onclick="AddRepaly(@(Model.ID))" class="responde btn">الرد</a><span class="times">@Model.Replay.Count عدد الردود</span>
@@ -40,17 +41,16 @@
 <script type="text/javascript">
 
     function LikeC(id) {
-
+        alert(id);
         $.ajax({
             cache: false,
             type: "POST",
             url: "@(Url.Action("LikeC"))",
             data: { "ID": id },
             success: function (data) {
-                //var like = $("#likeme" + id);
-                //var n = parseInt(like.text())+1;
-                //like.text() = n;
-                window.location.href = "/Home/Discuss/";
+                var like = $("#likeme" + id);
+                var n = parseInt(like.text()) + 1;
+                like.text() = n;
             },
             error: function (xhr, ajaxOptions, thrownError) {
                 alert('Failed to retrieve states. ' + xhr + " - " + ajaxOptions + " - " + thrownError);
@@ -66,10 +66,9 @@
             data: { "ID": id },
             success: function (data) {
 
-                //var dlike = $("#Dislikeme" + id);
-                //var n = parseInt(dlike.text()) + 1;
-                //dlike.text() = n;
-                window.location.href = "/Home/Discuss/";
+                var dlike = $("#Dislikeme" + id);
+                var n = parseInt(dlike.text()) + 1;
+                dlike.text() = n;
             },
             error: function (xhr, ajaxOptions, thrownError) {
                 alert('Failed to retrieve states. ' + xhr + " - " + ajaxOptions + " - " + thrownError);
@@ -112,13 +111,15 @@
     function AddRepaly(id) {
         var i = "#sendR" + id;
         var rep = $(i).val();
+        alert(id);
+        alert(rep);
         $.ajax({
             cache: false,
             type: "POST",
             url: "@(Url.Action("AddCommentRepaly"))",
             data: { ID: id, test: rep },
             success: function (data) {
-                window.location.href = "/Home/Discuss/";
+                window.location.href = "/Home/TownInformation/";
             },
             error: function (xhr, ajaxOptions, thrownError) {
                 alert('Failed to retrieve states. ' + xhr + " - " + ajaxOptions + " - " + thrownError);
