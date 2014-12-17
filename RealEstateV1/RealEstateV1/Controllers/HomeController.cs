@@ -53,6 +53,7 @@ namespace RealEstateV1.Controllers
             ViewBag.asia = new SelectList(asia, "Value", "Key");
             ViewBag.ImageAds = "left-ads.jpg";
             ViewBag.imageads2 = "right-ads.jpg";
+            ViewBag.index = 1;
         }
         #region actions
 
@@ -127,8 +128,9 @@ namespace RealEstateV1.Controllers
 
         }
 
-        public ActionResult GetComment(int CommentID)
+        public ActionResult GetComment(int CommentID, int index)
         {
+            ViewBag.index = index;
             var result = Busniss.BusnissLayer.GetCommentByID(CommentID);
             return PartialView("_TownPartial", result);
         }
@@ -245,6 +247,11 @@ namespace RealEstateV1.Controllers
         //[AcceptVerbs(HttpVerbs.Post)]
           public ActionResult LikeD(int ID)
         {
+            //Busniss.CookieManager.SetLikeCookie("Discuss","div0");
+            //Busniss.CookieManager.SetDsLikeCookie("Discuss", "div0");
+            //bool f = Busniss.CookieManager.SearchLikeCookie("Discuss", "div0");
+            //f = Busniss.CookieManager.SearchLikeCookie("Discuss", "div3");
+
             bool result = Busniss.BusnissLayer.LikeD(ID);
 
             return Json(result, JsonRequestBehavior.AllowGet);

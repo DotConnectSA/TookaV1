@@ -160,6 +160,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Busniss\BusnissLayer.cs" />
+    <Compile Include="Busniss\CookieManager.cs" />
     <Compile Include="Busniss\MyEnumType.cs" />
     <Compile Include="Busniss\ObjectClass.cs" />
     <Compile Include="Busniss\SessionManager.cs" />

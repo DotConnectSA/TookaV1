@@ -30,27 +30,36 @@
 
 <div id="container">
     <div class="row">
+        <div class="list col-lg-9 col-sm-7">
+            <hr />
+            <ul id="list">
 
-        <ul class="list col-lg-9 col-sm-7" id="list">
-
-            @if (Model == null)
-            {
-                <li>
-                    لايوجد بيانات
-                </li>
-            }
-            else
-            {
-                //foreach (var item in Model)
-                //{
-                foreach (var it in Model.Comment)
+                @if (Model == null)
                 {
-                    @Html.Partial("_TownPartial", it);
+                    <li id="div1">
+                        لايوجد بيانات
+                    </li>
                 }
-                @*}*@
-            }
+                else
+                {
+                    int counter = 1;
+                    foreach (var it in Model.Comment)
+                    {
+                        @Html.Partial("_TownPartial", it, new ViewDataDictionary { { "index", @counter } });
+                                                                                                           counter = counter + 1;
+                    }
 
-        </ul>
+                }
+
+            </ul>
+
+            <div style="text-align: center;">
+                <button id="prevbtn" type="button" onclick="prev()" class="btn btn-default">السابق</button>
+                <span id="nav"></span>
+                <a id="nextbtn" onclick="next()" class="btn btn-default">التالي</a>
+            </div>
+
+        </div>
 
         <div id="work"></div>
 
@@ -95,12 +104,13 @@
 
 <script type="text/javascript">
 
-    function getComm(Commnet) {
+    function getComm(Commnet,index)
+    {
         $.ajax({
             cache: false,
             type: "POST",
             url: "@(Url.Action("GetComment"))",
-            data: { "CommentID": Commnet },
+            data: { "CommentID": Commnet,"index":index },
             success: function (data) {
                 $("#list").append(data);
             },
@@ -111,7 +121,8 @@
         });
     }
 
-    function getTownComm(town) {
+    function getTownComm(town)
+    {
         var town1 = town;
         $.ajax({
             cache: false,
@@ -119,14 +130,16 @@
             url: "@(Url.Action("GetTowninfo"))",
             data: { "townID": town1 },
             success: function (data) {
-
+                //alert(data.length);
                 $("#list").html('');
-
+                init(data.length);
+                var index=1;
                 $.each(data, function (id, Comment) {
-                    getComm(Comment.ID);
+                    getComm(Comment.ID,index);
+                    index++;
                 });
-                alert(result);
-                $("#list").html(result);
+                //alert(result);
+                //$("#list").html(result);
 
             },
             error: function (xhr, ajaxOptions, thrownError) {
@@ -174,12 +187,13 @@
                 success: function (data) {
 
                     $("#list").html('');
-
+                    //alert(data.length);
+                    init(data.length);
                     $.each(data, function (id, Comment) {
                         getComm(Comment.ID);
                     });
-                    alert(result);
-                    $("#list").html(result);
+                    //alert(result);
+                    //$("#list").html(result);
 
                 },
                 error: function (xhr, ajaxOptions, thrownError) {
@@ -190,4 +204,94 @@
         });
 
     });
+</script>
+
+<script type="text/javascript">
+    var showCount=2;    //you should change this number
+    var num=@Model.Comment.Count() / showCount;
+    num=Math.ceil(num);
+    var navIndex;
+    var totalCount;
+
+    function init(count)
+    {
+        totalCount=count;
+        num=totalCount / showCount;
+        num=Math.ceil(num);
+
+        for(i=1;i<=totalCount;i++)
+        {
+            $("#div" + i).hide();
+            //alert(i);
+        }
+        for(i=1;i<=showCount;i++)
+        {
+            $("#div" + i).show();
+            //alert(i);
+        }
+
+
+        for(i=num;i>=1;i--)
+        {
+
+            $("#nav").append( "<a id='nav"+i+"' onclick='alter("+i+")' style='cursor: pointer;color:gray;padding:5px;'>"+i+"</a>");
+
+        }
+        navIndex=1;
+        $("#prevbtn").addClass("active");
+        if (navIndex+1>=num)
+            $("#nextbtn").addClass("active");
+        $("#nav"+navIndex).css("color","blue");
+    }
+
+    $(document).ready(
+	function()
+	{
+	    init(@Model.Comment.Count());
+	}
+	);
+
+    function alter(index)
+    {
+        for(i=1;i<=totalCount;i++)
+        {
+            $("#div" + i).hide();
+        }
+        for(i=showCount*(index-1)+1;i<=showCount*(index-1)+showCount;i++)
+        {
+            $("#div" + i).show();
+        }
+        for (i=1;i<=num;i++)
+        {
+            $("#nav"+i).css("color","gray");
+        }
+        $("#nav"+index).css("color","blue");
+        navIndex=index;
+    }
+
+    function prev()
+    {
+        if(navIndex-1>0)
+        {
+            if(navIndex-1==1)
+            {
+                $("#prevbtn").addClass("active");
+            }
+            $("#nextbtn").removeClass("active");
+            alter(navIndex-1);
+        }
+    }
+
+    function next()
+    {
+        if(navIndex+1<=num)
+        {
+            if (navIndex+1==num)
+            {
+                $("#nextbtn").addClass("active");
+            }
+            $("#prevbtn").removeClass("active");
+            alter(navIndex+1);
+        }
+    }
 </script>
