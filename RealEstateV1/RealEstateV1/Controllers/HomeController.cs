@@ -61,6 +61,7 @@ namespace RealEstateV1.Controllers
         public ActionResult Index()
         {
             initialization();
+
             return View();
         }
 
@@ -245,25 +246,50 @@ namespace RealEstateV1.Controllers
 
         [Authorize]
         //[AcceptVerbs(HttpVerbs.Post)]
-          public ActionResult LikeD(int ID)
+        public ActionResult LikeD(int ID)
         {
-            //Busniss.CookieManager.SetLikeCookie("Discuss","div0");
-            //Busniss.CookieManager.SetDsLikeCookie("Discuss", "div0");
-            //bool f = Busniss.CookieManager.SearchLikeCookie("Discuss", "div0");
-            //f = Busniss.CookieManager.SearchLikeCookie("Discuss", "div3");
-
-            bool result = Busniss.BusnissLayer.LikeD(ID);
-
-            return Json(result, JsonRequestBehavior.AllowGet);
+            string value = Busniss.CookieManager.CookieValue("Discuss", "Discuss" + ID);
+            if (value == null)
+            {
+                Busniss.CookieManager.SetCookie("Discuss", "Discuss" + ID, "true");
+                bool result = Busniss.BusnissLayer.LikeD(ID);
+                return Json(result, JsonRequestBehavior.AllowGet);
+            }
+            else if (value == "false")
+            {
+                Busniss.CookieManager.SetCookie("Discuss", "Discuss" + ID, "true");
+                bool result = Busniss.BusnissLayer.RemoveDisLikeD(ID);
+                result = Busniss.BusnissLayer.LikeD(ID);
+                return Json("addRem", JsonRequestBehavior.AllowGet);
+            }
+            else
+            {
+                return Json(false, JsonRequestBehavior.AllowGet);
+            }
         }
 
         [Authorize]
         //[AcceptVerbs(HttpVerbs.Post)]
         public ActionResult LikeC(int ID)
         {
-            bool result = Busniss.BusnissLayer.LikeC(ID);
-
-            return Json(result, JsonRequestBehavior.AllowGet);
+            string value = Busniss.CookieManager.CookieValue("Comment", "Comment" + ID);
+            if (value == null)
+            {
+                Busniss.CookieManager.SetCookie("Comment", "Comment" + ID, "true");
+                bool result = Busniss.BusnissLayer.LikeC(ID);
+                return Json(result, JsonRequestBehavior.AllowGet);
+            }
+            else if (value == "false")
+            {
+                Busniss.CookieManager.SetCookie("Comment", "Comment" + ID, "true");
+                bool result = Busniss.BusnissLayer.RemoveDisLikeC(ID);
+                result = Busniss.BusnissLayer.LikeC(ID);
+                return Json("addRem", JsonRequestBehavior.AllowGet);
+            }
+            else
+            {
+                return Json(false, JsonRequestBehavior.AllowGet);
+            }
         }
 
 
@@ -271,18 +297,48 @@ namespace RealEstateV1.Controllers
         //[AcceptVerbs(HttpVerbs.Post)]
         public ActionResult DisLikeD(int ID)
         {
-            bool result = Busniss.BusnissLayer.DisLikeD(ID);
-
-            return Json(result, JsonRequestBehavior.AllowGet);
+            string value = Busniss.CookieManager.CookieValue("Discuss", "Discuss" + ID);
+            if (value == null)
+            {
+                Busniss.CookieManager.SetCookie("Discuss", "Discuss" + ID, "false");
+                bool result = Busniss.BusnissLayer.DisLikeD(ID);
+                return Json(result, JsonRequestBehavior.AllowGet);
+            }
+            else if (value == "true")
+            {
+                Busniss.CookieManager.SetCookie("Discuss", "Discuss" + ID, "false");
+                bool result = Busniss.BusnissLayer.RemoveLikeD(ID);
+                result = Busniss.BusnissLayer.DisLikeD(ID);
+                return Json("addRem", JsonRequestBehavior.AllowGet);
+            }
+            else
+            {
+                return Json(false, JsonRequestBehavior.AllowGet);
+            }
         }
 
         [Authorize]
         //[AcceptVerbs(HttpVerbs.Post)]
         public ActionResult DisLikeC(int ID)
         {
-            bool result = Busniss.BusnissLayer.DisLikeC(ID);
-
-            return Json(result, JsonRequestBehavior.AllowGet);
+            string value = Busniss.CookieManager.CookieValue("Comment", "Comment" + ID);
+            if (value == null)
+            {
+                Busniss.CookieManager.SetCookie("Comment", "Comment" + ID, "false");
+                bool result = Busniss.BusnissLayer.DisLikeC(ID);
+                return Json(result, JsonRequestBehavior.AllowGet);
+            }
+            else if (value == "true")
+            {
+                Busniss.CookieManager.SetCookie("Comment", "Comment" + ID, "false");
+                bool result = Busniss.BusnissLayer.RemoveLikeC(ID);
+                result = Busniss.BusnissLayer.DisLikeC(ID);
+                return Json("addRem", JsonRequestBehavior.AllowGet);
+            }
+            else
+            {
+                return Json(false, JsonRequestBehavior.AllowGet);
+            }
         }
 
 
@@ -290,16 +346,34 @@ namespace RealEstateV1.Controllers
         //[AcceptVerbs(HttpVerbs.Post)]
         public ActionResult reportD(int ID)
         {
-            bool result = Busniss.BusnissLayer.reportD(ID);
-            return Json(result, JsonRequestBehavior.AllowGet);
+            string value = Busniss.CookieManager.CookieValue("RepotDiscuss", "RepotDiscuss" + ID);
+            if (value == null)
+            {
+                Busniss.CookieManager.SetCookie("RepotDiscuss", "RepotDiscuss" + ID, "true");
+                bool result = Busniss.BusnissLayer.reportD(ID);
+                return Json(result, JsonRequestBehavior.AllowGet);
+            }
+            else
+            {
+                return Json(false, JsonRequestBehavior.AllowGet);
+            }
         }
 
         [Authorize]
         //[AcceptVerbs(HttpVerbs.Post)]
         public ActionResult reportC(int ID)
         {
-            bool result = Busniss.BusnissLayer.reportC(ID);
-            return Json(result, JsonRequestBehavior.AllowGet);
+            string value = Busniss.CookieManager.CookieValue("RepotComment", "RepotComment" + ID);
+            if (value == null)
+            {
+                Busniss.CookieManager.SetCookie("RepotComment", "RepotComment" + ID, "true");
+                bool result = Busniss.BusnissLayer.reportC(ID);
+                return Json(result, JsonRequestBehavior.AllowGet);
+            }
+            else
+            {
+                return Json(false, JsonRequestBehavior.AllowGet);
+            }
         }
 
 
@@ -307,8 +381,17 @@ namespace RealEstateV1.Controllers
         //[AcceptVerbs(HttpVerbs.Post)]
         public ActionResult reportR(int ID)
         {
-            bool result = Busniss.BusnissLayer.reportR(ID);
-            return Json(result, JsonRequestBehavior.AllowGet);
+            string value = Busniss.CookieManager.CookieValue("RepotReport", "RepotReport" + ID);
+            if (value == null)
+            {
+                Busniss.CookieManager.SetCookie("RepotReport", "RepotReport" + ID, "true");
+                bool result = Busniss.BusnissLayer.reportR(ID);
+                return Json(result, JsonRequestBehavior.AllowGet);
+            }
+            else
+            {
+                return Json(false, JsonRequestBehavior.AllowGet);
+            }
         }
 
         [Authorize]

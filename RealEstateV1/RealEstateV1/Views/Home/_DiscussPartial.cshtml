@@ -58,9 +58,25 @@
             url: "@(Url.Action("LikeD"))",
             data: { "ID": id },
             success: function (data) {
-                var like = $("#likeme" + id);
-                var n = parseInt(like.text()) + 1;
-                like.html(n);
+                if (data==true)
+                {
+                    var like = $("#likeme" + id);
+                    var n = parseInt(like.text()) + 1;
+                    like.html(n);
+                }
+                else if (data=="addRem")
+                {
+                    var like = $("#likeme" + id);
+                    var n = parseInt(like.text()) + 1;
+                    like.html(n);
+                    var like = $("#Dislikeme" + id);
+                    var n = parseInt(like.text()) - 1;
+                    like.html(n);
+                }
+                if (data==false)
+                {
+                }
+                
             },
             error: function (xhr, ajaxOptions, thrownError) {
                 alert('Failed to retrieve states. ' + xhr + " - " + ajaxOptions + " - " + thrownError);
@@ -75,9 +91,25 @@
             url: "@(Url.Action("DisLikeD"))",
             data: { "ID": id },
             success: function (data) {
-                var dlike = $("#Dislikeme" + id);
-                var n = parseInt(dlike.text()) + 1;
-                dlike.html(n);
+
+                if (data==true)
+                {
+                    var dlike = $("#Dislikeme" + id);
+                    var n = parseInt(dlike.text()) + 1;
+                    dlike.html(n);
+                }
+                else if (data=="addRem")
+                {
+                    var dlike = $("#Dislikeme" + id);
+                    var n = parseInt(dlike.text()) + 1;
+                    dlike.html(n);
+                    var dlike = $("#likeme" + id);
+                    var n = parseInt(dlike.text()) - 1;
+                    dlike.html(n);
+                }
+                if (data==false)
+                {
+                }
             },
             error: function (xhr, ajaxOptions, thrownError) {
                 alert('Failed to retrieve states. ' + xhr + " - " + ajaxOptions + " - " + thrownError);

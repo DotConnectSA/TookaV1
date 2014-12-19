@@ -266,10 +266,24 @@ namespace RealEstateV1.Busniss
             DB.SaveChanges();
             return true;
         }
+        public static bool RemoveLikeD(int DiscussID)
+        {
+            RealEstateContext DB = new RealEstateContext();
+            DB.TDiscuss.Single(a => a.ID == DiscussID).LikeNo--;
+            DB.SaveChanges();
+            return true;
+        }
         public static bool LikeC(int CommentID)
         {
             RealEstateContext DB = new RealEstateContext();
             DB.TTownComment.Single(a => a.ID == CommentID).LikeNo++;
+            DB.SaveChanges();
+            return true;
+        }
+        public static bool RemoveLikeC(int CommentID)
+        {
+            RealEstateContext DB = new RealEstateContext();
+            DB.TTownComment.Single(a => a.ID == CommentID).LikeNo--;
             DB.SaveChanges();
             return true;
         }
@@ -280,10 +294,24 @@ namespace RealEstateV1.Busniss
             DB.SaveChanges();
             return true;
         }
+        public static bool RemoveDisLikeD(int DiscussID)
+        {
+            RealEstateContext DB = new RealEstateContext();
+            DB.TDiscuss.Single(a => a.ID == DiscussID).DisLikeNo--;
+            DB.SaveChanges();
+            return true;
+        }
         public static bool DisLikeC(int CommentID)
         {
             RealEstateContext DB = new RealEstateContext();
             DB.TTownComment.Single(a => a.ID == CommentID).DisLikeNo++;
+            DB.SaveChanges();
+            return true;
+        }
+        public static bool RemoveDisLikeC(int CommentID)
+        {
+            RealEstateContext DB = new RealEstateContext();
+            DB.TTownComment.Single(a => a.ID == CommentID).DisLikeNo--;
             DB.SaveChanges();
             return true;
         }
