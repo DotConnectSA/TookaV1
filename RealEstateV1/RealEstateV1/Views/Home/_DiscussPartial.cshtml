@@ -1,40 +1,54 @@
 ﻿@model RealEstateV1.Models.T_Discuss
-
-<li>
+@{
+    var variable = (int)ViewData["index"];
+}
+<li id="div@(variable)">
     <div class="comments-holder">
         <div class="comment-links">
-            <a href="" onclick="reportD(@(Model.ID))">تبليغ</a>
-            <a href="" onclick="DisLikeD(@(Model.ID))"><div id="Dislikeme@(Model.ID)" > @Model.DisLikeNo</div></a>
-            <a href="" onclick="LikeD(@(Model.ID))"><div id="likeme@(Model.ID)">@Model.LikeNo</div></a>
+            <a href="#" onclick="reportD(@(Model.ID))">تبليغ</a>
+            <a href="#" onclick="DisLikeD(@(Model.ID))"><div id="Dislikeme@(Model.ID)"> @Model.DisLikeNo</div></a>
+            <a href="#" onclick="LikeD(@(Model.ID))"><div id="likeme@(Model.ID)">@Model.LikeNo</div></a>
         </div>
         <div class="comment-body">
             <span class="avatar-name">@Model.Customer.Name</span>
             <span class="time">@Model.CreatedDate</span>
             <p>@Model.Topic</p>
 
-            <a href="" onclick="AddRepaly(@(Model.ID))" class="responde btn">الرد</a><span class="times">@Model.Replay.Count عدد الردود</span>
-            <br/>
-            <textarea id="sendR@(Model.ID)" placeholder="" style="margin: 0 50px 10px 10px;max-width:500px"></textarea>
-            @foreach (var item in @Model.Replay)
-            {
+            <a onclick="toggle(@(Model.ID))" class="responde btn">الردرود</a><span class="times">@Model.Replay.Count عدد الردود</span>
+            <br />
+            <div id="toggle@(Model.ID)" style="display:none;">
                 <div class="responde">
-                    <div class="comment-body">
-                        <span class="avatar-name">@item.Customer.Name</span>
-                        <span class="time">@item.CreatedDate</span>
-                        <a href="" onclick="reportR(@(item.ID))">تبليغ</a>
-                        <p>@item.Replaytxt</p>
-                        
-                    </div>
+                    <textarea id="sendR@(Model.ID)" placeholder="اضف تعليق" style="margin: 0 50px 10px 10px;max-width:500px"></textarea>
+                    <a onclick="AddRepaly(@(Model.ID))" class="responde btn">اضافة</a>
                 </div>
-            }
-          
-          
+
+                @foreach (var item in @Model.Replay)
+                {
+                    <div class="responde" style="margin-top:5px;">
+                        <div class="comment-body">
+                            <span class="avatar-name">@item.Customer.Name</span>
+                            <span class="time">@item.CreatedDate</span>
+                            <span class="comment-links">
+                                <a href="#" onclick="reportR(@(item.ID))">تبليغ</a>
+                            </span>
+                            <p>@item.Replaytxt</p>
+
+                        </div>
+                    </div>
+                }
+            </div>
+
+
             <div class="clear"></div>
         </div>
-        </div>
+    </div>
 </li>
 
-<Script type="text/javascript">
+<script type="text/javascript">
+
+    function toggle(id) {
+        $("#toggle" + id).toggle();
+    }
 
     function LikeD(id) {
 
@@ -44,10 +58,25 @@
             url: "@(Url.Action("LikeD"))",
             data: { "ID": id },
             success: function (data) {
-                //var like = $("#likeme" + id);
-                //var n = parseInt(like.text())+1;
-                //like.text() = n;
-                window.location.href = "/Home/Discuss/";
+                if (data==true)
+                {
+                    var like = $("#likeme" + id);
+                    var n = parseInt(like.text()) + 1;
+                    like.html(n);
+                }
+                else if (data=="addRem")
+                {
+                    var like = $("#likeme" + id);
+                    var n = parseInt(like.text()) + 1;
+                    like.html(n);
+                    var like = $("#Dislikeme" + id);
+                    var n = parseInt(like.text()) - 1;
+                    like.html(n);
+                }
+                if (data==false)
+                {
+                }
+                
             },
             error: function (xhr, ajaxOptions, thrownError) {
                 alert('Failed to retrieve states. ' + xhr + " - " + ajaxOptions + " - " + thrownError);
@@ -63,10 +92,24 @@
             data: { "ID": id },
             success: function (data) {
 
-                //var dlike = $("#Dislikeme" + id);
-                //var n = parseInt(dlike.text()) + 1;
-                //dlike.text() = n;
-                window.location.href = "/Home/Discuss/";
+                if (data==true)
+                {
+                    var dlike = $("#Dislikeme" + id);
+                    var n = parseInt(dlike.text()) + 1;
+                    dlike.html(n);
+                }
+                else if (data=="addRem")
+                {
+                    var dlike = $("#Dislikeme" + id);
+                    var n = parseInt(dlike.text()) + 1;
+                    dlike.html(n);
+                    var dlike = $("#likeme" + id);
+                    var n = parseInt(dlike.text()) - 1;
+                    dlike.html(n);
+                }
+                if (data==false)
+                {
+                }
             },
             error: function (xhr, ajaxOptions, thrownError) {
                 alert('Failed to retrieve states. ' + xhr + " - " + ajaxOptions + " - " + thrownError);
@@ -112,7 +155,7 @@
         $.ajax({
             cache: false,
             type: "POST",
-            url: "@(Url.Action("AddRepaly"))",
+            url: "@(Url.Action("AddDiscussRepaly"))",
             data: { ID: id, test: rep },
             success: function (data) {
                 window.location.href = "/Home/Discuss/";
@@ -123,4 +166,6 @@
         });
 
     }
-</Script>
+
+
+</script>
