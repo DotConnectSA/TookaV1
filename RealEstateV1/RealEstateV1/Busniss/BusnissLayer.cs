@@ -40,6 +40,17 @@ namespace RealEstateV1.Busniss
             RealEstateContext DB = new RealEstateContext();
             return DB.TTownComment.Single(a => a.ID == id);
         }
+        public static List<T_Owner> GetOwnerByCity(int CityId)
+        {
+            RealEstateContext DB = new RealEstateContext();
+            return DB.TOwner.Where(a => a.customer.address.Town.City.ID == CityId).ToList();
+            
+        }
+        public static T_Owner GetOwnerById(int id)
+        {
+            RealEstateContext DB = new RealEstateContext();
+            return DB.TOwner.Single(a => a.ID == id);
+        }
         public static void AddOwnerShown(int ownerID)
         {
             RealEstateContext DB = new RealEstateContext();
@@ -82,6 +93,20 @@ namespace RealEstateV1.Busniss
             
             return cust;
         }
+        public static bool isCurrentCustomer(int id)
+        {
+            RealEstateContext DB = new RealEstateContext();
+            T_Customer cust = getCurrentCustomer(DB);
+            if (DB.TOwner.Single(a => a.ID == id).customer.ID == cust.ID)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+ 
+        }
         public static void AddDiscuss(string topic)
         {
             RealEstateContext DB = new RealEstateContext();
@@ -121,13 +146,6 @@ namespace RealEstateV1.Busniss
         {
             RealEstateContext DB = new RealEstateContext();
             return DB.TTown.Single(a => a.ID == townID);
-
-        }
-        public static T_Owner AddOwnerbyID(int ownerID)
-        {
-            RealEstateContext DB = new RealEstateContext();
-            return DB.TOwner.Single(a => a.ID == ownerID);
-          
 
         }
         public static List<T_REFeature> GetREFeatuer()

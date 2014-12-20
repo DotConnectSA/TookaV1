@@ -133,6 +133,17 @@ namespace RealEstateV1.Controllers
             return PartialView("_TownPartial", result);
         }
 
+        public ActionResult GetOwnerByCity(int CityId)
+        {
+            var result = Busniss.BusnissLayer.GetOwnerByCity(CityId);
+            return Json(result.ToList(), JsonRequestBehavior.AllowGet);
+        }
+        public ActionResult GetOwner(int OwnerId)
+        {
+            var result = Busniss.BusnissLayer.GetOwnerById(OwnerId);
+            return PartialView("_OwnerPartial", result);
+        }
+
         [Authorize]
         public ActionResult AddDiscuss(string Topic)
         {
@@ -156,6 +167,7 @@ namespace RealEstateV1.Controllers
 
         public ActionResult RealEstatesOwners()
         {
+            initialization();
             RealEstateContext db = new RealEstateContext();
             var owner = db.TOwner.ToList();
             return View(owner);
@@ -342,12 +354,21 @@ namespace RealEstateV1.Controllers
             return View(t);
         }
 
-
+        [Authorize]
         public ActionResult Owner(int id)
         {
-            Busniss.BusnissLayer.AddOwnerShown(id);
-            var owner = Busniss.BusnissLayer.AddOwnerbyID(id);
-            return View(owner);
+            if (Busniss.BusnissLayer.isCurrentCustomer(id))
+            {
+                var owner = Busniss.BusnissLayer.GetOwnerById(id);
+                return View(owner);
+            }
+            else
+            {
+                Busniss.BusnissLayer.AddOwnerShown(id);
+                var owner = Busniss.BusnissLayer.GetOwnerById(id);
+                return View(owner);
+ 
+            }
         }
 
         public ActionResult REPaymentAssist()

@@ -15,7 +15,7 @@ namespace RealEstateV1.Models
         public string Name { get; set; }
         [Display(Name = "الايميل")]
         public string Email { get; set; }
-        public T_Address address { get; set; }
+        public virtual T_Address address { get; set; }
         public string ImgeUrl { get; set; }
         [Display(Name = "جوال")]
         public string Mobile { get; set; }

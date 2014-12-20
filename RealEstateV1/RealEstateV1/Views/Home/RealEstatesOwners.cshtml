@@ -4,13 +4,14 @@
     ViewBag.Title = "Owners";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-
+@Html.Partial("_SearchBar", new RealEstateV1.Busniss.SearchItem())
 <h2>عقاريون</h2>
-
-
+<div align="left" style="margin-bottom:35px;margin-left:35px">
+    @Html.DropDownList("OwnerCity", (SelectList)ViewBag.Cites)
+</div>
 
 <div id="container">
-    <ul class="list">
+    <ul class="list col-lg-9 col-sm-7" id="list">
 
         @if (Model == null)
         {
@@ -20,14 +21,15 @@
         }
         else
         {
-            foreach (var item in Model)
+            @*foreach (var item in Model)
             {
                 @Html.Partial("_OwnerPartial", item);
-            }
+            }*@
         }
 
     </ul>
-    <aside class="left-col list">
+
+    <aside class="left-col list col-lg-3 col-sm-5">
         <div class="block ads">
 
             <div class="content">
@@ -72,3 +74,46 @@
     </aside>
     <div class="clear"></div>
 </div>
+
+<script type="text/javascript">
+    function getOwner(Owner) {
+        $.ajax({
+            cache: false,
+            type: "POST",
+            url: "@(Url.Action("GetOwner"))",
+            data: { "OwnerId": Owner },
+            success: function (data) {
+            $("#list").append(data);
+        },
+        error: function (xhr, ajaxOptions, thrownError) {
+            alert('Failed to retrieve states. ' + xhr + " - " + ajaxOptions + " - " + thrownError);
+
+        }
+    });
+    }
+    $(function () {
+
+        $("#OwnerCity").change(function () {
+            var City = $("#OwnerCity").val();
+            $.ajax({
+                cache: false,
+                type: "POST",
+                url: "@(Url.Action("GetOwnerByCity"))",
+                data: { "CityId": City },
+                success: function (data) {
+                    $("#list").html('');
+                    $.each(data, function (id, Owner) {
+                        getOwner(Owner.ID);
+                    });
+                    $("#list").html(result);
+                },
+                error: function (xhr, ajaxOptions, thrownError) {
+                    alert("Notgood");
+                    alert('Failed to retrieve states. ' + xhr + " - " + ajaxOptions + " - " + thrownError);
+
+                }
+            });
+        });
+
+    });
+</script>
