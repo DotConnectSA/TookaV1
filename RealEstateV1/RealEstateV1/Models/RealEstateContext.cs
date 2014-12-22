@@ -9,7 +9,7 @@ namespace RealEstateV1.Models
        
         static RealEstateContext()
         {
-            Database.SetInitializer(new DropCreateDatabaseIfModelChanges<RealEstateContext>());
+            Database.SetInitializer(new DropCreateDatabaseAlways<RealEstateContext>());
            
         }
       
