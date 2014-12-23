@@ -6,7 +6,6 @@ namespace RealEstateV1.Models
    
     public class RealEstateContext : DbContext 
     {
-       
         static RealEstateContext()
         {
             Database.SetInitializer(new DropCreateDatabaseIfModelChanges<RealEstateContext>());
@@ -34,8 +33,9 @@ namespace RealEstateV1.Models
         public DbSet<T_TownFeature> TTFeature { get; set; }
         public DbSet<T_Town> TTown { get; set; }
         public DbSet<T_TownComment> TTownComment { get; set; }
-        public DbSet<T_TownLinkFeature> TTownFeature { get; set; }
+        public DbSet<T_TownFeatureKind> TTownFeature { get; set; }
         public DbSet<T_TownRate> TTownRate { get; set; }
+        public DbSet<T_TownLinkFeature> TTownLinkFeature { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
@@ -73,7 +73,7 @@ namespace RealEstateV1.Models
 
            cites.ForEach(s=>context.TCity.Add(s));
 
-             var kinds = new List<T_REKind>
+            var kinds = new List<T_REKind>
             {
                 new T_REKind{Kind="قصر"},
                 new T_REKind{Kind="فيلا"},

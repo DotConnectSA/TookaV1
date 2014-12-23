@@ -87,9 +87,9 @@ namespace RealEstateV1.Busniss
         {
             var context = new ApplicationDbContext();
             string currentUserId = HttpContext.Current.User.Identity.GetUserId();
-            ApplicationUser currentUser = context.Users.FirstOrDefault(x => x.Id == currentUserId);
+            //ApplicationUser currentUser = context.Users.FirstOrDefault(x => x.Id == currentUserId);
 
-            T_Customer cust = DB.TCustomer.Single(x => x.ProfileID == currentUser.Id);
+            T_Customer cust = DB.TCustomer.Single(x => x.ProfileID == currentUserId);
             
             return cust;
         }

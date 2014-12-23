@@ -22,5 +22,6 @@ namespace RealEstateV1.Models
         [Display(Name = "هاتف")]
         public string Phone { get; set; }
         public string ProfileID { get; set; }
+        public string Kind { get; set; }
     }
 }
