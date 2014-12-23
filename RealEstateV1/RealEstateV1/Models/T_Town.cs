@@ -14,7 +14,7 @@ namespace RealEstateV1.Models
         public T_Town()
         {
             Comment = new Collection<T_TownComment>();
-            TownFeatureLink = new Collection<T_TownLinkFeature>();
+            townLinkFeature = new Collection<T_TownLinkFeature>();
         }
         [Key, Column(Order = 0), DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int ID { get; set; }
@@ -25,15 +25,13 @@ namespace RealEstateV1.Models
         
         [Display(Name = "التعليقات")]
         public virtual Collection<T_TownComment> Comment { get; set; }
-        [Display(Name = "الاحداثيات")]
         
+        [Display(Name = "الاحداثيات")]
         public virtual T_position position { get; set; }
         
         [Display(Name = "المدينة")]
-        
         public virtual T_City City { get; set; }
        
-        [Display(Name = "المميزات")]
-        public Collection<T_TownLinkFeature> TownFeatureLink { get; set; }
+        public Collection<T_TownLinkFeature> townLinkFeature { get; set; }
     }
 }

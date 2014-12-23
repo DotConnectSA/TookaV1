@@ -26,7 +26,7 @@
                     foreach (var item in Model)
                     {
                         @Html.Partial("_DiscussPartial", item, new ViewDataDictionary { { "index", @counter } });
-                                                                                                                counter = counter + 1;
+                        counter = counter + 1;
                     }
                 }
             </ul>
@@ -41,7 +41,7 @@
 
 
         <aside class="left-col list col-lg-3 col-sm-5">
-            <a data-toggle="modal" data-target="#myModal" class="btn wide">إضافة موضوع</a>
+            <a onclick="dig()" class="btn wide">إضافة موضوع</a>
             <div class="block ads">
 
                 <div class="content">
@@ -175,3 +175,29 @@
         }
     }
 </script>
+
+
+@if (Request.IsAuthenticated)
+{
+    <script type="text/javascript">
+        function dig()
+        {
+            $('#myModal').modal({
+                show: 'true'
+            });
+        }
+
+    </script>
+}
+else
+{
+    <script type="text/javascript">
+        function dig()
+        {
+            $('#LoginModal').modal({
+                show: 'true'
+            });
+        }
+
+    </script>
+}

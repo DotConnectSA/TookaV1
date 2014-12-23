@@ -14,7 +14,5 @@ namespace RealEstateV1.Models
         [Display(Name = "تقييم")]
         public int Rate { get; set; }
         public virtual T_Customer Customer { get; set; }
-
-
     }
 }

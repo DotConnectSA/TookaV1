@@ -1,35 +1,48 @@
-﻿
+﻿<textarea id="textD" placeholder="الموضوع"></textarea>
 
+<input type="button" class="btn btn-primary" id="sendD" value="ارسل" />
 
-<textarea id="textD" placeholder="الموضوع"></textarea>
+@if (Request.IsAuthenticated)
+{
+    <script type="text/javascript">
 
-<input type="button" class="btn btn-primary" id="sendD" value="ارسل"/>
+        $(function () {
 
+            $("#sendD").click(function () {
 
-<script type="text/javascript">
+                var topbic = $("#textD").val();
 
-    $(function () {
+                $.ajax({
+                    cache: false,
+                    type: "POST",
+                    url: "@(Url.Action("AddDiscuss"))",
+                    data: { Topic: topbic },
+                    success: function (data) {
+                        $("#textD").val("");
+                        window.location.href = "/Home/Discuss/";
+                    },
+                    error: function (xhr, ajaxOptions, thrownError) {
+                        alert('Failed to retrieve states. ' + xhr + " - " + ajaxOptions + " - " + thrownError);
 
-        $("#sendD").click(function () {
-
-        var topbic = $("#textD").val();
-
-        $.ajax({
-            cache: false,
-            type: "POST",
-            url: "@(Url.Action("AddDiscuss"))",
-            data: { Topic: topbic },
-            success: function (data) {
-                $("#textD").val("");
-                window.location.href = "/Home/Discuss/";
-            },
-            error: function (xhr, ajaxOptions, thrownError) {
-                alert('Failed to retrieve states. ' + xhr + " - " + ajaxOptions + " - " + thrownError);
-
-            }
+                    }
+                });
+            });
         });
-        });
-    });
-</script>
+    </script>
 
+}
+else
+{
+    <script type="text/javascript">
+
+        $(function () {
+
+            $("#sendD").click(function () {
+                $('#LoginModal').modal({
+                    show: 'true'
+                });
+            });
+        });
+    </script>
+}
 
