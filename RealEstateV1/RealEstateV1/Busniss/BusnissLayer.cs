@@ -107,6 +107,19 @@ namespace RealEstateV1.Busniss
             }
  
         }
+        public static List<T_Favorit> GetFavoritEstates(int ownerID)
+        {
+            try
+            {
+                RealEstateContext DB = new RealEstateContext();
+                return DB.TFavorit.Where(a => a.RealEstate.Owner.ID == ownerID).ToList();
+            }
+            catch (Exception)
+            {
+
+                return null;
+            }
+        }
         public static void AddDiscuss(string topic)
         {
             RealEstateContext DB = new RealEstateContext();
