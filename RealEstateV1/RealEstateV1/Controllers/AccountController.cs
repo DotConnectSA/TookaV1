@@ -158,6 +158,7 @@ namespace RealEstateV1.Controllers
                 var result = await UserManager.CreateAsync(user, model.Register.Password);
                 if (result.Succeeded)
                 {
+                    model.Customer.ProfileID = user.Id; 
                     await SignInManager.SignInAsync(user, isPersistent:false, rememberBrowser:false);
                     Busniss.BusnissLayer.Register(model);
                     // For more information on how to enable account confirmation and password reset please visit http://go.microsoft.com/fwlink/?LinkID=320771
