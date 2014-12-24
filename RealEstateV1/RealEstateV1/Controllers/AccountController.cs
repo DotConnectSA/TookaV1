@@ -71,7 +71,7 @@ namespace RealEstateV1.Controllers
         {
             if (!ModelState.IsValid)
             {
-                return View(model);
+                return PartialView("Login", model);
             }
 
             // This doesn't count login failures towards account lockout
@@ -191,9 +191,10 @@ namespace RealEstateV1.Controllers
         //
         // GET: /Account/ForgotPassword
         [AllowAnonymous]
-        public ActionResult ForgotPassword()
+        public PartialViewResult ForgotPassword()
         {
-            return View();
+            //return View();
+            return PartialView("ForgotPassword", new ForgotPasswordViewModel());
         }
 
         //
