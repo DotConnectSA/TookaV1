@@ -323,6 +323,7 @@
     <Content Include="Views\Home\_SearchBar.cshtml" />
     <Content Include="Views\Home\_TownPartial.cshtml" />
     <Content Include="Views\Home\otherOwner.cshtml" />
+    <Content Include="Views\Home\Supply.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

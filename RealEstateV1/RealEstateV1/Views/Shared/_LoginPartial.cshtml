@@ -39,14 +39,25 @@ else
 </div><!-- /.modal -->
 
 <div class="modal fade" id="RegisterModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg">
-        <div class="modal-content" style="margin-top:100px">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content" style="margin-top:50px">
             <div class="modal-body" id="Register-modal-body">
 
             </div>
         </div><!-- /.modal-content -->
     </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
+
+<div class="modal fade" id="forgetPassModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content" style="margin-top:100px">
+            <div class="modal-body" id="forgetPass-modal-body">
+
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
 <script type="text/javascript">
 
     $(document).ready(
@@ -54,6 +65,7 @@ else
 	{
 	    $("#Login-modal-body").load('@Url.Action("Login", "Account")');
 	    $("#Register-modal-body").load('@Url.Action("Register", "Account")');
+	    $("#forgetPass-modal-body").load('@Url.Action("ForgotPassword", "Account")');
 	});
 
 </script>

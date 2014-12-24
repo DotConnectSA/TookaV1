@@ -28,12 +28,14 @@
                         @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger" })
                     </div>
                 </div>
+                <p>
+                    <a data-dismiss="modal" onclick="forgetPass()" href="#">نسيت كلمة المرور؟</a>
+                </p>
                 <div class="form-group">
-                    <div class="col-md-offset-2 col-md-10">
+                    <div>
                         <div class="checkbox">
                             @Html.CheckBoxFor(m => m.RememberMe)
-                           @* @Html.LabelFor(m => m.RememberMe)*@
-                            <label>تذكرني</label>
+                            @Html.LabelFor(m => m.RememberMe,"تذكرني")
                         </div>
                     </div>
                 </div>
@@ -42,22 +44,32 @@
                         <input type="submit" value="دخول" class="btn btn-default" />
                     </div>
                 </div>
-                <p>
-                    @Html.ActionLink("تسجيل", "Register")
-                </p>
-                @* Enable this once you have account confirmation enabled for password reset functionality
-                    <p>
-                        @Html.ActionLink("Forgot your password?", "ForgotPassword")
-                    </p>*@
             }
         </section>
     </div>
     <div class="col-md-4">
+        <div>
+            <h4 class="center-block">مستخدم جديد</h4>
+            <h4>سجل معنا لتواصل عملاء</h4>
+            <a data-dismiss="modal" onclick="register()">تسجيل</a>
+        </div>
+
         <section id="socialLoginForm">
             @Html.Partial("_ExternalLoginsListPartial", new ExternalLoginListViewModel { ReturnUrl = ViewBag.ReturnUrl })
         </section>
     </div>
 </div>
+
+<script>
+    function forgetPass() {
+        $('#forgetPassModal').modal('toggle');
+    }
+
+    function register()
+    {
+        $('#RegisterModal').modal('toggle');
+    }
+</script>
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
