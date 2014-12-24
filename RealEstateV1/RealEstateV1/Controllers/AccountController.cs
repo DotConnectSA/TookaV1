@@ -138,9 +138,10 @@ namespace RealEstateV1.Controllers
         //
         // GET: /Account/Register
         [AllowAnonymous]
-        public ActionResult Register()
+        public PartialViewResult Register()
         {
-            return View();
+            //return View();
+            return PartialView("Register", new RegisterViewModel());
         }
 
         //

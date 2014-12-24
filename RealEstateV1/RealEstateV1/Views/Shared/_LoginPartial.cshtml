@@ -38,13 +38,22 @@ else
     </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
 
+<div class="modal fade" id="RegisterModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content" style="margin-top:100px">
+            <div class="modal-body" id="Register-modal-body">
 
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
 <script type="text/javascript">
 
     $(document).ready(
 	function()
 	{
 	    $("#Login-modal-body").load('@Url.Action("Login", "Account")');
+	    $("#Register-modal-body").load('@Url.Action("Register", "Account")');
 	});
 
 </script>
