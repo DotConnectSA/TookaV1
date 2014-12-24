@@ -11,7 +11,21 @@ namespace RealEstateV1.Busniss
 {
     public static class BusnissLayer
     {
-        
+        public static void Register(RegisterCustomerViewModel model)
+        {
+            RealEstateContext DB = new RealEstateContext();
+            T_Customer customer = new T_Customer();
+            customer = model.Customer;
+            customer.Email = model.Register.Email;
+            DB.TCustomer.Add(customer);
+            
+            DB.SaveChanges();
+            //T_Customer cust = DB.TCustomer.Single(a => a.Email == customer.Email);
+            //T_Owner owner = new T_Owner();
+            //owner.customer = cust;
+            //DB.SaveChanges();
+ 
+        }
         public static List<T_City> GetCites()
         {
             RealEstateContext DB = new RealEstateContext();
