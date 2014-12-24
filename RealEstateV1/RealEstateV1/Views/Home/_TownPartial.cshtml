@@ -43,127 +43,164 @@
     </div>
 </li>
 
-<script type="text/javascript">
+@if (Request.IsAuthenticated)
+{
+    <script type="text/javascript">
 
 
 
-    function toggle(id) {
-        $("#toggle" + id).toggle();
-    }
+        function toggle(id) {
+            $("#toggle" + id).toggle();
+        }
 
-    function LikeC(id) {
-        $.ajax({
-            cache: false,
-            type: "POST",
-            url: "@(Url.Action("LikeC"))",
-            data: { "ID": id },
-            success: function (data) {
-                if (data==true)
-                {
-                    var like = $("#likeme" + id);
-                    var n = parseInt(like.text()) + 1;
-                    like.html(n);
+        function LikeC(id) {
+            $.ajax({
+                cache: false,
+                type: "POST",
+                url: "@(Url.Action("LikeC"))",
+                data: { "ID": id },
+                success: function (data) {
+                    if (data == true) {
+                        var like = $("#likeme" + id);
+                        var n = parseInt(like.text()) + 1;
+                        like.html(n);
+                    }
+                    else if (data == "addRem") {
+                        var like = $("#likeme" + id);
+                        var n = parseInt(like.text()) + 1;
+                        like.html(n);
+                        var like = $("#Dislikeme" + id);
+                        var n = parseInt(like.text()) - 1;
+                        like.html(n);
+                    }
+                    if (data == false) {
+                    }
+                },
+                error: function (xhr, ajaxOptions, thrownError) {
+                    alert('Failed to retrieve states. ' + xhr + " - " + ajaxOptions + " - " + thrownError);
                 }
-                else if (data=="addRem")
-                {
-                    var like = $("#likeme" + id);
-                    var n = parseInt(like.text()) + 1;
-                    like.html(n);
-                    var like = $("#Dislikeme" + id);
-                    var n = parseInt(like.text()) - 1;
-                    like.html(n);
+            });
+        }
+
+        function DisLikeC(id) {
+            $.ajax({
+                cache: false,
+                type: "POST",
+                url: "@(Url.Action("DisLikeC"))",
+                data: { "ID": id },
+                success: function (data) {
+                    if (data == true) {
+                        var dlike = $("#Dislikeme" + id);
+                        var n = parseInt(dlike.text()) + 1;
+                        dlike.html(n);
+                    }
+                    else if (data == "addRem") {
+                        var dlike = $("#Dislikeme" + id);
+                        var n = parseInt(dlike.text()) + 1;
+                        dlike.html(n);
+                        var dlike = $("#likeme" + id);
+                        var n = parseInt(dlike.text()) - 1;
+                        dlike.html(n);
+                    }
+                    if (data == false) {
+                    }
+                },
+                error: function (xhr, ajaxOptions, thrownError) {
+                    alert('Failed to retrieve states. ' + xhr + " - " + ajaxOptions + " - " + thrownError);
                 }
-                if (data==false)
-                {
+            });
+        }
+
+        function reportC(id) {
+            $.ajax({
+                cache: false,
+                type: "POST",
+                url: "@(Url.Action("reportC"))",
+                data: { "ID": id },
+                success: function (data) {
+                    alert("تم التبليغ بنجاح");
+                },
+                error: function (xhr, ajaxOptions, thrownError) {
+                    alert('Failed to retrieve states. ' + xhr + " - " + ajaxOptions + " - " + thrownError);
                 }
-            },
-            error: function (xhr, ajaxOptions, thrownError) {
-                alert('Failed to retrieve states. ' + xhr + " - " + ajaxOptions + " - " + thrownError);
-            }
-        });
-    }
+            });
 
-    function DisLikeC(id) {
-        $.ajax({
-            cache: false,
-            type: "POST",
-            url: "@(Url.Action("DisLikeC"))",
-            data: { "ID": id },
-            success: function (data) {
-                if (data==true)
-                {
-                    var dlike = $("#Dislikeme" + id);
-                    var n = parseInt(dlike.text()) + 1;
-                    dlike.html(n);
+        }
+
+        function reportR(id) {
+            $.ajax({
+                cache: false,
+                type: "POST",
+                url: "@(Url.Action("reportR"))",
+                data: { "ID": id },
+                success: function (data) {
+                    alert("تم التبليغ بنجاح");
+                },
+                error: function (xhr, ajaxOptions, thrownError) {
+                    alert('Failed to retrieve states. ' + xhr + " - " + ajaxOptions + " - " + thrownError);
                 }
-                else if (data=="addRem")
-                {
-                    var dlike = $("#Dislikeme" + id);
-                    var n = parseInt(dlike.text()) + 1;
-                    dlike.html(n);
-                    var dlike = $("#likeme" + id);
-                    var n = parseInt(dlike.text()) - 1;
-                    dlike.html(n);
+            });
+
+        }
+
+        function AddRepaly(id) {
+            var i = "#sendR" + id;
+            var rep = $(i).val();
+            alert(id);
+            alert(rep);
+            $.ajax({
+                cache: false,
+                type: "POST",
+                url: "@(Url.Action("AddCommentRepaly"))",
+                data: { ID: id, test: rep },
+                success: function (data) {
+                    window.location.href = "/Home/TownInformation/";
+                },
+                error: function (xhr, ajaxOptions, thrownError) {
+                    alert('Failed to retrieve states. ' + xhr + " - " + ajaxOptions + " - " + thrownError);
                 }
-                if (data==false)
-                {
-                }
-            },
-            error: function (xhr, ajaxOptions, thrownError) {
-                alert('Failed to retrieve states. ' + xhr + " - " + ajaxOptions + " - " + thrownError);
-            }
-        });
-    }
+            });
 
-    function reportC(id) {
-        $.ajax({
-            cache: false,
-            type: "POST",
-            url: "@(Url.Action("reportC"))",
-            data: { "ID": id },
-            success: function (data) {
-                alert("تم التبليغ بنجاح");
-            },
-            error: function (xhr, ajaxOptions, thrownError) {
-                alert('Failed to retrieve states. ' + xhr + " - " + ajaxOptions + " - " + thrownError);
-            }
-        });
+        }
+    </script>
+}
+else
+{
+    <script type="text/javascript">
 
-    }
+        function toggle(id) {
+            $("#toggle" + id).toggle();
+        }
 
-    function reportR(id) {
-        $.ajax({
-            cache: false,
-            type: "POST",
-            url: "@(Url.Action("reportR"))",
-            data: { "ID": id },
-            success: function (data) {
-                alert("تم التبليغ بنجاح");
-            },
-            error: function (xhr, ajaxOptions, thrownError) {
-                alert('Failed to retrieve states. ' + xhr + " - " + ajaxOptions + " - " + thrownError);
-            }
-        });
+        function LikeC(id) {
+            $('#LoginModal').modal({
+                show: 'true'
+            });
+        }
 
-    }
+        function DisLikeC(id) {
+            $('#LoginModal').modal({
+                show: 'true'
+            });
+        }
 
-    function AddRepaly(id) {
-        var i = "#sendR" + id;
-        var rep = $(i).val();
-        alert(id);
-        alert(rep);
-        $.ajax({
-            cache: false,
-            type: "POST",
-            url: "@(Url.Action("AddCommentRepaly"))",
-            data: { ID: id, test: rep },
-            success: function (data) {
-                window.location.href = "/Home/TownInformation/";
-            },
-            error: function (xhr, ajaxOptions, thrownError) {
-                alert('Failed to retrieve states. ' + xhr + " - " + ajaxOptions + " - " + thrownError);
-            }
-        });
+        function reportC(id) {
+            $('#LoginModal').modal({
+                show: 'true'
+            });
+        }
 
-    }
-</script>
+        function reportR(id) {
+            $('#LoginModal').modal({
+                show: 'true'
+            });
+        }
+
+        function AddRepaly(id) {
+            $('#LoginModal').modal({
+                show: 'true'
+            });
+        }
+
+    </script>
+}

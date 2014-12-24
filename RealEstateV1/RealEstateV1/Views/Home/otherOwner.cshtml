@@ -1,0 +1,107 @@
+﻿@model RealEstateV1.Models.T_Owner
+
+@{
+    ViewBag.Title = "Owner";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Owner</h2>
+
+<div class="container">
+    <div class="row estateowner">
+        <div class="col-lg-4 col-sm-5 owner-right">
+            <dl>
+                <dt>@Html.DisplayNameFor(model => model.customer.Name)</dt>
+
+                <dd>
+                    <img width="150px" src=@Url.Content(Model.customer.ImgeUrl) alt="">
+                    <p>@Html.DisplayFor(modelItem => Model.customer.address.Street)    </p>
+                    <p>@Html.DisplayNameFor(model => model.customer.Phone):@Html.DisplayFor(model => model.customer.Phone)</p>
+                    <p>@Html.DisplayNameFor(model => model.customer.Mobile):@Html.DisplayFor(model => model.customer.Mobile)</p>
+                    <br />
+                    <p>العقارات المفضلة :@RealEstateV1.Busniss.BusnissLayer.GetFavoritEstates(Model.ID).Count()</p>
+                    <p>سجل البحث : @RealEstateV1.Busniss.BusnissLayer.GetREOwners(Model.ID).Count()</p>
+
+                    <br />
+                    <br />
+                    <p>عدد الموصى بهم : @Model.OwnerLike.Count()</p>
+                    <p>عدد المشاهدات : @Model.ShowNumber</p>
+                </dd>
+
+            </dl>
+        </div>
+
+        <dl class="col-lg-8 col-sm-7">
+            <dt>نبذه</dt>
+            <dd><p>@Model.Description</p></dd>
+        </dl>
+        <dl class="col-lg-8 col-sm-7">
+            <dt>عقارات مفضلة</dt>
+            <dd>
+                <ul class="estate-items row pre-scrollable">
+                    @foreach (var item in RealEstateV1.Busniss.BusnissLayer.GetFavoritEstates(Model.ID))
+                    {
+                        <li class="col-lg-3 col-sm-3">
+                            @*<img width="150px" src=@Url.Content(@item.RealEstate.ImageURL) alt="">*@
+                            <span class="title">@item.RealEstate.Rekind.Kind</span>
+                            <span class="price">
+                               
+                            </span>
+                            <span class="type">
+                                بيع
+                            </span>
+                            @Html.ActionLink("تفاصيل", "Owner", "Home", new { id = Model.ID.ToString() }, null)
+                        </li>
+
+                    }
+                    
+                </ul>
+
+            </dd>
+        </dl>
+
+        <dl class="offset4 col-lg-8 col-sm-7">
+            <dt>سجل البحث</dt>
+            <dd>
+                <ul class="estate-items row pre-scrollable">
+                    @foreach (var item in RealEstateV1.Busniss.BusnissLayer.GetSoldRE(Model.ID))
+                    {
+                        <li class="col-lg-3 col-sm-3">
+                            <img width="150px" src=@Url.Content(@item.RealEstate.ImageURL) alt="">
+                            <span class="title">@item.RealEstate.Rekind.Kind</span>
+                            <span class="price">@item.SoldPrice</span>
+                            <span class="type">مباع</span>
+                            @Html.ActionLink("تفاصيل", "Owner", "Home", new { id = Model.ID.ToString() }, null)
+                        </li>
+                    }
+                </ul>
+
+            </dd>
+        </dl>
+        <dl class="offset4 col-lg-8 col-sm-7" style="float:left">
+            <dt>الموصى بهم</dt>
+            <dd>
+                <ul class="recommended-items  row">
+                    @foreach (var item in Model.OwnerLike)
+                    {
+                        <li class="col-lg-4 col-sm-3">
+                            <img width="150px" src=@Url.Content(@item.Customer.ImgeUrl) alt="">
+                            <p>           العنوان :@item.Customer.address.Town.City.City , @item.Customer.address.Town.TownName ,@item.Customer.address.Street</p>
+                            <p>
+                                الهاتف: @item.Customer.Phone
+                            </p>
+                            <p>
+                                الجوال: @item.Customer.Mobile
+                            </p>
+                        </li>
+                    }
+                </ul>
+            </dd>
+        </dl>
+
+    </div>
+
+
+
+
+

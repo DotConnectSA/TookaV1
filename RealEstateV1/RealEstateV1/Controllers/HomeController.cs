@@ -450,14 +450,14 @@ namespace RealEstateV1.Controllers
             if (Busniss.BusnissLayer.isCurrentCustomer(id))
             {
                 var owner = Busniss.BusnissLayer.GetOwnerById(id);
-                return View(owner);
+                return View("otherOwner", owner);
             }
             else
             {
                 Busniss.BusnissLayer.AddOwnerShown(id);
                 var owner = Busniss.BusnissLayer.GetOwnerById(id);
                 return View(owner);
- 
+                
             }
         }
 

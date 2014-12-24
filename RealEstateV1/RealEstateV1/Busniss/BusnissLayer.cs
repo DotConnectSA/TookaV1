@@ -11,7 +11,21 @@ namespace RealEstateV1.Busniss
 {
     public static class BusnissLayer
     {
-        
+        public static void Register(RegisterCustomerViewModel model)
+        {
+            RealEstateContext DB = new RealEstateContext();
+            T_Customer customer = new T_Customer();
+            customer = model.Customer;
+            customer.Email = model.Register.Email;
+            DB.TCustomer.Add(customer);
+            
+            DB.SaveChanges();
+            //T_Customer cust = DB.TCustomer.Single(a => a.Email == customer.Email);
+            //T_Owner owner = new T_Owner();
+            //owner.customer = cust;
+            //DB.SaveChanges();
+ 
+        }
         public static List<T_City> GetCites()
         {
             RealEstateContext DB = new RealEstateContext();
@@ -87,9 +101,9 @@ namespace RealEstateV1.Busniss
         {
             var context = new ApplicationDbContext();
             string currentUserId = HttpContext.Current.User.Identity.GetUserId();
-            ApplicationUser currentUser = context.Users.FirstOrDefault(x => x.Id == currentUserId);
+            //ApplicationUser currentUser = context.Users.FirstOrDefault(x => x.Id == currentUserId);
 
-            T_Customer cust = DB.TCustomer.Single(x => x.ProfileID == currentUser.Id);
+            T_Customer cust = DB.TCustomer.Single(x => x.ProfileID == currentUserId);
             
             return cust;
         }
@@ -106,6 +120,19 @@ namespace RealEstateV1.Busniss
                 return false;
             }
  
+        }
+        public static List<T_Favorit> GetFavoritEstates(int ownerID)
+        {
+            try
+            {
+                RealEstateContext DB = new RealEstateContext();
+                return DB.TFavorit.Where(a => a.RealEstate.Owner.ID == ownerID).ToList();
+            }
+            catch (Exception)
+            {
+
+                return null;
+            }
         }
         public static void AddDiscuss(string topic)
         {
