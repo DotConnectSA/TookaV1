@@ -24,12 +24,25 @@ namespace RealEstateV1.Busniss
             //T_Owner owner = new T_Owner();
             //owner.customer = cust;
             //DB.SaveChanges();
- 
         }
+
+        public static void ExternalRegister(RegisterExternalCustomerViewModel model)
+        {
+            RealEstateContext DB = new RealEstateContext();
+            T_Customer customer = new T_Customer();
+            customer = model.Customer;
+            customer.Email = model.Register.Email;
+            DB.TCustomer.Add(customer);
+
+            DB.SaveChanges();
+
+        }
+
         public static List<T_City> GetCites()
         {
             RealEstateContext DB = new RealEstateContext();
-            return DB.TCity.ToList();
+            List<T_City> citys=DB.TCity.ToList();
+            return citys;
         }
         public static List<T_TownFeature> getTownFeatureKind( )
         {

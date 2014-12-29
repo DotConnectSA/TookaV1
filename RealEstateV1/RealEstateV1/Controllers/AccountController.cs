@@ -55,7 +55,7 @@ namespace RealEstateV1.Controllers
         //
         // GET: /Account/Login
         [AllowAnonymous]
-        public PartialViewResult Login(string returnUrl)
+        public ActionResult Login(string returnUrl)
         {
             ViewBag.ReturnUrl = returnUrl;
             //return View();
@@ -173,7 +173,7 @@ namespace RealEstateV1.Controllers
             }
 
             // If we got this far, something failed, redisplay form
-            return View(model);
+            return PartialView("Register", model);
         }
 
         //
@@ -223,7 +223,7 @@ namespace RealEstateV1.Controllers
             }
 
             // If we got this far, something failed, redisplay form
-            return View(model);
+            return PartialView("ForgotPassword", model);
         }
 
         //
@@ -348,7 +348,9 @@ namespace RealEstateV1.Controllers
                     // If the user does not have an account, then prompt the user to create an account
                     ViewBag.ReturnUrl = returnUrl;
                     ViewBag.LoginProvider = loginInfo.Login.LoginProvider;
-                    return View("ExternalLoginConfirmation", new ExternalLoginConfirmationViewModel { Email = loginInfo.Email });
+                    RegisterExternalCustomerViewModel extCust = new RegisterExternalCustomerViewModel();
+                    extCust.Register.Email = loginInfo.Email;
+                    return View("ExternalLoginConfirmation", extCust);
             }
         }
 
@@ -357,7 +359,7 @@ namespace RealEstateV1.Controllers
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> ExternalLoginConfirmation(ExternalLoginConfirmationViewModel model, string returnUrl)
+        public async Task<ActionResult> ExternalLoginConfirmation(RegisterExternalCustomerViewModel model, string returnUrl)
         {
             if (User.Identity.IsAuthenticated)
             {
@@ -372,7 +374,7 @@ namespace RealEstateV1.Controllers
                 {
                     return View("ExternalLoginFailure");
                 }
-                var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
+                var user = new ApplicationUser { UserName = model.Register.Email, Email = model.Register.Email };
                 var result = await UserManager.CreateAsync(user);
                 if (result.Succeeded)
                 {
@@ -380,6 +382,7 @@ namespace RealEstateV1.Controllers
                     if (result.Succeeded)
                     {
                         await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
+                        Busniss.BusnissLayer.ExternalRegister(model);
                         return RedirectToLocal(returnUrl);
                     }
                 }

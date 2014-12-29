@@ -6,12 +6,6 @@ namespace RealEstateV1.Models
    
     public class RealEstateContext : DbContext 
     {
-        static RealEstateContext()
-        {
-            Database.SetInitializer(new DropCreateDatabaseIfModelChanges<RealEstateContext>());
-           
-        }
-      
         public DbSet<T_Address> TAddress { get; set; }
         public DbSet<T_City> TCity { get; set; }
         public DbSet<T_Customer> TCustomer { get; set; }
@@ -33,7 +27,7 @@ namespace RealEstateV1.Models
         public DbSet<T_TownFeature> TTFeature { get; set; }
         public DbSet<T_Town> TTown { get; set; }
         public DbSet<T_TownComment> TTownComment { get; set; }
-        public DbSet<T_TownFeatureKind> TTownFeature { get; set; }
+        public DbSet<T_TownFeatureKind> TTFeatureKind { get; set; }
         public DbSet<T_TownRate> TTownRate { get; set; }
         public DbSet<T_TownLinkFeature> TTownLinkFeature { get; set; }
 
@@ -52,12 +46,13 @@ namespace RealEstateV1.Models
         }
         
     }
+
     public class RealEstateInitializer : DropCreateDatabaseIfModelChanges<RealEstateContext>
     {
        
         protected override void Seed(RealEstateContext context)
         {
-            var cites = new List<T_City>
+            List<T_City> cites = new List<T_City>
             {
                 new T_City{City="الرياض"},
                 new T_City{City="الخبر"},
@@ -68,10 +63,29 @@ namespace RealEstateV1.Models
                 new T_City{City="مكه"},
                 new T_City{City="المدينه المنورة"},
                 new T_City{City="حائل"}
-                
             };
 
-           cites.ForEach(s=>context.TCity.Add(s));
+            for (int i=0;i<cites.Count;i++)
+            {
+                context.TCity.Add(cites[i]);
+            }
+
+            context.SaveChanges();
+
+            List<T_Town> town = new List<T_Town>
+            {
+                new T_Town{TownName="الرياض1",City=cites[0]},
+                new T_Town{TownName="الرياض2",City=cites[0]},
+                new T_Town{TownName="الخبر1",City=cites[1]},
+                new T_Town{TownName="الخبر2",City=cites[1]},
+            };
+
+            foreach (var temp in town)
+            {
+                context.TTown.Add(temp);
+            }
+
+            context.SaveChanges();
 
             var kinds = new List<T_REKind>
             {
@@ -89,9 +103,14 @@ namespace RealEstateV1.Models
                 
             };
 
-           kinds.ForEach(s=>context.TREKind.Add(s));
+           foreach (var temp in kinds)
+           {
+               context.TREKind.Add(temp);
+           }
 
            context.SaveChanges();
+
+           base.Seed(context);
         }
     }
       

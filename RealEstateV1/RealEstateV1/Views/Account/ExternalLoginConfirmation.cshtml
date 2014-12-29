@@ -1,4 +1,4 @@
-﻿@model RealEstateV1.Models.ExternalLoginConfirmationViewModel
+﻿@model RealEstateV1.Models.RegisterExternalCustomerViewModel
 @{
     ViewBag.Title = "Register";
 }
@@ -18,12 +18,34 @@
         logging in.
     </p>
     <div class="form-group">
-        @Html.LabelFor(m => m.Email, new { @class = "col-md-2 control-label" })
+        @Html.LabelFor(m => m.Customer.Name, new { @class = "col-md-2 control-label" })
         <div class="col-md-10">
-            @Html.TextBoxFor(m => m.Email, new { @class = "form-control" })
-            @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger" })
+            @Html.TextBoxFor(m => m.Customer.Name, new { @class = "form-control" })
+            @Html.ValidationMessageFor(m => m.Customer.Name, "", new { @class = "text-danger" })
         </div>
     </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.Customer.Phone, new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            @Html.TextBoxFor(m => m.Customer.Phone, new { @class = "form-control" })
+            @Html.ValidationMessageFor(m => m.Customer.Phone, "", new { @class = "text-danger" })
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.Customer.Kind, new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            @Html.TextBoxFor(m => m.Customer.Kind, new { @class = "form-control" })
+            @Html.ValidationMessageFor(m => m.Customer.Kind, "", new { @class = "text-danger" })
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.Register.Email, new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            @Html.TextBoxFor(m => m.Register.Email, new { @class = "form-control" })
+            @Html.ValidationMessageFor(m => m.Register.Email, "", new { @class = "text-danger" })
+        </div>
+    </div>
+    
     <div class="form-group">
         <div class="col-md-offset-2 col-md-10">
             <input type="submit" class="btn btn-default" value="Register" />

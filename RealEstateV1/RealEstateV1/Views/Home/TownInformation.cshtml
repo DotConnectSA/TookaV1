@@ -45,7 +45,7 @@
                     foreach (var it in Model.Comment)
                     {
                         @Html.Partial("_TownPartial", it, new ViewDataDictionary { { "index", @counter } });
-                                                                                                           counter = counter + 1;
+                    counter = counter + 1;
                     }
 
                 }

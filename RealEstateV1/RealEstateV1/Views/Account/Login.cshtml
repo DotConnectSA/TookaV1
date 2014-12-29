@@ -8,7 +8,7 @@
 <div class="row">
     <div class="col-md-8">
         <section id="loginForm">
-            @using (Html.BeginForm("Login", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+            @using (Html.BeginForm("Login", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form",id="loginform" }))
             {
                 @Html.AntiForgeryToken()
                 @Html.ValidationSummary(true, "", new { @class = "text-danger" })
@@ -41,7 +41,7 @@
                 </div>
                 <div class="form-group">
                     <div class="col-md-3 left">
-                        <input type="submit" value="دخول" class="btn btn-default" />
+                        <input type="submit" value="دخول" class="btn btn-default"  />
                     </div>
                 </div>
             }
@@ -60,16 +60,38 @@
     </div>
 </div>
 
-<script>
+<script type="text/javascript">
     function forgetPass() {
         $('#forgetPassModal').modal('toggle');
     }
 
-    function register()
-    {
+    function register() {
         $('#RegisterModal').modal('toggle');
     }
+
+    $(function () {
+
+        var form = $("#loginform");
+        form.submit(function () {
+            $.ajax(
+            {
+                type: "POST",
+                url: form.attr("action"), // points to NewClient
+                data: form.serialize(),
+                success: function (data)
+                {
+                    $("#Login-modal-body").html('');
+                    $("#Login-modal-body").append(data);
+                },
+                error: function (req, status, err) { alert('err=' + err + ' status=' + status); }
+            });
+            return false;
+        });
+    });
+
 </script>
+
+
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")

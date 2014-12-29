@@ -1,5 +1,7 @@
-﻿using System;
+﻿using RealEstateV1.Models;
+using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -12,6 +14,7 @@ namespace RealEstateV1
     {
         protected void Application_Start()
         {
+            Database.SetInitializer<RealEstateContext>(new RealEstateInitializer());
             AreaRegistration.RegisterAllAreas();
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);

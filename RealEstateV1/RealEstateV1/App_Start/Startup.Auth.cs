@@ -60,8 +60,8 @@ namespace RealEstateV1
 
             app.UseGoogleAuthentication(new GoogleOAuth2AuthenticationOptions()
             {
-                ClientId = "225529802254-k744s9n29qv5jkkruj8ef217tm5sq7t3.apps.googleusercontent.com",
-                ClientSecret = "DdDIAuuLZhtmNW3R5hu24zjY"
+                ClientId = "612959324904-q9j4rm07jblktg7f2foim5m6lh1ojkon.apps.googleusercontent.com",
+                ClientSecret = "kNbiPUmeRtbekAVPZAvhzCIy"
             });
         }
     }
