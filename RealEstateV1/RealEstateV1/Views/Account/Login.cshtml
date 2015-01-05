@@ -6,7 +6,7 @@
 
 <h2>تسجيل الدخول</h2>
 <div class="row">
-    <div class="col-md-8">
+    <div class="col-md-7">
         <section id="loginForm">
             @using (Html.BeginForm("Login", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form",id="loginform" }))
             {
@@ -47,11 +47,11 @@
             }
         </section>
     </div>
-    <div class="col-md-4">
+    <div class="col-md-5">
         <div>
             <h4 class="center-block">مستخدم جديد</h4>
             <h4>سجل معنا لتواصل عملاء</h4>
-            <a data-dismiss="modal" onclick="register()">تسجيل</a>
+            <a href="#" data-dismiss="modal" onclick="register()">تسجيل</a>
         </div>
 
         <section id="socialLoginForm">
@@ -67,6 +67,11 @@
 
     function register() {
         $('#RegisterModal').modal('toggle');
+    }
+
+    function external()
+    {
+        $('#ExtRegModal').modal('toggle');
     }
 
     $(function () {

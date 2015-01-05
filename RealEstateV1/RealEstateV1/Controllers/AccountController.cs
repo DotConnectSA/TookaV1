@@ -349,6 +349,8 @@ namespace RealEstateV1.Controllers
                     ViewBag.ReturnUrl = returnUrl;
                     ViewBag.LoginProvider = loginInfo.Login.LoginProvider;
                     RegisterExternalCustomerViewModel extCust = new RegisterExternalCustomerViewModel();
+                    extCust.Customer = new T_Customer();
+                    extCust.Register = new ExternalLoginConfirmationViewModel();
                     extCust.Register.Email = loginInfo.Email;
                     return View("ExternalLoginConfirmation", extCust);
             }
@@ -356,7 +358,6 @@ namespace RealEstateV1.Controllers
 
         //
         // POST: /Account/ExternalLoginConfirmation
-        [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> ExternalLoginConfirmation(RegisterExternalCustomerViewModel model, string returnUrl)
