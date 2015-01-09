@@ -12,145 +12,93 @@
                 @Model.Rekind.Kind
             </div>
             <div>
-            @*if rent or for sale to set the price*@
-            @Model.address.Town.TownName
-            عدد الغرف  @Model.RoomNo
-            نوع العقار   @Model.Rekind.Kind
-            عدد الحمامات   @Model.BathroomNo
-            المساحه   @Model.Area
+                @*if rent or for sale to set the price*@
+                @Model.address.Town.TownName
+                عدد الغرف  @Model.RoomNo
+                نوع العقار   @Model.Rekind.Kind
+                عدد الحمامات   @Model.BathroomNo
+                المساحه   @Model.Area
             </div>
 
 
             @*<div>*@
-                <div>
+                @*<div>
                     <div id="Bpic">صور </div>
                     <div id="Bmaps">خريطه </div>
                     <div id="Bvideo">فيديو </div>
                     <div id="BPanorama">صور بنوراما </div>
                     <div id="Bblueprint">مخططات </div>
-                </div>
-            <div>
-                <div id="maps">
-                    <div style="filter: alpha(opacity=70); opacity:0.7; position: absolute; display: block;
-                                                background-color: #000000; top: 0px; left: 0px;width: 100%;height:100%;"></div>
-                    @Html.Partial("_Map")
-                </div>
-
-                <div id="pic">
-                    <!-- You can move inline styles to css file or css block. -->
-                    <div id="slider2_container" style="position: relative; top: 0px; left: 0px; width: 600px; height: 300px; overflow: hidden; ">
-                        <!-- Loading Screen -->
-                        <div u="loading" style="position: absolute; top: 0px; left: 0px;">
-                            <div style="position: absolute; display: block; background: url(Content/images/loading.gif) no-repeat center center; top: 0px; left: 0px; width: 100%; height: 100%;"></div>
-                        </div>
-                        <!-- Slides Container -->
-                        @*<div u="slides" style="cursor: move; position: absolute; left: 0px; top: 0px; width: 600px; height: 300px; overflow: hidden;">
-
-                            @foreach (var item in Model.REImageB)
-                            {
-                                <img u="image" src="~/Content/images/'@item.ImageURL'" />
-                                <img u="thumb" src="~/Content/images/'@item.ImageURL'_thum" />
-                            }
-                         </div>
-                    <!-- Arrow Navigator Skin Begin -->
-                    <!-- Arrow Left -->
-                    <span u="arrowleft" class="jssora02l" style="width: 55px; height: 55px; top: 123px; left: 8px;"></span>
-                    <!-- Arrow Right -->
-                    <span u="arrowright" class="jssora02r" style="width: 55px; height: 55px; top: 123px; right: 8px"></span>
-                    <!-- Arrow Navigator Skin End -->
-                    <!-- ThumbnailNavigator Skin Begin -->
-                    <div u="thumbnavigator" class="jssort03" style="position: absolute; width: 600px; height: 60px; left:0px; bottom: 0px;">
-                        <div style=" background-color: #000; filter:alpha(opacity=30); opacity:.3; width: 100%; height:100%;"></div>
-                        <!-- Thumbnail Item Skin Begin -->
-                        <div u="slides" style="cursor: move;">
-                             <div u="prototype" class="p" style="POSITION: absolute; WIDTH: 62px; HEIGHT: 32px; TOP: 0; LEFT: 0;">
-                            <div class=w><thumbnailtemplate style=" WIDTH: 100%; HEIGHT: 100%; border: none;position:absolute; TOP: 0; LEFT: 0;"></thumbnailtemplate></div>
-                            <div class=c style="POSITION: absolute; BACKGROUND-COLOR: #000; TOP: 0; LEFT: 0">
-                            </div>
-                            </div>
-                        </div>
-                        <!-- Thumbnail Item Skin End -->
-                   </div>*@
-                                            <!-- ThumbnailNavigator Skin End
-                            <a style="display: none" href="http://www.jssor.com">javascript</a>-->
-                       </div>
-                    <!-- Jssor Slider End -->
-             </div>
-
-               <div id="video">
-
-                </div>
-            @*  <div id="Panorama"></div>
-                    <div id="blueprint"></div>
                 </div>*@
-
-            </div>
-            @*<div >
-               <br/>
-                ----------------------<br />
-                
-            </div>
-            <div>
-               
-                ---------------------
-            
-            </div>*@
-            <table width="100%" border="1">
-                <tr>
-                    <td width="50%">
-                        @Model.Rekind.Kind
-                    </td>
-                    <td>
-                        مميزات
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <hr />
-                    </td>
-                    <td colspan="2">
-                        <hr />
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        @Model.Note
-                    </td>
-                        <td>
-                            @{
-                                var q = 0;
-                            }
-                            @foreach (var item in Model.RealEstateFeature)
-                            {
-                                if (q == 4)
-                                {
-                                     @: </td><td>
-                                }
-                               <div>   @item.Feature</div>
-                                q++;
-                            }
-                        </td>
-                </tr>
-            </table>
-            <div>
-                معلومات الحي
-                @*<div id="maps2">
-                    <div style="filter: alpha(opacity=70); opacity:0.7; position: absolute; display: block;
-                                                background-color: #000000; top: 0px; left: 0px;width: 50%;height:50%;"></div>
-                    @Html.Partial("_Map")
-                </div>*@
-            @Html.DropDownList("feature", (SelectList)(ViewBag.featuer))
+           
                 <table width="100%" border="1">
-                    @foreach (var item in Model.address.Town.townLinkFeature)
-                    {
-                        <tr>
-                            <td><div>@item.townFeature.Feature  @item.townFeatureKind.Description</div></td>
-                            <td><div>@item.townFeatureKind.Kind</div></td>
-                            <td><div>calcualte the distance</div></td>
-                        </tr>
-                    }
+                    <tr>
+                        <td width="50%">
+                            @Model.Rekind.Kind
+                        </td>
+                        <td>
+                            مميزات
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <hr />
+                        </td>
+                        <td colspan="2">
+                            <hr />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            @Model.Note
+                        </td>
+                            <td>
+                                @{
+                                    var q = 0;
+                                }
+                                @foreach (var item in Model.RealEstateFeature)
+                                {
+                                    if (q == 4)
+                                    {
+                                         @: </td><td>
+                                    }
+                                   <div>   @item.Feature</div>
+                                    q++;
+                                }
+                            </td>
+                    </tr>
                 </table>
-            </div>
+                <div>
+                    معلومات الحي
+                    @*<div id="maps2">
+                        <div style="filter: alpha(opacity=70); opacity:0.7; position: absolute; display: block;
+                                                    background-color: #000000; top: 0px; left: 0px;width: 50%;height:50%;"></div>
+                        @Html.Partial("_Map")
+                    </div>*@
+                         @Html.DropDownList("Feature", (SelectList)(ViewBag.featuer))
+                    @*<ul class="list col-lg-9 col-sm-7" id="list">
+
+                        @if (Model == null)
+                        {
+                            <li>
+                                لايوجد بيانات
+                            </li>
+                        }
+                        else
+                        {
+                        }
+
+                    </ul>*@
+                    <table width="100%" border="1">
+                        @foreach (var item in Model.address.Town.townLinkFeature)
+                        {
+                            <tr>
+                                <td><div>@item.townFeature.Feature  @item.townFeatureKind.Description</div></td>
+                                <td><div>@item.townFeatureKind.Kind</div></td>
+                                <td><div>calcualte the distance</div></td>
+                            </tr>
+                        }
+                    </table>
+                </div>
 
             <div>
         التقييم عن الحي<br />
@@ -162,13 +110,12 @@
                 <div>     @item.townFeature.Feature @item.Rate.Rate  </div>
             }
             </div>
-            @*<div>*@
-            @*عدد المقيمين
-            @Model.address.Town.Comment.Count()
-            اخر تحديث
-            @Model.address.Town.Comment.OrderBy(a=>a.CreateDate).FirstOrDefault().CreateDate.ToShortDateString()*@
-
-            @*</div>*@
+            @*<div>
+                عدد المقيمين
+                @Model.address.Town.Comment.Count()
+                اخر تحديث
+                @Model.address.Town.Comment.OrderBy(a=>a.CreateDate).FirstOrDefault().CreateDate.ToShortDateString()
+            </div>*@
             <input type="button" value="قيم عقارك"/>
 
             <div>  للتواصل
@@ -225,7 +172,47 @@
         </div>
 </div>
 
+<script type="text/javascript">
+    function getFeature(Feature) {
+        $.ajax({
+            cache: false,
+            type: "POST",
+            url: "@(Url.Action("GetFeature"))",
+            data: { "FeatureDescId": Feature },
+            success: function (data) {
+                $("#list").append(data);
+            },
+            error: function (xhr, ajaxOptions, thrownError) {
+                alert('Failed to retrieve states. ' + xhr + " - " + ajaxOptions + " - " + thrownError);
+            }
+        });
+    }
+    $(function () {
 
+        $("#Feature").change(function () {
+            var Feature = $("#Feature").val();
+            $.ajax({
+                cache: false,
+                type: "POST",
+                url: "@(Url.Action("GetDescByfeature"))",
+                data: { "TownFeatureId": Feature },
+                success: function (data) {
+                    $("#list").html('');
+                    $.each(data, function (id, Feature) {
+                        getFeature(Feature.ID);
+                    });
+                    $("#list").html(result);
+                },
+                error: function (xhr, ajaxOptions, thrownError) {
+                    alert("Notgood");
+                    alert('Failed to retrieve states. ' + xhr + " - " + ajaxOptions + " - " + thrownError);
+
+                }
+            });
+        });
+
+    });
+</script>
     <script src="~/Scripts/jssor.core.js"></script>
     <script src="~/Scripts/jssor.slider.js"></script>
     <script src="~/Scripts/jssor.utils.js"></script>

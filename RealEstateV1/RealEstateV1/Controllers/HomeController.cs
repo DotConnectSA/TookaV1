@@ -148,6 +148,17 @@ namespace RealEstateV1.Controllers
             return PartialView("_OwnerPartial", result);
         }
 
+        public ActionResult GetDescByfeature(int TownFeatureId)
+        {
+            var result = Busniss.BusnissLayer.GetDescByfeature(TownFeatureId);
+            return Json(result.ToList(), JsonRequestBehavior.AllowGet);
+        }
+        public ActionResult GetFeature(int FeatureDescId)
+        {
+            var result = Busniss.BusnissLayer.GetFeature(FeatureDescId);
+            return PartialView("_TownFeaturePartial", result);
+        }
+
         [Authorize]
         public ActionResult AddDiscuss(string Topic)
         {

@@ -78,6 +78,20 @@ namespace RealEstateV1.Busniss
             RealEstateContext DB = new RealEstateContext();
             return DB.TOwner.Single(a => a.ID == id);
         }
+
+        public static List<T_TownLinkFeature> GetDescByfeature(int FeatureId)
+        {
+            RealEstateContext DB = new RealEstateContext();
+            return DB.TTownLinkFeature.Where(a => a.townFeature.ID == FeatureId).ToList();
+
+        }
+        public static T_TownLinkFeature GetFeature(int FeatureDescId)
+        {
+            RealEstateContext DB = new RealEstateContext();
+            return DB.TTownLinkFeature.Single(a => a.ID == FeatureDescId);
+        }
+
+
         public static void AddOwnerShown(int ownerID)
         {
             RealEstateContext DB = new RealEstateContext();

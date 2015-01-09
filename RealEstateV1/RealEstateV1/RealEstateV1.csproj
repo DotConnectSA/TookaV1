@@ -324,6 +324,7 @@
     <Content Include="Views\Home\_TownPartial.cshtml" />
     <Content Include="Views\Home\otherOwner.cshtml" />
     <Content Include="Views\Home\Supply.cshtml" />
+    <Content Include="Views\Home\_TownFeaturePartial.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
