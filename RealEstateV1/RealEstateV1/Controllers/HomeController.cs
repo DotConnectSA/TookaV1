@@ -148,17 +148,6 @@ namespace RealEstateV1.Controllers
             return PartialView("_OwnerPartial", result);
         }
 
-        public ActionResult GetDescByfeature(int TownFeatureId)
-        {
-            var result = Busniss.BusnissLayer.GetDescByfeature(TownFeatureId);
-            return Json(result.ToList(), JsonRequestBehavior.AllowGet);
-        }
-        public ActionResult GetFeature(int FeatureDescId)
-        {
-            var result = Busniss.BusnissLayer.GetFeature(FeatureDescId);
-            return PartialView("_TownFeaturePartial", result);
-        }
-
         [Authorize]
         public ActionResult AddDiscuss(string Topic)
         {
@@ -180,6 +169,18 @@ namespace RealEstateV1.Controllers
             return View();
         }
 
+        public ActionResult GetDescByfeature(int TownFeatureId)
+        {
+            var result = Busniss.BusnissLayer.GetDescByfeature(TownFeatureId);
+            return Json(result.ToList(), JsonRequestBehavior.AllowGet);
+        }
+
+        public ActionResult GetFeature(int FeatureDescId)
+        {
+            var result = Busniss.BusnissLayer.GetFeature(FeatureDescId);
+            return PartialView("_TownFeaturePartial", result);
+        }
+
         public ActionResult RealEstatesOwners()
         {
             initialization();
@@ -187,6 +188,8 @@ namespace RealEstateV1.Controllers
             var owner = db.TOwner.ToList();
             return View(owner);
         }
+
+
 
         public ActionResult RealEstate(int ID)
         {
@@ -199,10 +202,10 @@ namespace RealEstateV1.Controllers
         {
             T_RealEstate res = Busniss.BusnissLayer.GetRealEstateByID(ID);
             List<T_REImage> images = new List<T_REImage>();
-            for (int i = 0; i < res.REImageB.Count(); i++)
+            for (int i = 0; i < res.REImageB.Count();i++ )
             {
-                Busniss.MyEnumType.imageKind k = res.REImageB.ElementAt(i).kind;
-                if (k.ToString() == kind)
+                Busniss.MyEnumType.imageKind k=res.REImageB.ElementAt(i).kind;
+                if(k.ToString()==kind)
                 {
                     images.Add(res.REImageB.ElementAt(i));
                 }

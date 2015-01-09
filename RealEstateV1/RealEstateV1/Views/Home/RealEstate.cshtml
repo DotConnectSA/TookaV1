@@ -5,24 +5,25 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
+
+
+
 <div id="container">
     <div class="row">
         <div class="list col-lg-9 col-sm-7">
+            
+            <div>@Model.Rekind.Kind</div>
             <div>
-                @Model.Rekind.Kind
-            </div>
-            <div>
-                @*if rent or for sale to set the price*@
-                @Model.address.Town.TownName
-                عدد الغرف  @Model.RoomNo
-                نوع العقار   @Model.Rekind.Kind
-                عدد الحمامات   @Model.BathroomNo
-                المساحه   @Model.Area
+            @*if rent or for sale to set the price*@
+            @Model.address.Town.TownName
+            عدد الغرف  @Model.RoomNo
+            نوع العقار   @Model.Rekind.Kind
+            عدد الحمامات   @Model.BathroomNo
+            المساحه   @Model.Area
             </div>
 
 
             @*<div>*@
-<<<<<<< HEAD
 
             <div style="filter: alpha(opacity=70); opacity:0.7; position: relative; display: block;background-color: #808080; top: 0px; left: 0px;width: 100%;height:50px;">
                 <span id="Bmaps">خريطه </span>
@@ -31,18 +32,17 @@
                 <span id="BPanorama">صور بنورامية </span>
                 <span id="Bblueprint">مخططات </span>
             </div>
-            
+ 
             <div>
                 <div id="maps">
-                    @Html.Partial("_MapTown", Model.address.Postion)
+                   @Html.Partial("_MapTown", Model.address.Postion)
                 </div>
 
                 <div id="video"></div>
 
                 <div id="image"></div>
-
+            
             </div>
-
             <table width="100%" border="1">
                 <tr>
                     <td width="50%">
@@ -64,51 +64,16 @@
                     <td>
                         @Model.Note
                     </td>
-=======
-                @*<div>
-                    <div id="Bpic">صور </div>
-                    <div id="Bmaps">خريطه </div>
-                    <div id="Bvideo">فيديو </div>
-                    <div id="BPanorama">صور بنوراما </div>
-                    <div id="Bblueprint">مخططات </div>
-                </div>*@
-           
-                <table width="100%" border="1">
-                    <tr>
-                        <td width="50%">
-                            @Model.Rekind.Kind
-                        </td>
->>>>>>> origin/master
                         <td>
-                            مميزات
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <hr />
-                        </td>
-                        <td colspan="2">
-                            <hr />
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            @Model.Note
-                        </td>
-                            <td>
-                                @{
-                                    var q = 0;
-                                }
-                                @foreach (var item in Model.RealEstateFeature)
+                            @{
+                                var q = 0;
+                            }
+                            @foreach (var item in Model.RealEstateFeature)
+                            {
+                                if (q == 4)
                                 {
-                                    if (q == 4)
-                                    {
-                                         @: </td><td>
-                                    }
-                                   <div>   @item.Feature</div>
-                                    q++;
+                                     @: </td><td>
                                 }
-<<<<<<< HEAD
                                <div>   @item.Feature</div>
                                 q++;
                             }
@@ -117,7 +82,6 @@
             </table>
             <div>
                 معلومات الحي
-
                 <div id="maps2">@Html.Partial("_Map", Model.address.Postion)</div>
 
 
@@ -131,43 +95,8 @@
                             <td><div>calcualte the distance</div></td>
                         </tr>
                     }
-=======
-                            </td>
-                    </tr>
->>>>>>> origin/master
                 </table>
-                <div>
-                    معلومات الحي
-                    @*<div id="maps2">
-                        <div style="filter: alpha(opacity=70); opacity:0.7; position: absolute; display: block;
-                                                    background-color: #000000; top: 0px; left: 0px;width: 50%;height:50%;"></div>
-                        @Html.Partial("_Map")
-                    </div>*@
-                         @Html.DropDownList("Feature", (SelectList)(ViewBag.featuer))
-                    @*<ul class="list col-lg-9 col-sm-7" id="list">
-
-                        @if (Model == null)
-                        {
-                            <li>
-                                لايوجد بيانات
-                            </li>
-                        }
-                        else
-                        {
-                        }
-
-                    </ul>*@
-                    <table width="100%" border="1">
-                        @foreach (var item in Model.address.Town.townLinkFeature)
-                        {
-                            <tr>
-                                <td><div>@item.townFeature.Feature  @item.townFeatureKind.Description</div></td>
-                                <td><div>@item.townFeatureKind.Kind</div></td>
-                                <td><div>calcualte the distance</div></td>
-                            </tr>
-                        }
-                    </table>
-                </div>
+            </div>
 
             <div>
         التقييم عن الحي<br />
@@ -179,12 +108,13 @@
                 <div>     @item.townFeature.Feature @item.Rate.Rate  </div>
             }
             </div>
-            @*<div>
-                عدد المقيمين
-                @Model.address.Town.Comment.Count()
-                اخر تحديث
-                @Model.address.Town.Comment.OrderBy(a=>a.CreateDate).FirstOrDefault().CreateDate.ToShortDateString()
-            </div>*@
+            @*<div>*@
+            @*عدد المقيمين
+            @Model.address.Town.Comment.Count()
+            اخر تحديث
+            @Model.address.Town.Comment.OrderBy(a=>a.CreateDate).FirstOrDefault().CreateDate.ToShortDateString()*@
+
+            @*</div>*@
             <input type="button" value="قيم عقارك"/>
 
             <div>  للتواصل
@@ -241,8 +171,8 @@
         </div>
 </div>
 
+
 <script type="text/javascript">
-<<<<<<< HEAD
 
     $(document).ready(function () {
         $("#video").html('');
@@ -288,146 +218,6 @@
             },
             error: function (xhr, ajaxOptions, thrownError) {
                 alert('Failed to retrieve states. ' + xhr + " - " + ajaxOptions + " - " + thrownError);
-=======
-    function getFeature(Feature) {
-        $.ajax({
-            cache: false,
-            type: "POST",
-            url: "@(Url.Action("GetFeature"))",
-            data: { "FeatureDescId": Feature },
-            success: function (data) {
-                $("#list").append(data);
-            },
-            error: function (xhr, ajaxOptions, thrownError) {
-                alert('Failed to retrieve states. ' + xhr + " - " + ajaxOptions + " - " + thrownError);
-            }
-        });
-    }
-    $(function () {
-
-        $("#Feature").change(function () {
-            var Feature = $("#Feature").val();
-            $.ajax({
-                cache: false,
-                type: "POST",
-                url: "@(Url.Action("GetDescByfeature"))",
-                data: { "TownFeatureId": Feature },
-                success: function (data) {
-                    $("#list").html('');
-                    $.each(data, function (id, Feature) {
-                        getFeature(Feature.ID);
-                    });
-                    $("#list").html(result);
-                },
-                error: function (xhr, ajaxOptions, thrownError) {
-                    alert("Notgood");
-                    alert('Failed to retrieve states. ' + xhr + " - " + ajaxOptions + " - " + thrownError);
-
-                }
-            });
-        });
-
-    });
-</script>
-    <script src="~/Scripts/jssor.core.js"></script>
-    <script src="~/Scripts/jssor.slider.js"></script>
-    <script src="~/Scripts/jssor.utils.js"></script>
-    <script type="text/javascript">
-        $().ready(function ($) {
-            $("#pic").show();
-            $("#maps").hide();
-            $("#video").hide();
-            $("#Panorama").hide();
-            $("#blueprint").hide();
-        });
-        $("#Bpic").click(function () {
-            $("#pic").show();
-            $("#maps").hide();
-            $("#video").hide();
-            $("#Panorama").hide();
-            $("#blueprint").hide();
-        });
-        $("#Bmaps").click(function () {
-            $("#pic").hide();
-            $("#maps").show();
-            $("#video").hide();
-            $("#Panorama").hide();
-            $("#blueprint").hide();
-        });
-        $("#Bvideo").click(function () {
-            $("#pic").hide();
-            $("#maps").hide();
-            $("#video").show();
-            $("#Panorama").hide();
-            $("#blueprint").hide();
-        });
-        $("#BPanorama").click(function () {
-            $("#pic").hide();
-            $("#maps").hide();
-            $("#video").hide();
-            $("#Panorama").show();
-            $("#blueprint").hide();
-        });
-        $("#Bblueprint").click(function () {
-            $("#pic").hide();
-            $("#maps").hide();
-            $("#video").hide();
-            $("#Panorama").hide();
-            $("#blueprint").show();
-        });
-
-        jQuery(document).ready(function ($) {
-
-            var options = {
-                $AutoPlay: true,                                    //[Optional] Whether to auto play, to enable slideshow, this option must be set to true, default value is false
-                $AutoPlaySteps: 1,                                  //[Optional] Steps to go for each navigation request (this options applys only when slideshow disabled), the default value is 1
-                $AutoPlayInterval: 4000,                            //[Optional] Interval (in milliseconds) to go for next slide since the previous stopped if the slider is auto playing, default value is 3000
-                $PauseOnHover: 1,                               //[Optional] Whether to pause when mouse over if a slider is auto playing, 0 no pause, 1 pause for desktop, 2 pause for touch device, 3 pause for desktop and touch device, 4 freeze for desktop, 8 freeze for touch device, 12 freeze for desktop and touch device, default value is 1
-
-                $ArrowKeyNavigation: true,   			            //[Optional] Allows keyboard (arrow key) navigation or not, default value is false
-                $SlideDuration: 500,                                //[Optional] Specifies default duration (swipe) for slide in milliseconds, default value is 500
-                $MinDragOffsetToSlide: 20,                          //[Optional] Minimum drag offset to trigger slide , default value is 20
-                //$SlideWidth: 600,                                 //[Optional] Width of every slide in pixels, default value is width of 'slides' container
-                //$SlideHeight: 300,                                //[Optional] Height of every slide in pixels, default value is height of 'slides' container
-                $SlideSpacing: 0, 					                //[Optional] Space between each slide in pixels, default value is 0
-                $DisplayPieces: 1,                                  //[Optional] Number of pieces to display (the slideshow would be disabled if the value is set to greater than 1), the default value is 1
-                $ParkingPosition: 0,                                //[Optional] The offset position to park slide (this options applys only when slideshow disabled), default value is 0.
-                $UISearchMode: 1,                                   //[Optional] The way (0 parellel, 1 recursive, default value is 1) to search UI components (slides container, loading screen, navigator container, arrow navigator container, thumbnail navigator container etc).
-                $PlayOrientation: 1,                                //[Optional] Orientation to play slide (for auto play, navigation), 1 horizental, 2 vertical, 5 horizental reverse, 6 vertical reverse, default value is 1
-                $DragOrientation: 3,                                //[Optional] Orientation to drag slide, 0 no drag, 1 horizental, 2 vertical, 3 either, default value is 1 (Note that the $DragOrientation should be the same as $PlayOrientation when $DisplayPieces is greater than 1, or parking position is not 0)
-
-                $ArrowNavigatorOptions: {
-                    $Class: $JssorArrowNavigator$,              //[Requried] Class to create arrow navigator instance
-                    $ChanceToShow: 1,                               //[Required] 0 Never, 1 Mouse Over, 2 Always
-                    $Steps: 1                                       //[Optional] Steps to go for each navigation request, default value is 1
-                },
-
-                $ThumbnailNavigatorOptions: {
-                    $Class: $JssorThumbnailNavigator$,              //[Required] Class to create thumbnail navigator instance
-                    $ChanceToShow: 2,                               //[Required] 0 Never, 1 Mouse Over, 2 Always
-
-                    $ActionMode: 1,                                 //[Optional] 0 None, 1 act by click, 2 act by mouse hover, 3 both, default value is 1
-                    $AutoCenter: 3,                                 //[Optional] Auto center thumbnail items in the thumbnail navigator container, 0 None, 1 Horizontal, 2 Vertical, 3 Both, default value is 3
-                    $Lanes: 1,                                      //[Optional] Specify lanes to arrange thumbnails, default value is 1
-                    $SpacingX: 3,                                   //[Optional] Horizontal space between each thumbnail in pixel, default value is 0
-                    $SpacingY: 3,                                   //[Optional] Vertical space between each thumbnail in pixel, default value is 0
-                    $DisplayPieces: 9,                              //[Optional] Number of pieces to display, default value is 1
-                    $ParkingPosition: 260,                          //[Optional] The offset position to park thumbnail
-                    $Orientation: 1,                                //[Optional] Orientation to arrange thumbnails, 1 horizental, 2 vertical, default value is 1
-                    $DisableDrag: false                            //[Optional] Disable drag or not, default value is false
-                }
-            };
-
-            var jssor_slider2 = new $JssorSlider$("slider2_container", options);
-            //responsive code begin
-            //you can remove responsive code if you don't want the slider scales while window resizes
-            function ScaleSlider() {
-                var parentWidth = jssor_slider2.$Elmt.parentNode.clientWidth;
-                if (parentWidth)
-                    jssor_slider2.$SetScaleWidth(Math.min(parentWidth, 600));
-                else
-                    window.setTimeout(ScaleSlider, 30);
->>>>>>> origin/master
             }
         });
     }
@@ -440,12 +230,50 @@
             type: "POST",
             url: "@(Url.Action("LoadVideo"))",
             data: { "ID": id },
+        success: function (data) {
+            $("#video").html(data);
+        },
+        error: function (xhr, ajaxOptions, thrownError) {
+            alert('Failed to retrieve states. ' + xhr + " - " + ajaxOptions + " - " + thrownError);
+        }
+    });
+    }
+
+    function getFeature(Feature) {
+        $.ajax({
+            cache: false,
+            type: "POST",
+            url: "@(Url.Action("GetFeature"))",
+            data: { "FeatureDescId": Feature },
+        success: function (data) {
+            $("#list").append(data);
+        },
+        error: function (xhr, ajaxOptions, thrownError) {
+            alert('Failed to retrieve states. ' + xhr + " - " + ajaxOptions + " - " + thrownError);
+        }
+    });
+    }
+
+    $(function () {
+        $("#Feature").change(function () {
+            var Feature = $("#Feature").val();
+            $.ajax({
+                cache: false,
+                type: "POST",
+                url: "@(Url.Action("GetDescByfeature"))",
+                data: { "TownFeatureId": Feature },
             success: function (data) {
-                $("#video").html(data);
+                $("#list").html('');
+                $.each(data, function (id, Feature) {
+                    getFeature(Feature.ID);
+                });
+                $("#list").html(result);
             },
             error: function (xhr, ajaxOptions, thrownError) {
+                alert("Notgood");
                 alert('Failed to retrieve states. ' + xhr + " - " + ajaxOptions + " - " + thrownError);
             }
         });
-    }
+        });
+    });
 </script>
