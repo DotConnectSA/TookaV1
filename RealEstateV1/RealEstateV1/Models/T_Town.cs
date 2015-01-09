@@ -32,6 +32,6 @@ namespace RealEstateV1.Models
         [Display(Name = "المدينة")]
         public virtual T_City City { get; set; }
        
-        public Collection<T_TownLinkFeature> townLinkFeature { get; set; }
+        public virtual Collection<T_TownLinkFeature> townLinkFeature { get; set; }
     }
 }
