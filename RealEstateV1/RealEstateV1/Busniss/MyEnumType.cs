@@ -25,7 +25,7 @@ namespace RealEstateV1.Busniss
         }
         public enum imageKind
         {
-            Big = 1
+            Big = 1, pic = 2, Panorama = 3, blueprint = 4
         }
         public enum VideoKind
         {

@@ -262,10 +262,13 @@
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
+    <Content Include="Scripts\jquery-1.9.1.min.js" />
     <Content Include="Scripts\jquery.validate.js" />
     <Content Include="Scripts\jquery.validate.min.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
+    <Content Include="Scripts\jssor.js" />
+    <Content Include="Scripts\jssor.slider.js" />
     <Content Include="Scripts\modernizr-2.6.2.js" />
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />
@@ -324,6 +327,9 @@
     <Content Include="Views\Home\_TownPartial.cshtml" />
     <Content Include="Views\Home\otherOwner.cshtml" />
     <Content Include="Views\Home\Supply.cshtml" />
+    <Content Include="Views\Home\_MapTown.cshtml" />
+    <Content Include="Views\Home\_ImagePartial.cshtml" />
+    <Content Include="Views\Home\_VideoPartial.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

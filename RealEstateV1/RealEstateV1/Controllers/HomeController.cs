@@ -184,6 +184,27 @@ namespace RealEstateV1.Controllers
             return View(r);
         }
 
+        public PartialViewResult LoadImage(int ID, string kind)
+        {
+            T_RealEstate res = Busniss.BusnissLayer.GetRealEstateByID(ID);
+            List<T_REImage> images = new List<T_REImage>();
+            for (int i = 0; i < res.REImageB.Count(); i++)
+            {
+                Busniss.MyEnumType.imageKind k = res.REImageB.ElementAt(i).kind;
+                if (k.ToString() == kind)
+                {
+                    images.Add(res.REImageB.ElementAt(i));
+                }
+            }
+            return PartialView("_ImagePartial", images);
+        }
+
+        public PartialViewResult LoadVideo(int ID)
+        {
+            T_RealEstate res = Busniss.BusnissLayer.GetRealEstateByID(ID);
+            return PartialView("_VideoPartial", res.REVideo);
+        }
+
         public ActionResult Contact()
         {           
             return View();
