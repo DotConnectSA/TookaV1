@@ -55,13 +55,13 @@ namespace RealEstateV1
                consumerSecret: "YnktJ0CNfdoMz2YbW5AF7x38mVORxCWkMY0tbMVl3EPU5oKm0X");
 
             app.UseFacebookAuthentication(
-               appId: "1504613493151898",
-               appSecret: "1c5d146044e4ba8a06b7ea92f1491b1b");
+               appId: "1562594537314933",
+               appSecret: "e998fc6b338518b40f25f2dada52cd6f");
 
             app.UseGoogleAuthentication(new GoogleOAuth2AuthenticationOptions()
             {
-                ClientId = "225529802254-k744s9n29qv5jkkruj8ef217tm5sq7t3.apps.googleusercontent.com",
-                ClientSecret = "DdDIAuuLZhtmNW3R5hu24zjY"
+                ClientId = "612959324904-q9j4rm07jblktg7f2foim5m6lh1ojkon.apps.googleusercontent.com",
+                ClientSecret = "kNbiPUmeRtbekAVPZAvhzCIy"
             });
         }
     }

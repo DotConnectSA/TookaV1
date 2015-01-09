@@ -7,10 +7,11 @@ namespace RealEstateV1.Busniss
 {
     public class CookieManager
     {
-        public static void SetCookie(string CookieName, string key,string value)
+        public static void SetCookie(string CookieName, string key,string value,int day)
         {
             HttpCookie cookie = HttpContext.Current.Request.Cookies[CookieName] ?? new HttpCookie(CookieName);
             cookie.Values[key] = value;
+            cookie.Expires = DateTime.Now.AddDays(day);
             HttpContext.Current.Response.Cookies.Add(cookie);
         }
 

@@ -2,6 +2,10 @@
 @using Microsoft.Owin.Security
 
 @*<h4>Use another service to log in.</h4>*@
+@{
+    int counter = 0;
+    int [] marks = new int[4]  { 5,  4, 3, 1};
+}
 <hr />
 @{
     var loginProviders = Context.GetOwinContext().Authentication.GetExternalAuthenticationTypes();
@@ -14,15 +18,20 @@
         </div>
     }
     else {
-        using (Html.BeginForm("ExternalLogin", "Account", new { ReturnUrl = Model.ReturnUrl })) {
+        using (Html.BeginForm("ExternalLogin", "Account", new { ReturnUrl = Model.ReturnUrl }))
+        {
             @Html.AntiForgeryToken()
-            <div id="socialLoginList">
+            <div >
                 <p>
-                    @foreach (AuthenticationDescription p in loginProviders) {
-                        <button type="submit" class="btn btn-default" id="@p.AuthenticationType" name="provider" value="@p.AuthenticationType" title="Log in using your @p.Caption account">@p.AuthenticationType</button>
+                    @foreach (AuthenticationDescription p in loginProviders)
+                    {
+                        <button type="submit" id="@p.AuthenticationType" name="provider" value="@p.AuthenticationType" title="Log in using your @p.Caption account" style="background: url('/Content/images/icon@(marks[counter]).png') no-repeat center; width:46px;height:46px  "></button>
+                        counter++;
                     }
                 </p>
             </div>
         }
     }
 }
+
+

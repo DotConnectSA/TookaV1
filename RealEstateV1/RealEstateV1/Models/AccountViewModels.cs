@@ -123,4 +123,10 @@ namespace RealEstateV1.Models
         public T_Customer Customer { get; set; }
         public RegisterViewModel Register { get; set; }
     }
+
+    public class RegisterExternalCustomerViewModel
+    {
+        public T_Customer Customer { get; set; }
+        public ExternalLoginConfirmationViewModel Register { get; set; }
+    }
 }
