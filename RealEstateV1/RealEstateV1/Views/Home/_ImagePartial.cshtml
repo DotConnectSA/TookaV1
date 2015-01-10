@@ -8,11 +8,11 @@
 
     <!-- Loading Screen -->
     @*<div u="loading" style="position: absolute; top: 0px; left: 0px;">
-        <div style="filter: alpha(opacity=70); opacity:0.7; position: absolute; display: block;background-color: #000000; top: 0px; left: 0px;width: 100%;height:100%;">
-        </div>
-        <div style="position: absolute; display: block; background: url(../img/loading.gif) no-repeat center center;top: 0px; left: 0px;width: 100%;height:100%;">
-        </div>
-    </div>*@
+            <div style="filter: alpha(opacity=70); opacity:0.7; position: absolute; display: block;background-color: #000000; top: 0px; left: 0px;width: 100%;height:100%;">
+            </div>
+            <div style="position: absolute; display: block; background: url(../img/loading.gif) no-repeat center center;top: 0px; left: 0px;width: 100%;height:100%;">
+            </div>
+        </div>*@
 
     <!-- Slides Container -->
     <div u="slides" style="cursor: move; position: absolute; left: 0px; top: 0px; width: 1000px; height: 456px; overflow: hidden;">
@@ -24,7 +24,7 @@
                 <img u="thumb" src=@(@Url.Content("~/Content/images/" + item.ImageURL)) />
             </div>
         }
-        </div>
+    </div>
     <!-- Arrow Left -->
     <span u="arrowleft" class="jssora05l" style="width: 40px; height: 40px; top: 158px; left: 8px;">
     </span>
@@ -33,6 +33,17 @@
     </span>
     <!-- Arrow Navigator Skin End -->
     <!-- Thumbnail Navigator Skin Begin -->
+
+    <div style="position: absolute; width: 1000px; height: 50px; ">
+        <div style="position: absolute; background-color: #808080; filter:alpha(opacity=30); opacity:.3; width: 100%; height:100%;"></div>
+        <div style="position: absolute;">
+            <a id="Bmaps" onclick="reLoad('Bmaps')">خريطه </a>
+            <a id="Bpic" onclick="reLoad('Bpic')">صور </a>
+            <a id="Bvideo" onclick="reLoad('Bvideo')">فيديو </a>
+            <a id="BPanorama" onclick="reLoad('BPanorama')">صور بنورامية </a>
+            <a id="Bblueprint" onclick="reLoad('Bblueprint')">مخططات </a>
+        </div>
+    </div>
 
     <div u="thumbnavigator" class="jssort01" style="position: absolute; width: 1000px; height: 100px; left:0px; bottom: 0px;">
         <div style=" background-color: #000; filter:alpha(opacity=30); opacity:.3; width: 100%; height:100%;"></div>
