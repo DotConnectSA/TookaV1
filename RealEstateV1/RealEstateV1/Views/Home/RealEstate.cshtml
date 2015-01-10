@@ -11,15 +11,24 @@
 <div id="container">
     <div class="row">
         <div class="list col-lg-9 col-sm-7">
-            
-            <div>@Model.Rekind.Kind</div>
+            <table>
+                <tr>
+                    <td>
+
+                        <div>@Model.Rekind.Kind</div>
+                    </td>
+                    <td>
+                        @Model.address.Town.TownName 
+                        عدد الغرف  @Model.RoomNo 
+                        نوع العقار   @Model.Rekind.Kind 
+                        عدد الحمامات   @Model.BathroomNo 
+                        المساحه   @Model.Area 
+                    </td>
+                </tr>
+            </table>
             <div>
             @*if rent or for sale to set the price*@
-            @Model.address.Town.TownName
-            عدد الغرف  @Model.RoomNo
-            نوع العقار   @Model.Rekind.Kind
-            عدد الحمامات   @Model.BathroomNo
-            المساحه   @Model.Area
+           
             </div>
 
 
@@ -92,7 +101,7 @@
                         <tr>
                             <td><div>@item.townFeature.Feature  @item.townFeatureKind.Description</div></td>
                             <td><div>@item.townFeatureKind.Kind</div></td>
-                            <td><div>calcualte the distance</div></td>
+                            <td><div>@item.townFeatureKind.position.X.ToString()</div></td>
                         </tr>
                     }
                 </table>
@@ -100,32 +109,345 @@
 
             <div>
         التقييم عن الحي<br />
-         تقييم العام
-            @Model.address.Town.townLinkFeature.ElementAt(0).Rate.Rate.ToString()<br/>
-            تقييم بالفئات :
-            @foreach (var item in Model.address.Town.townLinkFeature)
-            {
-                <div>     @item.townFeature.Feature @item.Rate.Rate  </div>
-            }
-            </div>
-            @*<div>*@
-            @*عدد المقيمين
-            @Model.address.Town.Comment.Count()
-            اخر تحديث
-            @Model.address.Town.Comment.OrderBy(a=>a.CreateDate).FirstOrDefault().CreateDate.ToShortDateString()*@
+                <div>
+                    <table border="1" width="100%">
+                        <tr>
+                            <td>
+                                تقييم العام : 
+                                @{int x = 0; int count = 0; int numberOfRater = 0;}
+                                @foreach (var item in Model.address.Town.townLinkFeature)
+                                {
+                                    if (@item.townFeature.Feature.Equals("تقييم العام"))
+                                    {
+                                        x = x + @item.Rate.Rate;
+                                        count++;
+                                    }
+                                }
+                                @{x = x / count; numberOfRater = count;}
+                                @{
+                                    <div style="display:inline-block">
+                                        @if (@x == 0)
+                                        {
+                                            <img src="~/Content/images/ico2-g.png">
+                                            <img src="~/Content/images/ico2.png">
+                                            <img src="~/Content/images/ico2.png">
+                                            <img src="~/Content/images/ico2.png">
+                                            <img src="~/Content/images/ico2.png">    <span>قيم</span>
+                                        }
+                                        @if (@x == 1)
+                                        {
+                                            <img src="~/Content/images/ico2-g.png">
+                                            <img src="~/Content/images/ico2.png">
+                                            <img src="~/Content/images/ico2.png">
+                                            <img src="~/Content/images/ico2.png">
+                                            <img src="~/Content/images/ico2.png"> <span>سيئ</span>
+                                        }
+                                        else if (@x == 2)
+                                        {
+                                            <img src="~/Content/images/ico2-g.png">
+                                            <img src="~/Content/images/ico2-g.png">
+                                            <img src="~/Content/images/ico2.png">
+                                            <img src="~/Content/images/ico2.png">
+                                            <img src="~/Content/images/ico2.png"><span>مقبول</span>
+                                        }
+                                        else if (@x == 3)
+                                        {
+                                            <img src="~/Content/images/ico2-g.png">
+                                            <img src="~/Content/images/ico2-g.png">
+                                            <img src="~/Content/images/ico2-g.png">
+                                            <img src="~/Content/images/ico2.png">
+                                            <img src="~/Content/images/ico2.png"><span>جيد</span>
+                                        }
+                                        else if (@x == 4)
+                                        {
+                                            <img src="~/Content/images/ico2-g.png">
+                                            <img src="~/Content/images/ico2-g.png">
+                                            <img src="~/Content/images/ico2-g.png">
+                                            <img src="~/Content/images/ico2-g.png">
+                                            <img src="~/Content/images/ico2.png"><span>جيد جداً</span>
+                                        }
+                                        else if (@x == 5)
+                                        {
+                                            <img src="~/Content/images/ico2-g.png">
+                                            <img src="~/Content/images/ico2-g.png">
+                                            <img src="~/Content/images/ico2-g.png">
+                                            <img src="~/Content/images/ico2-g.png">
+                                            <img src="~/Content/images/ico2-g.png"><span>ممتاز</span>
+                                        }
 
-            @*</div>*@
-            <input type="button" value="قيم عقارك"/>
+                                    </div>
+                                }<br />
+
+                                تقييم بالفئات :
+                                @{x = 0; count = 0;}
+                                @foreach (var item in Model.address.Town.townLinkFeature.Distinct())
+                                {
+
+                                    foreach (var item2 in Model.address.Town.townLinkFeature)
+                                    {
+                                        if (@item2.townFeature.Feature.Equals(item.townFeature.Feature) && item.townFeature.Feature != "تقييم العام")
+                                        {
+                                            count++;
+                                            x = x + @item2.Rate.Rate;
+                                        }
+                                    }
+                                    if (count != 0)
+                                    {
+                                        x = x / count;
+                                        <div>     @item.townFeature.Feature :
+                                            @if (@x == 0)
+                                            {
+                                                <img src="~/Content/images/ico2-g.png">
+                                                <img src="~/Content/images/ico2.png">
+                                                <img src="~/Content/images/ico2.png">
+                                                <img src="~/Content/images/ico2.png">
+                                                <img src="~/Content/images/ico2.png">    <span>قيم</span>
+                                            }
+                                        @if(@x == 1)
+                                         { 
+                                            <img src="~/Content/images/ico2-g.png"> 
+                                            <img src="~/Content/images/ico2.png">
+                                            <img src="~/Content/images/ico2.png"> 
+                                            <img src="~/Content/images/ico2.png"> 
+                                            <img src="~/Content/images/ico2.png"> <span>سيئ</span>
+                                         }
+                                        else if (@x == 2)
+                                        {
+                                            <img src="~/Content/images/ico2-g.png">
+                                            <img src="~/Content/images/ico2-g.png">
+                                            <img src="~/Content/images/ico2.png">
+                                            <img src="~/Content/images/ico2.png">
+                                            <img src="~/Content/images/ico2.png"><span>مقبول</span>
+                                        }
+                                        else if (@x == 3)
+                                        {
+                                            <img src="~/Content/images/ico2-g.png">
+                                            <img src="~/Content/images/ico2-g.png">
+                                            <img src="~/Content/images/ico2-g.png">
+                                            <img src="~/Content/images/ico2.png">
+                                            <img src="~/Content/images/ico2.png"><span>جيد</span>
+                                        }
+                                        else if (@x == 4)
+                                        {
+                                            <img src="~/Content/images/ico2-g.png">
+                                            <img src="~/Content/images/ico2-g.png">
+                                            <img src="~/Content/images/ico2-g.png">
+                                            <img src="~/Content/images/ico2-g.png">
+                                            <img src="~/Content/images/ico2.png"><span>جيد جداً</span>
+                                        }
+                                        else if (@x == 5)
+                                        {
+                                            <img src="~/Content/images/ico2-g.png">
+                                            <img src="~/Content/images/ico2-g.png">
+                                            <img src="~/Content/images/ico2-g.png">
+                                            <img src="~/Content/images/ico2-g.png">
+                                            <img src="~/Content/images/ico2-g.png"><span>ممتاز</span>
+                                        }
+                                
+                                </div>
+                                    }
+                                    x = 0;
+                                    count = 0;
+                                }
+                                عدد المقيمين
+                                @numberOfRater<br />
+                                اخر تحديث
+                                @Model.address.Town.Comment.OrderBy(a => a.CreateDate).FirstOrDefault().CreateDate.ToShortDateString()
+                            </td>
+                            <td>
+                                نتائج التقييم العام : <br />
+                                @{x = 0; count = 0;}
+                                @foreach (var item in Model.address.Town.townLinkFeature)
+                                {
+                                    x = x + @item.Rate.Rate;
+                                    count++;
+                                }
+                                @{x = x / count;}
+                                @{
+                                    <div style="display:inline-block">
+                                        @if (@x == 0)
+                                        {
+                                            <img src="~/Content/images/ico2-g.png">
+                                            <img src="~/Content/images/ico2.png">
+                                            <img src="~/Content/images/ico2.png">
+                                            <img src="~/Content/images/ico2.png">
+                                            <img src="~/Content/images/ico2.png">    <span>قيم</span>
+                                        }
+                                        @if (@x == 1)
+                                        {
+                                            <img src="~/Content/images/ico2-g.png">
+                                            <img src="~/Content/images/ico2.png">
+                                            <img src="~/Content/images/ico2.png">
+                                            <img src="~/Content/images/ico2.png">
+                                            <img src="~/Content/images/ico2.png"> <span>سيئ</span>
+                                        }
+                                        else if (@x == 2)
+                                        {
+                                            <img src="~/Content/images/ico2-g.png">
+                                            <img src="~/Content/images/ico2-g.png">
+                                            <img src="~/Content/images/ico2.png">
+                                            <img src="~/Content/images/ico2.png">
+                                            <img src="~/Content/images/ico2.png"><span>مقبول</span>
+                                        }
+                                        else if (@x == 3)
+                                        {
+                                            <img src="~/Content/images/ico2-g.png">
+                                            <img src="~/Content/images/ico2-g.png">
+                                            <img src="~/Content/images/ico2-g.png">
+                                            <img src="~/Content/images/ico2.png">
+                                            <img src="~/Content/images/ico2.png"><span>جيد</span>
+                                        }
+                                        else if (@x == 4)
+                                        {
+                                            <img src="~/Content/images/ico2-g.png">
+                                            <img src="~/Content/images/ico2-g.png">
+                                            <img src="~/Content/images/ico2-g.png">
+                                            <img src="~/Content/images/ico2-g.png">
+                                            <img src="~/Content/images/ico2.png"><span>جيد جداً</span>
+                                        }
+                                        else if (@x == 5)
+                                        {
+                                            <img src="~/Content/images/ico2-g.png">
+                                            <img src="~/Content/images/ico2-g.png">
+                                            <img src="~/Content/images/ico2-g.png">
+                                            <img src="~/Content/images/ico2-g.png">
+                                            <img src="~/Content/images/ico2-g.png"><span>ممتاز</span>
+                                        }
+
+                                    </div>
+                                }<br />
+                                اكثر الاقسام تقييماً : <br />
+                                @{x = 0; count = 0;}
+                                @foreach (var item in Model.address.Town.townLinkFeature.Distinct())
+                                {
+
+                                    foreach (var item2 in Model.address.Town.townLinkFeature)
+                                    {
+                                        if (@item2.townFeature.Feature.Equals(item.townFeature.Feature) && item.townFeature.Feature != "تقييم العام")
+                                        {
+                                            count++;
+                                            x = x + @item2.Rate.Rate;
+                                        }
+                                    }
+                                    if (count != 0)
+                                    {
+                                        x = x / count;
+                                        <div>
+                                            @item.townFeature.Feature :
+                                            @if (@x == 0)
+                                            {
+                                                <img src="~/Content/images/ico2-g.png">
+                                                <img src="~/Content/images/ico2.png">
+                                                <img src="~/Content/images/ico2.png">
+                                                <img src="~/Content/images/ico2.png">
+                                                <img src="~/Content/images/ico2.png">    <span>قيم</span>
+                                            }
+                                            @if (@x == 1)
+                                            {
+                                                <img src="~/Content/images/ico2-g.png">
+                                                <img src="~/Content/images/ico2.png">
+                                                <img src="~/Content/images/ico2.png">
+                                                <img src="~/Content/images/ico2.png">
+                                                <img src="~/Content/images/ico2.png"> <span>سيئ</span>
+                                            }
+                                            else if (@x == 2)
+                                            {
+                                                <img src="~/Content/images/ico2-g.png">
+                                                <img src="~/Content/images/ico2-g.png">
+                                                <img src="~/Content/images/ico2.png">
+                                                <img src="~/Content/images/ico2.png">
+                                                <img src="~/Content/images/ico2.png"><span>مقبول</span>
+                                            }
+                                            else if (@x == 3)
+                                            {
+                                                <img src="~/Content/images/ico2-g.png">
+                                                <img src="~/Content/images/ico2-g.png">
+                                                <img src="~/Content/images/ico2-g.png">
+                                                <img src="~/Content/images/ico2.png">
+                                                <img src="~/Content/images/ico2.png"><span>جيد</span>
+                                            }
+                                            else if (@x == 4)
+                                            {
+                                                <img src="~/Content/images/ico2-g.png">
+                                                <img src="~/Content/images/ico2-g.png">
+                                                <img src="~/Content/images/ico2-g.png">
+                                                <img src="~/Content/images/ico2-g.png">
+                                                <img src="~/Content/images/ico2.png"><span>جيد جداً</span>
+                                            }
+                                            else if (@x == 5)
+                                            {
+                                                <img src="~/Content/images/ico2-g.png">
+                                                <img src="~/Content/images/ico2-g.png">
+                                                <img src="~/Content/images/ico2-g.png">
+                                                <img src="~/Content/images/ico2-g.png">
+                                                <img src="~/Content/images/ico2-g.png"><span>ممتاز</span>
+                                            }
+
+                                        </div>
+                                    }
+                                    x = 0;
+                                    count = 0;
+                                }
+                                <input style="width:500px;float:left" type="button" value="قيم العقار - تعليقكـ" />
+
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
 
             <div>  للتواصل
-
-            @Model.Owner.customer.Name
-             هاتف  @Model.Owner.customer.Phone<br/>
-            جوال   @Model.Owner.customer.Mobile<br />
-            لايكات   @Model.Owner.OwnerLike.Count<br />
-               @*<img src="~/Content/images/'@Model.Owner.customer.ImgeUrl'" />
-               <img src="~/Content/images/'@Model.Owner.logo'" />*@
-            </div>
+                <div style="border:3px solid black;">
+                    <table border="0" width="100%">
+                        <tr>
+                            <td width="30%">
+                                <img width="125px" src="~/Content/images/@Model.Owner.logo" />
+                                <img width="100px" src="~/Content/images/@Model.Owner.customer.ImgeUrl" />
+                            </td>
+                            <td width="20%">
+                                <div style="margin-right:20px">
+                                    @Model.Owner.customer.Name <br />
+                                    هاتف  @Model.Owner.customer.Phone<br />
+                                    جوال   @Model.Owner.customer.Mobile<br />
+                                </div>
+                            </td>
+                            <td>
+                                <div style="margin-right:20px">
+                                    <div>
+                                        <a href="#">@Model.Owner.OwnerLike.Count</a>
+                                        <img src="~/Content/images/ico2.png">
+                                    </div>
+                                    <div>
+                                        <img src="~/Content/images/sell-cost.png" />
+                                        <div style="margin-top:-25px;margin-right:15px">
+                                            @Html.ActionLink("تفاصيل", "Owner", "Home", new { id = Model.ID.ToString() }, null)
+                                        </div>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="2" align="center">
+                                    <input size="60px" id="name" type="text" placeholder="الاسم" /> <br /><br />
+                                    <input size="60px" id="mobile" type="text" placeholder="الجوال" /><br /><br />
+                                    <input size="60px" id="email" type="email" placeholder="البريد الالكتروني" /><br /><br />
+                                    <input type="checkbox" id="accept" >&nbsp;&nbsp;&nbsp; أن تحصل على موافقة مسبقة من قبل المقرض
+                            </td>
+                            <td width="100%" align="center">
+                                <textarea rows="5" cols="100" id="pargraph" placeholder="الموضوع"></textarea><br /><br />
+                                <input style="width:300px" type=" button" class="btn btn-primary" id="sendD" value="ارسل" />
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+                   
+                @*@Model.Owner.customer.Name
+                 هاتف  @Model.Owner.customer.Phone<br/>
+                جوال   @Model.Owner.customer.Mobile<br />
+                لايكات   @Model.Owner.OwnerLike.Count<br />*@
+                   @*<img src="~/Content/images/'@Model.Owner.customer.ImgeUrl'" />
+                   <img src="~/Content/images/'@Model.Owner.logo'" />*@
+              </div>
             </div>
             <aside class="left-col list col-lg-3 col-sm-5">
                 <fieldset>
@@ -134,8 +456,14 @@
                     <input id="email" type="email" placeholder="البريد الالكتروني" />
                     <textarea id="pargraph" placeholder="الموضوع"></textarea>
                     <input type="checkbox" id="accept" />
-                    <input type="button" value="ارسال" />
+                    <input width="48" height="48" type="submit" value="ارسال" />
                 </fieldset>
+                <div class="block">
+                    <h3>نقاشات عقارية</h3>
+                    <div class="content">
+                        @Html.Partial("_AskDiscuss")
+                    </div>
+                </div>
                 <div class="block ads">
 
                     <div class="content">
@@ -171,6 +499,32 @@
         </div>
 </div>
 
+<script type="text/javascript">
+
+    $(function () {
+
+        $("#sendD").click(function () {
+
+            var name = $("#name").val();
+            var email = $("#email").val();
+            var mobile = $("#mobile").val();
+            var pargraph = $("#pargraph").val();
+            var id = @Model.ID;
+            $.ajax({
+                cache: false,
+                type: "POST",
+                url: "@(Url.Action("SendEmail"))",
+                data: { Username : name , Phone : mobile , Email : email , Pargraph : pargraph , id : id },
+                success: function (data) {
+                    alert('Done');
+                },
+                error: function (xhr, ajaxOptions, thrownError) {
+                    alert('Failed to retrieve states. ' + xhr + " - " + ajaxOptions + " - " + thrownError);
+                }
+            });
+        });
+    });
+</script>
 
 <script type="text/javascript">
 
@@ -239,7 +593,7 @@
     });
     }
 
-    function getFeature(Feature) {
+    @*function getFeature(Feature) {
         $.ajax({
             cache: false,
             type: "POST",
@@ -275,5 +629,5 @@
             }
         });
         });
-    });
+    });*@
 </script>

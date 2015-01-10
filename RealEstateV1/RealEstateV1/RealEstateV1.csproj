@@ -41,6 +41,12 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Postal">
+      <HintPath>..\packages\Postal.Mvc5.1.2.0\lib\net45\Postal.dll</HintPath>
+    </Reference>
+    <Reference Include="RazorEngine">
+      <HintPath>..\packages\RazorEngine.3.4.1\lib\net45\RazorEngine.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
@@ -175,6 +181,7 @@
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\RealEstateContext.cs" />
+    <Compile Include="Models\TownEmail.cs" />
     <Compile Include="Models\T_Address.cs" />
     <Compile Include="Models\T_City.cs" />
     <Compile Include="Models\T_Customer.cs" />
@@ -331,6 +338,8 @@
     <Content Include="Views\Home\_MapTown.cshtml" />
     <Content Include="Views\Home\_VideoPartial.cshtml" />
     <Content Include="Views\Home\_TownFeaturePartial.cshtml" />
+    <Content Include="Views\Emails\Web.config" />
+    <Content Include="Views\Emails\_ViewStart.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -273,3 +273,8 @@ C:\Users\yasser\Documents\GitHub\TookaV1\RealEstateV1\RealEstateV1\bin\Microsoft
 C:\Users\yasser\Documents\GitHub\TookaV1\RealEstateV1\RealEstateV1\obj\Debug\RealEstateV1.csprojResolveAssemblyReference.cache
 C:\Users\yasser\Documents\GitHub\TookaV1\RealEstateV1\RealEstateV1\obj\Debug\RealEstateV1.dll
 C:\Users\yasser\Documents\GitHub\TookaV1\RealEstateV1\RealEstateV1\obj\Debug\RealEstateV1.pdb
+C:\Users\HP\Documents\GitHub\TookaV1\RealEstateV1\RealEstateV1\bin\Postal.dll
+C:\Users\HP\Documents\GitHub\TookaV1\RealEstateV1\RealEstateV1\bin\RazorEngine.dll
+C:\Users\HP\Documents\GitHub\TookaV1\RealEstateV1\RealEstateV1\bin\Postal.xml
+C:\Users\HP\Documents\GitHub\TookaV1\RealEstateV1\RealEstateV1\bin\RazorEngine.pdb
+C:\Users\HP\Documents\GitHub\TookaV1\RealEstateV1\RealEstateV1\bin\RazorEngine.xml

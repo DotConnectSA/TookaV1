@@ -11,6 +11,8 @@ using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using Owin;
 using System.Security.Claims;
+using Postal;
+using System.Net.Mail;
 namespace RealEstateV1.Controllers
 {
     [RequireHttps]
@@ -111,11 +113,30 @@ namespace RealEstateV1.Controllers
             }
 
             //add email to subscrib
-
             return new EmptyResult();
 
         }
-       
+        [HttpPost]
+        public ActionResult SendEmail(string Username, string Phone, string Email, string Pargraph , int id)
+        {
+            if (ModelState.IsValid)
+            {
+
+                MailMessage mail = new MailMessage("bilalshammaa@gmail.com", "bilalshammaa@gmail.com");
+                SmtpClient client = new SmtpClient();
+                client.Port = 25;
+                client.DeliveryMethod = SmtpDeliveryMethod.Network;
+                client.UseDefaultCredentials = false;
+                client.Credentials = new System.Net.NetworkCredential();
+                client.Host = "smtp.google.com";
+                client.EnableSsl = true;
+                mail.Subject = "this is a test email.";
+                mail.Body = "this is my test email body";
+                client.Send(mail);
+            }
+
+            return RedirectToAction("RealEstate",id);
+        }
         /////////////////////////////////////////////////////////////////////*********
         public ActionResult GetTowninfo(string townID)
         {
