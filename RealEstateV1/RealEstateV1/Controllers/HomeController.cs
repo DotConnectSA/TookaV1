@@ -13,6 +13,7 @@ using Owin;
 using System.Security.Claims;
 using Postal;
 using System.Net.Mail;
+using RealEstateV1.Busniss;
 namespace RealEstateV1.Controllers
 {
     [RequireHttps]
@@ -214,9 +215,15 @@ namespace RealEstateV1.Controllers
 
         public ActionResult RealEstate(int ID)
         {
-            var r = Busniss.BusnissLayer.GetRealEstateByID(ID);
+            T_RealEstate real = Busniss.BusnissLayer.GetRealEstateByID(ID);
+            T_Rent rent = Busniss.BusnissLayer.GetRentByRSID(ID);
+            T_Sale sale = Busniss.BusnissLayer.GetSaleByRSID(ID);
             ViewBag.featuer = Busniss.BusnissLayer.getTownFeatureKindList();
-            return View(r);
+            RealEstateFull realEstateFull = new RealEstateFull();
+            realEstateFull.realEstate = real;
+            realEstateFull.rent = rent;
+            realEstateFull.sale = sale;
+            return View(realEstateFull);
         }
 
         public PartialViewResult LoadImage(int ID, string kind)

@@ -34,4 +34,11 @@ namespace RealEstateV1.Busniss
         public int id { get; set; }
         public string name { get; set; }
     }
+
+    public class RealEstateFull
+    {
+        public RealEstateV1.Models.T_RealEstate realEstate { get; set; }
+        public RealEstateV1.Models.T_Rent rent { get; set; }
+        public RealEstateV1.Models.T_Sale sale { get; set; }
+    }
 }

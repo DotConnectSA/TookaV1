@@ -298,6 +298,18 @@ namespace RealEstateV1.Busniss
             RealEstateContext DB = new RealEstateContext();
             return DB.TRealEstate.SingleOrDefault(a => a.ID == REID);
         }
+
+        public static T_Rent GetRentByRSID(int REID)
+        {
+            RealEstateContext DB = new RealEstateContext();
+            return DB.TRent.SingleOrDefault(a => a.RealEstate.ID == REID);
+        }
+
+        public static T_Sale GetSaleByRSID(int REID)
+        {
+            RealEstateContext DB = new RealEstateContext();
+            return DB.TSale.SingleOrDefault(a => a.RealEstate.ID == REID);
+        }
         public static List<DropDown> GetTownByCityIDDropDown(int cityID)
         {
             var states = GetTownByCityID(cityID);
