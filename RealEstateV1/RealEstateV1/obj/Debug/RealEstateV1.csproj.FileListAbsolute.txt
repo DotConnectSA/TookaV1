@@ -283,3 +283,8 @@ C:\Users\Admin\Documents\GitHub\TookaV1\RealEstateV1\RealEstateV1\bin\RazorEngin
 C:\Users\Admin\Documents\GitHub\TookaV1\RealEstateV1\RealEstateV1\bin\Postal.xml
 C:\Users\Admin\Documents\GitHub\TookaV1\RealEstateV1\RealEstateV1\bin\RazorEngine.pdb
 C:\Users\Admin\Documents\GitHub\TookaV1\RealEstateV1\RealEstateV1\bin\RazorEngine.xml
+C:\Users\yasser\Documents\GitHub\TookaV1\RealEstateV1\RealEstateV1\bin\Postal.dll
+C:\Users\yasser\Documents\GitHub\TookaV1\RealEstateV1\RealEstateV1\bin\RazorEngine.dll
+C:\Users\yasser\Documents\GitHub\TookaV1\RealEstateV1\RealEstateV1\bin\Postal.xml
+C:\Users\yasser\Documents\GitHub\TookaV1\RealEstateV1\RealEstateV1\bin\RazorEngine.pdb
+C:\Users\yasser\Documents\GitHub\TookaV1\RealEstateV1\RealEstateV1\bin\RazorEngine.xml
