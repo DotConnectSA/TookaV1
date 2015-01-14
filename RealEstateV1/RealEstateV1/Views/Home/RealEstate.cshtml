@@ -74,7 +74,7 @@
                 </tr>
                 <tr>
                     <td>
-                        @Model.realEstate.Note
+                        @Model.realEstate.Description
                     </td>
                     <td>
                         @{
@@ -405,8 +405,8 @@
                     <table border="0" width="100%">
                         <tr>
                             <td width="30%">
-                                <img width="125px" src="~/Content/images/@Model.realEstate.Owner.logo" />
-                                <img width="100px" src="~/Content/images/@Model.realEstate.Owner.customer.ImgeUrl" />
+                                <img width="125px" src=@Url.Content(@Model.realEstate.Owner.logo)  />
+                                <img width="100px" src=@Url.Content(@Model.realEstate.Owner.customer.ImgeUrl) />
                             </td>
                             <td width="20%">
                                 <div style="margin-right:20px">
@@ -424,7 +424,7 @@
                                     <div>
                                         <img src="~/Content/images/sell-cost.png" />
                                         <div style="margin-top:-25px;margin-right:15px">
-                                            @Html.ActionLink("تفاصيل", "Owner", "Home", new { id = Model.realEstate.ID.ToString() }, null)
+                                            @Html.ActionLink("تفاصيل", "Owner", "Home", new { id = Model.realEstate.Owner.ID }, null)
                                         </div>
                                     </div>
                                 </div>
@@ -455,13 +455,34 @@
         </div>
         <aside class="left-col list col-lg-3 col-sm-5">
             <fieldset>
-                <input id="name" type="text" placeholder="الاسم" />
-                <input id="mobile" type="text" placeholder="الجوال" />
-                <input id="email" type="email" placeholder="البريد الالكتروني" />
-                <textarea id="pargraph" placeholder="الموضوع"></textarea>
-                <input type="checkbox" id="accept" />
-                <input width="48" height="48" type="submit" value="ارسال" />
-            </fieldset>
+                <table border="0" width="100%">
+                    <tr>
+                        <td width="50%">
+                            <img width="90px" src=@Url.Content(@Model.realEstate.Owner.logo) />
+                            <img width="70px" src=@Url.Content(@Model.realEstate.Owner.customer.ImgeUrl) />
+                        </td>
+                        <td width="50%">
+                            <div style="margin-right:20px">
+                                @Model.realEstate.Owner.customer.Name <br />
+                                @Model.realEstate.Owner.customer.Phone<br />
+                            </div>
+                            <div>
+                                <a href="#">@Model.realEstate.Owner.OwnerLike.Count</a>
+                                <img src="~/Content/images/ico2.png">
+                                <img src="~/Content/images/sell-cost.png" />
+                                <div style="margin-top:-30px;margin-right:65px">
+                                    @Html.ActionLink("تفاصيل", "Owner", "Home", new { id = Model.realEstate.Owner.ID }, null)
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                    </table>
+                    <input style="margin : 10px 0 10px 0" size="100%" id="name" type="text" placeholder="الاسم" />
+                    <input style="margin : 10px 0 10px 0" size="100%" id="mobile" type="text" placeholder="الجوال" />
+                    <input style="margin : 10px 0 10px 0" size="100%" id="email" type="email" placeholder="البريد الالكتروني" />
+                    <textarea style="margin : 10px 0 10px 0" rows="5" cols="100" id="pargraph" placeholder="الموضوع"></textarea>
+                    <input style="margin : 10px 0 10px 0;width:800px" type="submit" value="ارسال" class="btn btn-primary" id="sendE" />
+</fieldset>
             <div class="block">
                 <h3>نقاشات عقارية</h3>
                 <div class="content">

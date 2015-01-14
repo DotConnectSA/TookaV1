@@ -278,6 +278,20 @@ namespace RealEstateV1.Busniss
         {
             return 0;
         }
+        public static List<T_OwnerLike> getOwnerIlike(int id)
+        {
+            try
+            {
+                RealEstateContext DB = new RealEstateContext();
+                return DB.TOwnerLike.Where(a => a.Customer.ID == id).ToList();
+            }
+            catch (Exception)
+            {
+
+                return null;
+            }
+ 
+        }
         public static SelectList GetREKindList()
         {
             var list= GetREKind();

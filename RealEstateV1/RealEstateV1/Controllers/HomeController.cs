@@ -159,9 +159,15 @@ namespace RealEstateV1.Controllers
             return PartialView("_TownPartial", result);
         }
 
-        public ActionResult GetOwnerByCity(int CityId)
+        public ActionResult GetOwnerByCity(string CityId)
         {
-            var result = Busniss.BusnissLayer.GetOwnerByCity(CityId);
+            if (String.IsNullOrEmpty(CityId))
+            {
+                throw new ArgumentNullException("CityId");
+            }
+            int id = 0;
+            bool isValid = Int32.TryParse(CityId, out id);
+            var result = Busniss.BusnissLayer.GetOwnerByCity(id);
             return Json(result.ToList(), JsonRequestBehavior.AllowGet);
         }
         public ActionResult GetOwner(int OwnerId)
@@ -521,7 +527,6 @@ namespace RealEstateV1.Controllers
                 Busniss.BusnissLayer.AddOwnerShown(id);
                 var owner = Busniss.BusnissLayer.GetOwnerById(id);
                 return View(owner);
-                
             }
         }
 

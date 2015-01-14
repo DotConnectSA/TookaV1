@@ -50,7 +50,7 @@
                             <span class="type">
                                 بيع
                             </span>
-                            @Html.ActionLink("تفاصيل", "Owner", "Home", new { id = Model.ID.ToString() }, null)
+                            @Html.ActionLink("تفاصيل", "RealEstate", "Home", new { id = Model.ID.ToString() }, null)
                         </li>
 
                     }
@@ -71,7 +71,7 @@
                             <span class="title">@item.RealEstate.Rekind.Kind</span>
                             <span class="price">@item.SoldPrice</span>
                             <span class="type">مباع</span>
-                            @Html.ActionLink("تفاصيل", "Owner", "Home", new { id = Model.ID.ToString() }, null)
+                            @Html.ActionLink("تفاصيل", "RealEstate", "Home", new { id = item.RealEstate.ID }, null)
                         </li>
                     }
                 </ul>

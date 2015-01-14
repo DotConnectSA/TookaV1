@@ -21,12 +21,17 @@
         }
         else
         {
-            @*foreach (var item in Model)
+            foreach (var item in Model)
             {
-                @Html.Partial("_OwnerPartial", item);
-            }*@
+                @Html.Partial("_OwnerPartial",item);
+            }
+            
         }
-
+        <div style="text-align: center;">
+            <button id="prevbtn" type="button" onclick="prev()" class="btn btn-default">السابق</button>
+            <span id="nav"></span>
+            <a id="nextbtn" onclick="next()" class="btn btn-default">التالي</a>
+        </div>
     </ul>
 
     <aside class="left-col list col-lg-3 col-sm-5">
@@ -76,12 +81,12 @@
 </div>
 
 <script type="text/javascript">
-    function getOwner(Owner) {
+    function getOwner(OwnerId) {
         $.ajax({
             cache: false,
             type: "POST",
             url: "@(Url.Action("GetOwner"))",
-            data: { "OwnerId": Owner },
+            data: { "OwnerId": OwnerId },
             success: function (data) {
             $("#list").append(data);
         },
@@ -94,21 +99,21 @@
     $(function () {
 
         $("#OwnerCity").change(function () {
-            var City = $("#OwnerCity").val();
+            var OwnerCity = $("#OwnerCity").val();
             $.ajax({
                 cache: false,
                 type: "POST",
                 url: "@(Url.Action("GetOwnerByCity"))",
-                data: { "CityId": City },
+                data: { "CityId": OwnerCity },
                 success: function (data) {
                     $("#list").html('');
-                    $.each(data, function (id, Owner) {
-                        getOwner(Owner.ID);
+                    $.each(data, function (id, OwnerCity) {
+                        getOwner(OwnerCity.id);
                     });
                     $("#list").html(result);
+                    alert("hi");
                 },
                 error: function (xhr, ajaxOptions, thrownError) {
-                    alert("Notgood");
                     alert('Failed to retrieve states. ' + xhr + " - " + ajaxOptions + " - " + thrownError);
 
                 }
@@ -116,4 +121,93 @@
         });
 
     });
+</script>
+<script type="text/javascript">
+    var showCount=2;    //you should change this number
+    var num=@Model.Count() / showCount;
+    num=Math.ceil(num);
+    var navIndex;
+    var totalCount;
+
+    function init(count)
+    {
+        totalCount=count;
+        num=totalCount / showCount;
+        num=Math.ceil(num);
+
+        for(i=1;i<=totalCount;i++)
+        {
+            $("#div" + i).hide();
+            //alert(i);
+        }
+        for(i=1;i<=showCount;i++)
+        {
+            $("#div" + i).show();
+            //alert(i);
+        }
+
+
+        for(i=num;i>=1;i--)
+        {
+
+            $("#nav").append( "<a id='nav"+i+"' onclick='alter("+i+")' style='cursor: pointer;color:gray;padding:5px;'>"+i+"</a>");
+
+        }
+        navIndex=1;
+        $("#prevbtn").addClass("active");
+        if (navIndex+1>num)
+            $("#nextbtn").addClass("active");
+        $("#nav"+navIndex).css("color","blue");
+    }
+
+    $(document).ready(
+	function()
+	{
+	    init(@Model.Count());
+	}
+	);
+
+    function alter(index)
+    {
+        for(i=1;i<=totalCount;i++)
+        {
+            $("#div" + i).hide();
+        }
+        for(i=showCount*(index-1)+1;i<=showCount*(index-1)+showCount;i++)
+        {
+            $("#div" + i).show();
+        }
+        for (i=1;i<=num;i++)
+        {
+            $("#nav"+i).css("color","gray");
+        }
+        $("#nav"+index).css("color","blue");
+        navIndex=index;
+    }
+
+    function prev()
+    {
+        if(navIndex-1>0)
+        {
+            if(navIndex-1==1)
+            {
+                $("#prevbtn").addClass("active");
+            }
+            $("#nextbtn").removeClass("active");
+            alter(navIndex-1);
+        }
+    }
+
+    function next()
+    {
+        if(navIndex+1<=num)
+        {
+            if (navIndex+1==num)
+            {
+                $("#nextbtn").addClass("active");
+            }
+            $("#prevbtn").removeClass("active");
+            alter(navIndex+1);
+        }
+    }
 </script>
