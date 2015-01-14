@@ -274,6 +274,36 @@ namespace RealEstateV1.Busniss
             }
            
         }
+
+        public static List<KeyValuePair<string, int>> getFeatureRate(int townID)
+        {
+            RealEstateContext DB = new RealEstateContext();
+            List<T_TownFeature> townFeature = DB.TTFeature.ToList();
+            T_Town town = DB.TTown.SingleOrDefault(a => a.ID == townID);
+            var townRate = DB.TTownRate.Distinct();
+            List<KeyValuePair<string, int>> pair = new List<KeyValuePair<string, int>>();
+            for (int i = 0; i < town.townLinkFeature.Count(); i++)
+            {
+                KeyValuePair<string, int> p = new KeyValuePair<string, int>(town.townLinkFeature[i].townFeature.Feature, town.townLinkFeature[i].Rate.Rate);
+                pair.Add(p);
+            }
+            List<KeyValuePair<string, int>> res = new List<KeyValuePair<string, int>>();
+            for (int i = 0; i < townFeature.Count(); i++)
+            {
+                int counter = 0, sum = 0;
+                for (int j = 0; j < pair.Count(); j++)
+                {
+                    if (townFeature[i].Feature == pair[j].Key)
+                    {
+                        sum += pair[j].Value;
+                        counter++;
+                    }
+                }
+                res.Add(new KeyValuePair<string, int>(townFeature[i].Feature, sum / counter));
+            }
+            return res;
+        }
+
         public static int GetOwnerActivityNO (int ownerID)
         {
             return 0;

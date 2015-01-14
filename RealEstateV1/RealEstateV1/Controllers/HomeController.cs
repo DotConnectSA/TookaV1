@@ -216,7 +216,7 @@ namespace RealEstateV1.Controllers
             var owner = db.TOwner.ToList();
             return View(owner);
         }
-
+        
 
 
         public ActionResult RealEstate(int ID)
@@ -229,6 +229,7 @@ namespace RealEstateV1.Controllers
             realEstateFull.realEstate = real;
             realEstateFull.rent = rent;
             realEstateFull.sale = sale;
+            realEstateFull.featureRate = Busniss.BusnissLayer.getFeatureRate(real.address.Town.ID);
             return View(realEstateFull);
         }
 

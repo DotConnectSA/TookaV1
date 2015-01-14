@@ -57,7 +57,16 @@
                 <div class="form-group">
                     @Html.LabelFor(m => m.Customer.Kind, new { @class = "col-md-3 control-label" })
                     <div class="col-md-8" >
-                        @Html.TextBoxFor(m => m.Customer.Kind, new { @class = "form-control" })
+                        @*@Html.TextBoxFor(m => m.Customer.Kind, new { @class = "form-control" })*@
+                        @{
+                            var kind = new List<SelectListItem>()
+                                {
+                                    new SelectListItem {Text = "customer",   Value = "customer"},
+                                    new SelectListItem {Text = "owner", Value = "owner"}
+                                };
+
+                                @Html.DropDownListFor(m => m.Customer.Kind, kind, new { @class = "form-control" })
+                        }
                         @Html.ValidationMessageFor(m => m.Customer.Kind, "", new { @class = "text-danger" })
                     </div>
                 </div>
@@ -85,8 +94,13 @@
                 data: form.serialize(),
                 success: function (data)
                 {
-                    $("#Register-modal-body").html('');
-                    $("#Register-modal-body").append(data);
+                    if (data == true) {
+                        window.location.href = "/Home/";
+                    }
+                    else {
+                        $("#Register-modal-body").html('');
+                        $("#Register-modal-body").append(data);
+                    }
                 },
                 error: function (req, status, err) { alert('err=' + err + ' status=' + status); }
             });

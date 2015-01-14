@@ -85,8 +85,21 @@
                 data: form.serialize(),
                 success: function (data)
                 {
-                    $("#Login-modal-body").html('');
-                    $("#Login-modal-body").append(data);
+                    if (data.Success == "true") {
+                        //alert(data.Success);
+                        if (data.Message == null) {
+                            window.location.href = "/Home/";
+                        }
+                        else {
+                            window.location.href = "/Home/" + data.Message;
+                        }
+
+                    }
+                    else {
+                        //alert(data.Success);
+                        $("#Login-modal-body").html('');
+                        $("#Login-modal-body").append(data);
+                    }
                 },
                 error: function (req, status, err) { alert('err=' + err + ' status=' + status); }
             });
