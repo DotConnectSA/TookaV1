@@ -210,4 +210,21 @@
             alter(navIndex+1);
         }
     }
+
+    function LikeOwner(id) {
+
+        $.ajax({
+            cache: false,
+            type: "POST",
+            url: "@(Url.Action("LikeOwner"))",
+            data: { "ID": id },
+        success: function (data) {
+        },
+        error: function (xhr, ajaxOptions, thrownError) {
+        }
+        });
+        var dis = '<img style="cursor:pointer" onclick="DisLikeOwner('+id+')" src="/Content/images/ico2-g.png" />';
+        $("#likeDislike").html('');
+        $("#likeDislike").html(dis);
+    }
 </script>

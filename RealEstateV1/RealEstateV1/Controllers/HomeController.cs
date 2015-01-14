@@ -325,6 +325,11 @@ namespace RealEstateV1.Controllers
             return View();
         }
 
+        [Authorize]
+        public void LikeOwner(int ID)
+        {
+            Busniss.BusnissLayer.LikeOwner(ID);
+        }
 
         [Authorize]
         //[AcceptVerbs(HttpVerbs.Post)]

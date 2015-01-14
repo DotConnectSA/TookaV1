@@ -336,6 +336,19 @@ namespace RealEstateV1.Busniss
 
             return result;
         }
+
+        public static void LikeOwner(int id)
+        {
+            RealEstateContext DB = new RealEstateContext();
+            T_OwnerLike ownerLike = new T_OwnerLike();
+            ownerLike.Customer = getCurrentCustomer(DB);
+            ownerLike.CutomerLikeID = getCurrentCustomer(DB).ID;
+            T_Owner Owner = DB.TOwner.SingleOrDefault(a => a.ID == id);
+            Owner.OwnerLike.Add(ownerLike);
+            DB.Entry(ownerLike).State = EntityState.Added;
+            DB.SaveChanges(); 
+        }
+
         public static bool reportD(int DiscussID)
         {
             RealEstateContext DB = new RealEstateContext();
