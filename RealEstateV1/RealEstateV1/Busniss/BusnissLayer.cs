@@ -38,6 +38,32 @@ namespace RealEstateV1.Busniss
 
         }
 
+        public static void AddTownRate(addRateInfo rateInfo, int townId)
+        {
+            RealEstateContext DB = new RealEstateContext();
+            for (int i=0;i<rateInfo.allFeature.Count();i++)
+            {
+                T_TownRate townRate=new T_TownRate();
+                townRate.Rate=rateInfo.featureRate[i];
+                townRate.Customer=getCurrentCustomer(DB);
+                DB.TTownRate.Add(townRate);
+                DB.SaveChanges();
+
+
+                T_TownLinkFeature linkFeature = new T_TownLinkFeature();
+                linkFeature.Rate = townRate;
+                int id = rateInfo.allFeature[i].ID;
+                T_TownFeature townFeature = DB.TTFeature.Single(x => x.ID.Equals(id));
+                linkFeature.townFeature = townFeature;
+                linkFeature.townFeatureKind = null;
+                DB.TTownLinkFeature.Add(linkFeature);
+                DB.SaveChanges();
+
+                DB.TTown.Single(a => a.ID.Equals(townId)).townLinkFeature.Add(linkFeature);
+                DB.SaveChanges();
+            }
+        }
+
         public static List<T_City> GetCites()
         {
             RealEstateContext DB = new RealEstateContext();
@@ -96,6 +122,12 @@ namespace RealEstateV1.Busniss
         {
             RealEstateContext DB = new RealEstateContext();
             return DB.TTownLinkFeature.Single(a => a.ID == FeatureDescId);
+        }
+
+        public static List<T_TownFeature> GetAllFeature()
+        {
+            RealEstateContext DB = new RealEstateContext();
+            return DB.TTFeature.ToList();
         }
 
         public static void AddDiscussRepaly(int DiscussID, string text)

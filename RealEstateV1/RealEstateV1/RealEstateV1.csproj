@@ -339,6 +339,7 @@
     <Content Include="Views\Home\_VideoPartial.cshtml" />
     <Content Include="Views\Emails\Web.config" />
     <Content Include="Views\Emails\_ViewStart.cshtml" />
+    <Content Include="Views\Home\_AddRatePartial.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

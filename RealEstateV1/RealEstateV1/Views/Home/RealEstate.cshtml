@@ -5,6 +5,11 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
+@Scripts.Render("~/bundles/jquery")
+@Scripts.Render("~/bundles/bootstrap")
+
+@Scripts.Render("~/bundles/modernizr")
+
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDY0kkJiTPVd2U7aTOAwhc9ySH6oHxOIYM&sensor=false"></script>
 
 <div id="container">
@@ -380,8 +385,7 @@
                                     x = 0;
                                     count = 0;
                                 }
-                                <input style="width:500px;float:left" type="button" value="قيم العقار - تعليقكـ" />
-
+                                <a data-toggle="modal" data-target="#mmyRateModal" class="btn wide" id="registerLink">قيم العقار - تعليفك</a>
                             </td>
                         </tr>
                     </table>
@@ -457,7 +461,7 @@
                             </div>
                             <div>
                                 <a href="#">@Model.realEstate.Owner.OwnerLike.Count</a>
-                                <img src="~/Content/images/ico2.png">
+                                <img src="~/Content/images/ico2.png"/>
                                 <img src="~/Content/images/sell-cost.png" />
                                 <div style="margin-top:-30px;margin-right:65px">
                                     @Html.ActionLink("تفاصيل", "Owner", "Home", new { id = Model.realEstate.Owner.ID }, null)
@@ -471,7 +475,7 @@
                     <input style="margin : 10px 0 10px 0" size="100%" id="email" type="email" placeholder="البريد الالكتروني" />
                     <textarea style="margin : 10px 0 10px 0" rows="5" cols="100" id="pargraph" placeholder="الموضوع"></textarea>
                     <input style="margin : 10px 0 10px 0;width:800px" type="submit" value="ارسال" class="btn btn-primary" id="sendE" />
-</fieldset>
+            </fieldset>
             <div class="block">
                 <h3>نقاشات عقارية</h3>
                 <div class="content">
@@ -545,6 +549,8 @@
         $("#video").html('');
         $("#maps").hide();
     });
+
+
     $("#Bpic").click(function () {
         loadImg("@RealEstateV1.Busniss.MyEnumType.imageKind.pic");
         $("#video").html('');
@@ -640,12 +646,14 @@
     }
 
 
-    $(function () {
+    $(document).ready(function () {
         var Feature = $("#feature").val();
         $("#table").html('');
         @foreach (var item in Model.realEstate.address.Town.townLinkFeature)
         {
-            <text>
+            if (@item.townFeatureKind != null)
+            {
+                            <text>
         var v=@item.townFeature.ID;
         if(Feature==v)
         {
@@ -653,6 +661,9 @@
             $("#table").append(tab);
         }
         </text>
+            }
+
+
         }
 
 
@@ -661,15 +672,73 @@
             $("#table").html('');
             @foreach (var item in Model.realEstate.address.Town.townLinkFeature)
             {
-                <text>
-            var v=@item.townFeature.ID.ToString();
-            if(Feature==v)
-            {
-                var tab="<tr><td><div>"+"@item.townFeature.Feature  @item.townFeatureKind.Description"+"</div></td>"+"<td><div>"+"@item.townFeatureKind.Kind"+"</div></td>"+"<td><div>"+"@item.townFeatureKind.position.X"+"</div></td></tr>";
-                $("#table").append(tab);
-            }
-            </text>
+                if (@item.townFeatureKind != null)
+                {
+                                    <text>
+                        var v=@item.townFeature.ID.ToString();
+                        if(Feature==v)
+                        {
+                            var tab="<tr><td><div>"+"@item.townFeature.Feature  @item.townFeatureKind.Description"+"</div></td>"+"<td><div>"+"@item.townFeatureKind.Kind"+"</div></td>"+"<td><div>"+"@item.townFeatureKind.position.X"+"</div></td></tr>";
+                            $("#table").append(tab);
+                        }
+                        </text>
+                }
+
+
            }
         });
     });
 </script>
+
+<div class="modal fade" id="mmyRateModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content" style="margin-top:100px">
+            @*<div class="modal-header">*@
+                @*<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>*@
+                @*<h4 class="modal-title" id="myModalLabel">إضافة موضوع</h4>*@
+            @*</div>*@
+            <div class="modal-body" id="addRate-modal-body">
+                
+            </div>
+            @*<div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary">Save changes</button>
+                </div>*@
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+
+<script type="text/javascript">
+
+    $(document).ready(function () {
+	    $("#addRate-modal-body").load('@Url.Action("AddRate", "Home", new { id = @Model.realEstate.address.Town.ID })');
+	});
+
+</script>
+
+@if (Request.IsAuthenticated)
+{
+    <script type="text/javascript">
+        function addRate()
+        {
+            alert();
+            $('#mmyRateModal').modal({
+                show: 'true'
+            });
+        }
+
+    </script>
+}
+else
+{
+    <script type="text/javascript">
+        function addRate()
+        {
+            $('#LoginModal').modal({
+                show: 'true'
+            });
+        }
+
+    </script>
+}

@@ -321,9 +321,26 @@ namespace RealEstateV1.Controllers
         public ActionResult Sale()
         {
            initialization();
+           ViewBag.ReturnUrl = "sale";
            // ViewBag.Message = "Your contact page.";
 
             return View();
+        }
+
+        [HttpGet]
+        public ActionResult AddRate(int id)
+        {
+            ViewBag.townId = id;
+            addRateInfo addrate = new addRateInfo();
+            return PartialView("_AddRatePartial", addrate);
+        }
+
+        [HttpPost]
+        public ActionResult AddRate(addRateInfo rateInfo,int townId)
+        {
+            AddTownComment(rateInfo.townRate, rateInfo.title, rateInfo.comment, townId);
+            Busniss.BusnissLayer.AddTownRate(rateInfo,townId);
+            return RedirectToAction("Index");
         }
 
         [Authorize]
