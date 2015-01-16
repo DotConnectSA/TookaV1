@@ -321,12 +321,16 @@ namespace RealEstateV1.Controllers
         public ActionResult Sale()
         {
            initialization();
+<<<<<<< HEAD
            ViewBag.ReturnUrl = "sale";
+=======
+>>>>>>> parent of 8df6f05... Delete
            // ViewBag.Message = "Your contact page.";
 
             return View();
         }
 
+<<<<<<< HEAD
         [HttpGet]
         public ActionResult AddRate(int id)
         {
@@ -343,6 +347,8 @@ namespace RealEstateV1.Controllers
             return RedirectToAction("Index");
         }
 
+=======
+>>>>>>> parent of 8df6f05... Delete
         [Authorize]
         public ActionResult LikeOwner(int ID)
         {

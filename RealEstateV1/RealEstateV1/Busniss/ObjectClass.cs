@@ -42,6 +42,7 @@ namespace RealEstateV1.Busniss
         public RealEstateV1.Models.T_Sale sale { get; set; }
         public List<KeyValuePair<string, int>> featureRate { get; set; }
     }
+<<<<<<< HEAD
 
     public class addRateInfo
     {
@@ -65,4 +66,6 @@ namespace RealEstateV1.Busniss
         }
 
     }
+=======
+>>>>>>> parent of 8df6f05... Delete
 }

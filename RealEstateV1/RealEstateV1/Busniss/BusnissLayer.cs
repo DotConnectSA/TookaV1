@@ -38,6 +38,7 @@ namespace RealEstateV1.Busniss
 
         }
 
+<<<<<<< HEAD
         public static void AddTownRate(addRateInfo rateInfo, int townId)
         {
             RealEstateContext DB = new RealEstateContext();
@@ -64,6 +65,8 @@ namespace RealEstateV1.Busniss
             }
         }
 
+=======
+>>>>>>> parent of 8df6f05... Delete
         public static List<T_City> GetCites()
         {
             RealEstateContext DB = new RealEstateContext();
@@ -124,12 +127,15 @@ namespace RealEstateV1.Busniss
             return DB.TTownLinkFeature.Single(a => a.ID == FeatureDescId);
         }
 
+<<<<<<< HEAD
         public static List<T_TownFeature> GetAllFeature()
         {
             RealEstateContext DB = new RealEstateContext();
             return DB.TTFeature.ToList();
         }
 
+=======
+>>>>>>> parent of 8df6f05... Delete
         public static void AddDiscussRepaly(int DiscussID, string text)
         {
             //if flag==true then its replay for discuss else its for towncomment

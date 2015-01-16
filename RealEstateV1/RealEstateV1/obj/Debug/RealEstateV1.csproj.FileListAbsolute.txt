@@ -288,8 +288,11 @@ C:\Users\yasser\Documents\GitHub\TookaV1\RealEstateV1\RealEstateV1\bin\RazorEngi
 C:\Users\yasser\Documents\GitHub\TookaV1\RealEstateV1\RealEstateV1\bin\Postal.xml
 C:\Users\yasser\Documents\GitHub\TookaV1\RealEstateV1\RealEstateV1\bin\RazorEngine.pdb
 C:\Users\yasser\Documents\GitHub\TookaV1\RealEstateV1\RealEstateV1\bin\RazorEngine.xml
+<<<<<<< HEAD
 C:\Users\Admin\Desktop\RealEstateV1\RealEstateV1\bin\Postal.dll
 C:\Users\Admin\Desktop\RealEstateV1\RealEstateV1\bin\RazorEngine.dll
 C:\Users\Admin\Desktop\RealEstateV1\RealEstateV1\bin\Postal.xml
 C:\Users\Admin\Desktop\RealEstateV1\RealEstateV1\bin\RazorEngine.pdb
 C:\Users\Admin\Desktop\RealEstateV1\RealEstateV1\bin\RazorEngine.xml
+=======
+>>>>>>> parent of 8df6f05... Delete
