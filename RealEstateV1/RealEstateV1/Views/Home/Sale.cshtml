@@ -1,0 +1,40 @@
+﻿@model IEnumerable<RealEstateV1.Models.T_Sale>
+
+@{
+    ViewBag.Title = "Sale";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@Html.Partial("_SearchBar", new RealEstateV1.Busniss.SearchItem() { SearchKind = RealEstateV1.Busniss.MyEnumType.SearchKind.Sale })
+@ViewBag.returnUrl
+<table class="table">
+   
+@if (Model == null)
+{
+    <tr>
+        <td>لايوجد بيانات</td>
+    </tr> 
+}
+else
+{
+    foreach (var item in Model)
+    {
+   
+@Html.Partial("_SalePartial");
+    }
+}
+
+</table>
+
+<script type="text/javascript">
+
+    $(document).ready(
+	function()
+	{
+	    $("#Login-modal-body").load('@Url.Action("Login", "Account", new { returnUrl = ViewBag.returnUrl })');
+	    $("#Register-modal-body").load('@Url.Action("Register", "Account")');
+	    $("#forgetPass-modal-body").load('@Url.Action("ForgotPassword", "Account")');
+
+	});
+
+</script>
