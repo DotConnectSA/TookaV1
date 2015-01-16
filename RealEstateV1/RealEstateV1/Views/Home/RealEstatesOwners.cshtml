@@ -2,6 +2,7 @@
 
 @{
     ViewBag.Title = "Owners";
+    ViewBag.JS = false;
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 @Html.Partial("_SearchBar", new RealEstateV1.Busniss.SearchItem())
@@ -210,21 +211,8 @@
             alter(navIndex+1);
         }
     }
-
     function LikeOwner(id) {
-
-        $.ajax({
-            cache: false,
-            type: "POST",
-            url: "@(Url.Action("LikeOwner"))",
-            data: { "ID": id },
-        success: function (data) {
-        },
-        error: function (xhr, ajaxOptions, thrownError) {
-        }
-        });
-        var dis = '<img style="cursor:pointer" onclick="DisLikeOwner('+id+')" src="/Content/images/ico2-g.png" />';
-        $("#likeDislike").html('');
-        $("#likeDislike").html(dis);
+        var dis = '<img style="cursor:pointer;width:38px;height:38px" onclick="DisLikeOwner('+id+')" src="/Content/images/Dislike.png" />';
+        $("#likeDislike"+id+"").html(dis);
     }
 </script>

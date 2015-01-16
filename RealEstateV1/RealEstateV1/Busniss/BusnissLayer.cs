@@ -378,7 +378,18 @@ namespace RealEstateV1.Busniss
             DB.Entry(ownerLike).State = EntityState.Added;
             DB.SaveChanges(); 
         }
-
+        //public static bool isLikedOwner(string OwnerId)
+        //{
+        //    //RealEstateContext DB = new RealEstateContext();
+        //    //T_Customer customer = new T_Customer();
+        //    //customer = getCurrentCustomer(DB);
+        //    //int count = DB.TOwner.SingleOrDefault(a => a.OwnerLike.ToString() == OwnerId).OwnerLike.Count();
+        //    //if (count == 0)
+        //    //    return false;
+        //    //else
+        //    //    return true;
+ 
+        //}
         public static bool reportD(int DiscussID)
         {
             RealEstateContext DB = new RealEstateContext();

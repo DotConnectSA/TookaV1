@@ -327,9 +327,10 @@ namespace RealEstateV1.Controllers
         }
 
         [Authorize]
-        public void LikeOwner(int ID)
+        public ActionResult LikeOwner(int ID)
         {
             Busniss.BusnissLayer.LikeOwner(ID);
+            return RedirectToAction("RealEstatesOwners", "Home");
         }
 
         [Authorize]
