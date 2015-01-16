@@ -321,34 +321,11 @@ namespace RealEstateV1.Controllers
         public ActionResult Sale()
         {
            initialization();
-<<<<<<< HEAD
-           ViewBag.ReturnUrl = "sale";
-=======
->>>>>>> parent of 8df6f05... Delete
            // ViewBag.Message = "Your contact page.";
 
             return View();
         }
 
-<<<<<<< HEAD
-        [HttpGet]
-        public ActionResult AddRate(int id)
-        {
-            ViewBag.townId = id;
-            addRateInfo addrate = new addRateInfo();
-            return PartialView("_AddRatePartial", addrate);
-        }
-
-        [HttpPost]
-        public ActionResult AddRate(addRateInfo rateInfo,int townId)
-        {
-            AddTownComment(rateInfo.townRate, rateInfo.title, rateInfo.comment, townId);
-            Busniss.BusnissLayer.AddTownRate(rateInfo,townId);
-            return RedirectToAction("Index");
-        }
-
-=======
->>>>>>> parent of 8df6f05... Delete
         [Authorize]
         public ActionResult LikeOwner(int ID)
         {

@@ -27,6 +27,13 @@
                     </div>
                 </div>
                 <div class="form-group">
+                    @Html.LabelFor(m => m.Customer.Mobile, new { @class = "col-md-3 control-label" })
+                    <div class="col-md-8">
+                        @Html.TextBoxFor(m => m.Customer.Mobile, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(m => m.Customer.Mobile, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="form-group">
                     @Html.LabelFor(m => m.Register.Email, new { @class = "col-md-3 control-label" })
                     <div class="col-md-8">
                         @Html.TextBoxFor(m => m.Register.Email, new { @class = "form-control" })

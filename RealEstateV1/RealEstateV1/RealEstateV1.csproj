@@ -266,6 +266,7 @@
     <Content Include="Content\images\.directory" />
     <Content Include="Content\images\Thumbs.db" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
+    <Content Include="Scripts\Index.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
@@ -339,10 +340,6 @@
     <Content Include="Views\Home\_VideoPartial.cshtml" />
     <Content Include="Views\Emails\Web.config" />
     <Content Include="Views\Emails\_ViewStart.cshtml" />
-<<<<<<< HEAD
-    <Content Include="Views\Home\_AddRatePartial.cshtml" />
-=======
->>>>>>> parent of 8df6f05... Delete
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

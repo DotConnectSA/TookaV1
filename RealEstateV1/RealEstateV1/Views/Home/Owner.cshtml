@@ -3,6 +3,9 @@
 @{
     ViewBag.Title = "Owner";
     Layout = "~/Views/Shared/_Layout.cshtml";
+    int count = 0;
+    string dis = "block";
+    string div = "";
 }
 
 <h2>Owner</h2>
@@ -76,19 +79,35 @@
         <dl class="offset4 col-lg-8 col-sm-7">
             <dt>عقارات مباعه</dt>
             <dd>
-                <ul class="estate-items row pre-scrollable">
+                @if (RealEstateV1.Busniss.BusnissLayer.GetSoldRE(Model.ID).Count() > 0)
+                {
+                    <div class="group1-Wrapper" style="position:absolute;float: left;top:60px;left:30px; width:5%;z-index:4">
+                        <a onclick="previousImg(@RealEstateV1.Busniss.BusnissLayer.GetSoldRE(Model.ID).Count())" class="group1-Prev"></a>
+                    </div>
+                }
+                <ul style="position:relative;right:55px" class="estate-items row pre-scrollable">
                 @foreach (var item in RealEstateV1.Busniss.BusnissLayer.GetSoldRE(Model.ID))
+                {
+                    count++;
+                    if (count > 3)
                     {
-                    <li class="col-lg-3 col-sm-3">
-                        <img width="150px" src=@Url.Content(@item.RealEstate.ImageURL) alt="">
+                        dis = "none";
+                    }
+                    <li id="@("sold" + count)" class="col-lg-3 col-sm-3" style="display:@(dis)">
+                        <img style="width:150px" src=@Url.Content(@item.RealEstate.ImageURL) alt="">
                         <span class="title">@item.RealEstate.Rekind.Kind</span>
                         <span class="price">@item.SoldPrice</span>
                         <span class="type">مباع</span>
-                       @Html.ActionLink("تفاصيل", "RealEstate", "Home", new { id = item.RealEstate.ID }, null)
+                        @Html.ActionLink("تفاصيل", "RealEstate", "Home", new { id = item.RealEstate.ID }, null)
                     </li>
                 }
                 </ul>
-
+                @if (RealEstateV1.Busniss.BusnissLayer.GetSoldRE(Model.ID).Count() > 0)
+                {
+                    <div class="group1-Wrapper" style="position:absolute;float: right;top:60px; width:5%;">
+                        <a onclick="nextImg(@RealEstateV1.Busniss.BusnissLayer.GetSoldRE(Model.ID).Count())" class="group1-Next"></a>
+                    </div>
+                }
             </dd>
         </dl>
 

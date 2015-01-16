@@ -4,12 +4,8 @@
     using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm", @class = "navbar-right" }))
     {
         @Html.AntiForgeryToken()
-<<<<<<< HEAD
-        <ul class="nav navbar-nav">
-=======
 
         <ul class="nav navbar-nav navbar-right">
->>>>>>> parent of 8df6f05... Delete
             <li>
                 @Html.ActionLink("Hello " + User.Identity.GetUserName() + "!", "Index", "Manage", routeValues: null, htmlAttributes: new { title = "Manage" })
             </li>

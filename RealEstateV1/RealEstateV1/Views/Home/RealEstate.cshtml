@@ -5,14 +5,6 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<<<<<<< HEAD
-@Scripts.Render("~/bundles/jquery")
-@Scripts.Render("~/bundles/bootstrap")
-
-@Scripts.Render("~/bundles/modernizr")
-
-=======
->>>>>>> parent of 8df6f05... Delete
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDY0kkJiTPVd2U7aTOAwhc9ySH6oHxOIYM&sensor=false"></script>
 
 <div id="container">
@@ -388,12 +380,8 @@
                                     x = 0;
                                     count = 0;
                                 }
-<<<<<<< HEAD
-                                <a data-toggle="modal" data-target="#mmyRateModal" class="btn wide" id="registerLink">قيم العقار - تعليفك</a>
-=======
                                 <input style="width:500px;float:left" type="button" value="قيم العقار - تعليقكـ" />
 
->>>>>>> parent of 8df6f05... Delete
                             </td>
                         </tr>
                     </table>
@@ -469,11 +457,7 @@
                             </div>
                             <div>
                                 <a href="#">@Model.realEstate.Owner.OwnerLike.Count</a>
-<<<<<<< HEAD
-                                <img src="~/Content/images/ico2.png"/>
-=======
                                 <img src="~/Content/images/ico2.png">
->>>>>>> parent of 8df6f05... Delete
                                 <img src="~/Content/images/sell-cost.png" />
                                 <div style="margin-top:-30px;margin-right:65px">
                                     @Html.ActionLink("تفاصيل", "Owner", "Home", new { id = Model.realEstate.Owner.ID }, null)
@@ -487,11 +471,7 @@
                     <input style="margin : 10px 0 10px 0" size="100%" id="email" type="email" placeholder="البريد الالكتروني" />
                     <textarea style="margin : 10px 0 10px 0" rows="5" cols="100" id="pargraph" placeholder="الموضوع"></textarea>
                     <input style="margin : 10px 0 10px 0;width:800px" type="submit" value="ارسال" class="btn btn-primary" id="sendE" />
-<<<<<<< HEAD
-            </fieldset>
-=======
 </fieldset>
->>>>>>> parent of 8df6f05... Delete
             <div class="block">
                 <h3>نقاشات عقارية</h3>
                 <div class="content">
@@ -565,11 +545,6 @@
         $("#video").html('');
         $("#maps").hide();
     });
-<<<<<<< HEAD
-
-
-=======
->>>>>>> parent of 8df6f05... Delete
     $("#Bpic").click(function () {
         loadImg("@RealEstateV1.Busniss.MyEnumType.imageKind.pic");
         $("#video").html('');
@@ -665,22 +640,12 @@
     }
 
 
-<<<<<<< HEAD
-    $(document).ready(function () {
-=======
     $(function () {
->>>>>>> parent of 8df6f05... Delete
         var Feature = $("#feature").val();
         $("#table").html('');
         @foreach (var item in Model.realEstate.address.Town.townLinkFeature)
         {
-<<<<<<< HEAD
-            if (@item.townFeatureKind != null)
-            {
-                            <text>
-=======
             <text>
->>>>>>> parent of 8df6f05... Delete
         var v=@item.townFeature.ID;
         if(Feature==v)
         {
@@ -688,12 +653,6 @@
             $("#table").append(tab);
         }
         </text>
-<<<<<<< HEAD
-            }
-
-
-=======
->>>>>>> parent of 8df6f05... Delete
         }
 
 
@@ -702,78 +661,6 @@
             $("#table").html('');
             @foreach (var item in Model.realEstate.address.Town.townLinkFeature)
             {
-<<<<<<< HEAD
-                if (@item.townFeatureKind != null)
-                {
-                                    <text>
-                        var v=@item.townFeature.ID.ToString();
-                        if(Feature==v)
-                        {
-                            var tab="<tr><td><div>"+"@item.townFeature.Feature  @item.townFeatureKind.Description"+"</div></td>"+"<td><div>"+"@item.townFeatureKind.Kind"+"</div></td>"+"<td><div>"+"@item.townFeatureKind.position.X"+"</div></td></tr>";
-                            $("#table").append(tab);
-                        }
-                        </text>
-                }
-
-
-           }
-        });
-    });
-</script>
-
-<div class="modal fade" id="mmyRateModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-sm">
-        <div class="modal-content" style="margin-top:100px">
-            @*<div class="modal-header">*@
-                @*<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>*@
-                @*<h4 class="modal-title" id="myModalLabel">إضافة موضوع</h4>*@
-            @*</div>*@
-            <div class="modal-body" id="addRate-modal-body">
-                
-            </div>
-            @*<div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary">Save changes</button>
-                </div>*@
-        </div><!-- /.modal-content -->
-    </div><!-- /.modal-dialog -->
-</div><!-- /.modal -->
-
-
-<script type="text/javascript">
-
-    $(document).ready(function () {
-	    $("#addRate-modal-body").load('@Url.Action("AddRate", "Home", new { id = @Model.realEstate.address.Town.ID })');
-	});
-
-</script>
-
-@if (Request.IsAuthenticated)
-{
-    <script type="text/javascript">
-        function addRate()
-        {
-            alert();
-            $('#mmyRateModal').modal({
-                show: 'true'
-            });
-        }
-
-    </script>
-}
-else
-{
-    <script type="text/javascript">
-        function addRate()
-        {
-            $('#LoginModal').modal({
-                show: 'true'
-            });
-        }
-
-    </script>
-}
-=======
                 <text>
             var v=@item.townFeature.ID.ToString();
             if(Feature==v)
@@ -786,4 +673,3 @@ else
         });
     });
 </script>
->>>>>>> parent of 8df6f05... Delete

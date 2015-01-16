@@ -16,15 +16,17 @@
 
         @if (Model == null)
         {
-            <li>
+            <li id="div1">
                 لايوجد بيانات
             </li>
         }
         else
         {
+            int counter = 1;
             foreach (var item in Model)
             {
-                @Html.Partial("_OwnerPartial",item);
+                @Html.Partial("_OwnerPartial", item, new ViewDataDictionary { { "index", @counter } });
+                counter = counter + 1;
             }
             
         }

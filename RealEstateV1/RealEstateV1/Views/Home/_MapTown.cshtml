@@ -11,13 +11,8 @@
         @foreach (var item in (SelectList)ViewBag.featuer)
         {
             @:var tab = "<a style=\"cursor: pointer;\" onclick=\"reloadMap('" + "@item.Text" + "')\">"+"@item.Text"+"</a>";
-<<<<<<< HEAD
-                                    @:$("#list").append(tab);
-                                }
-=======
                             @:$("#list").append(tab);
                         }
->>>>>>> parent of 8df6f05... Delete
 
         google.maps.event.addDomListener(window, 'load', initialize);
 
@@ -55,20 +50,6 @@
 
         @foreach(var item in Model.Town.townLinkFeature)
         {
-<<<<<<< HEAD
-            if (@item.townFeatureKind != null)
-            {
-                <text>
-                k="@item.townFeature.Feature.ToString()";
-                if (k == kind)
-                {
-                        var v={"Id": @item.ID, "PlaceName": "@item.townFeatureKind.Kind", "Desc":"@item.townFeatureKind.Description","GeoLong": "@item.townFeatureKind.position.X", "GeoLat": "@item.townFeatureKind.position.Y"};
-                        data.push(v);
-                }
-                </text>
-            }
-
-=======
             <text>
         k="@item.townFeature.Feature.ToString()";
         if (k == kind)
@@ -77,7 +58,6 @@
             data.push(v);
         }
         </text>
->>>>>>> parent of 8df6f05... Delete
         }
 
         $.each(data, function (i, item) {

@@ -18,7 +18,13 @@ namespace RealEstateV1.Busniss
             customer = model.Customer;
             customer.Email = model.Register.Email;
             DB.TCustomer.Add(customer);
-            
+            if (model.Customer.Kind == "owner")
+            {
+                T_Owner owner = new T_Owner();
+                owner.customer = customer;
+                owner.ShowNumber = 0;
+                DB.TOwner.Add(owner);
+            }
             DB.SaveChanges();
             //T_Customer cust = DB.TCustomer.Single(a => a.Email == customer.Email);
             //T_Owner owner = new T_Owner();
@@ -38,35 +44,6 @@ namespace RealEstateV1.Busniss
 
         }
 
-<<<<<<< HEAD
-        public static void AddTownRate(addRateInfo rateInfo, int townId)
-        {
-            RealEstateContext DB = new RealEstateContext();
-            for (int i=0;i<rateInfo.allFeature.Count();i++)
-            {
-                T_TownRate townRate=new T_TownRate();
-                townRate.Rate=rateInfo.featureRate[i];
-                townRate.Customer=getCurrentCustomer(DB);
-                DB.TTownRate.Add(townRate);
-                DB.SaveChanges();
-
-
-                T_TownLinkFeature linkFeature = new T_TownLinkFeature();
-                linkFeature.Rate = townRate;
-                int id = rateInfo.allFeature[i].ID;
-                T_TownFeature townFeature = DB.TTFeature.Single(x => x.ID.Equals(id));
-                linkFeature.townFeature = townFeature;
-                linkFeature.townFeatureKind = null;
-                DB.TTownLinkFeature.Add(linkFeature);
-                DB.SaveChanges();
-
-                DB.TTown.Single(a => a.ID.Equals(townId)).townLinkFeature.Add(linkFeature);
-                DB.SaveChanges();
-            }
-        }
-
-=======
->>>>>>> parent of 8df6f05... Delete
         public static List<T_City> GetCites()
         {
             RealEstateContext DB = new RealEstateContext();
@@ -127,15 +104,6 @@ namespace RealEstateV1.Busniss
             return DB.TTownLinkFeature.Single(a => a.ID == FeatureDescId);
         }
 
-<<<<<<< HEAD
-        public static List<T_TownFeature> GetAllFeature()
-        {
-            RealEstateContext DB = new RealEstateContext();
-            return DB.TTFeature.ToList();
-        }
-
-=======
->>>>>>> parent of 8df6f05... Delete
         public static void AddDiscussRepaly(int DiscussID, string text)
         {
             //if flag==true then its replay for discuss else its for towncomment

@@ -6,11 +6,7 @@
 }
 
 @Html.Partial("_SearchBar", new RealEstateV1.Busniss.SearchItem() { SearchKind = RealEstateV1.Busniss.MyEnumType.SearchKind.Sale })
-<<<<<<< HEAD
-@ViewBag.returnUrl
-=======
 
->>>>>>> parent of 8df6f05... Delete
 <table class="table">
    
 @if (Model == null)
@@ -29,19 +25,3 @@ else
 }
 
 </table>
-<<<<<<< HEAD
-
-<script type="text/javascript">
-
-    $(document).ready(
-	function()
-	{
-	    $("#Login-modal-body").load('@Url.Action("Login", "Account", new { returnUrl = ViewBag.returnUrl })');
-	    $("#Register-modal-body").load('@Url.Action("Register", "Account")');
-	    $("#forgetPass-modal-body").load('@Url.Action("ForgotPassword", "Account")');
-
-	});
-
-</script>
-=======
->>>>>>> parent of 8df6f05... Delete
