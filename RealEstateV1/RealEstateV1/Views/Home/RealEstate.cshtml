@@ -250,7 +250,10 @@
                                 عدد المقيمين
                                 @numberOfRater<br />
                                 اخر تحديث
-                                @Model.realEstate.address.Town.Comment.OrderBy(a => a.CreateDate).FirstOrDefault().CreateDate.ToShortDateString()
+                                @*@if (Model.realEstate.address.Town.Comment != null)
+    {
+     Model.realEstate.address.Town.Comment.OrderBy(a => a.CreateDate).FirstOrDefault().CreateDate.ToShortDateString()
+    }*@
                             </td>
                             <td>
                                 نتائج التقييم العام : <br />
@@ -260,7 +263,7 @@
                                     x = x + @item.Rate.Rate;
                                     count++;
                                 }
-                                @{x = x / count;}
+                                @{if (count != 0) { x = x / count; } }
                                 @{
                                     <div style="display:inline-block">
                                         @if (@x == 0)

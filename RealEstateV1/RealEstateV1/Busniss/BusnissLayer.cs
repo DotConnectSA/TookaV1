@@ -337,6 +337,7 @@ namespace RealEstateV1.Busniss
                         counter++;
                     }
                 }
+                if(counter>0)
                 res.Add(new KeyValuePair<string, int>(townFeature[i].Feature, sum / counter));
             }
             return res;
