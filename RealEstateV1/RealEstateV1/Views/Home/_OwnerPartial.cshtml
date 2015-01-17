@@ -34,7 +34,8 @@
             <div style="float:left;margin-top:35px;left:0px;">
 
                 <div style="float:right" id="likeDislike@(Model.ID)">
-                    <img style="cursor:pointer" onclick="location.href='@Url.Action("LikeOwner","Home",new { id = Model.ID.ToString() })';LikeOwner(@(Model.ID))" src="~/Content/images/ico2.png" />
+                    @*<img style="cursor:pointer" onclick="location.href='@Url.Action("LikeOwner","Home",new { id = Model.ID.ToString() })';LikeOwner(@(Model.ID))" src="~/Content/images/ico2.png" />*@
+                    <img style="cursor:pointer" src="~/Content/images/ico2.png" />
                 </div>
                 <div style="float:right;margin-top:10px">
                     <img src="~/Content/images/sell-cost.png" />

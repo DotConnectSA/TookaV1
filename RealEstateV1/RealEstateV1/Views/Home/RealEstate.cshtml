@@ -125,7 +125,8 @@
                                         count++;
                                     }
                                 }
-                                @{x = x / count; numberOfRater = count;}
+                                @{x = x / 1; numberOfRater = count;}
+                                @*@{x = x / count; numberOfRater = count;}*@
                                 @{
                                     <div style="display:inline-block">
                                         @if (@x == 0)
@@ -428,7 +429,7 @@
                             </td>
                             <td width="100%" align="center">
                                 <textarea rows="5" cols="100" id="pargraph" placeholder="الموضوع"></textarea><br /><br />
-                                <input style="width:300px" type=" button" class="btn btn-primary" id="sendD" value="ارسل" />
+                                <input style="margin : 10px 0 10px 0;width:800px" type="submit" value="ارسال" class="btn btn-primary" id="sendEmail1" />
                             </td>
                         </tr>
                     </table>
@@ -470,7 +471,7 @@
                     <input style="margin : 10px 0 10px 0" size="100%" id="mobile" type="text" placeholder="الجوال" />
                     <input style="margin : 10px 0 10px 0" size="100%" id="email" type="email" placeholder="البريد الالكتروني" />
                     <textarea style="margin : 10px 0 10px 0" rows="5" cols="100" id="pargraph" placeholder="الموضوع"></textarea>
-                    <input style="margin : 10px 0 10px 0;width:800px" type="submit" value="ارسال" class="btn btn-primary" id="sendE" />
+                    <input style="margin : 10px 0 10px 0;width:800px" type="submit" value="ارسال" class="btn btn-primary" id="sendEmail2" />
 </fieldset>
             <div class="block">
                 <h3>نقاشات عقارية</h3>
@@ -513,7 +514,7 @@
     </div>
 </div>
 
-<script type="text/javascript">
+@*<script type="text/javascript">
 
     $(function () {
         $("#sendD").click(function () {
@@ -536,7 +537,7 @@
             });
         });
     });
-</script>
+</script>*@
 
 <script type="text/javascript">
 

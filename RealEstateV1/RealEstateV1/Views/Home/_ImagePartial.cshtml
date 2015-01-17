@@ -20,8 +20,8 @@
         @foreach (var item in Model)
         {
             <div>
-                <img u="image" src=@(@Url.Content("~/Content/images/" + item.ImageURL)) />
-                <img u="thumb" src=@(@Url.Content("~/Content/images/" + item.ImageURL)) />
+                <img u="image" src=@Url.Content(item.ImageURL) />
+                <img u="thumb" src=@Url.Content(item.ImageURL) />
             </div>
         }
     </div>

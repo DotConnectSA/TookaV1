@@ -158,7 +158,7 @@ namespace RealEstateV1.Busniss
             try
             {
                 RealEstateContext DB = new RealEstateContext();
-                return DB.TFavorit.Where(a => a.RealEstate.Owner.ID == ownerID).ToList();
+                return DB.TFavorit.Where(a => a.Customer.ID == ownerID).ToList();
             }
             catch (Exception)
             {

@@ -4,8 +4,11 @@
     ViewBag.Title = "Owner";
     Layout = "~/Views/Shared/_Layout.cshtml";
     int count = 0;
+    int count2 = 0;
+    int count3 = 0;
     string dis = "block";
-    string div = "";
+    string dis2 = "block";
+    string dis3 = "block";
 }
 
 <h2>Owner</h2>
@@ -14,13 +17,13 @@
     <div class="row estateowner">
         <div class="col-lg-4 col-sm-5 owner-right">
             <dl>
-                <dt>@Html.DisplayNameFor(model => model.customer.Name)</dt>
+                <dt>@Html.DisplayFor(modelItem => Model.customer.Name)</dt>
 
                 <dd>
                     <img width="150px" src=@Url.Content(Model.customer.ImgeUrl) alt="">
                     <p>@Html.DisplayFor(modelItem => Model.customer.address.Street)    </p>
-                    <p>@Html.DisplayNameFor(model => model.customer.Phone):@Html.DisplayFor(model => model.customer.Phone)</p>
-                    <p>@Html.DisplayNameFor(model => model.customer.Mobile):@Html.DisplayFor(model => model.customer.Mobile)</p>
+                    <p>@Html.DisplayNameFor(modelItem => Model.customer.Phone):@Html.DisplayFor(modelItem => Model.customer.Phone)</p>
+                    <p>@Html.DisplayNameFor(modelItem => Model.customer.Mobile):@Html.DisplayFor(modelItem => Model.customer.Mobile)</p>
                    <br />
                     <p>العقارات التي تم بيعها :@RealEstateV1.Busniss.BusnissLayer.GetSoldRE(Model.ID).Count()</p>
                     <p>عقارات : @RealEstateV1.Busniss.BusnissLayer.GetREOwners(Model.ID).Count()</p>
@@ -34,32 +37,49 @@
             </dl>
         </div>
   
-        <dl class="col-lg-8 col-sm-7">
+        <dl class="col-lg-8 col-sm-7" style="float:left">
             <dt>نبذه</dt>
             <dd><p>@Model.Description</p></dd>
         </dl>
-        <dl class="col-lg-8 col-sm-7">
+        <dl class="col-lg-8 col-sm-7" style="float:left">
             <dt>عقارات</dt>
             <dd>
-                <ul class="estate-items row pre-scrollable">
+                @if (RealEstateV1.Busniss.BusnissLayer.GetREOwnerSale(Model.ID).Count() > 3 || RealEstateV1.Busniss.BusnissLayer.GetREOwnersRent(Model.ID).Count() > 3)
+                {
+                    <div class="group1-Wrapper" style="position:absolute;float: left;top:60px;left:15px; width:5%;z-index:4">
+                        <a onclick="previousImg('estates',@RealEstateV1.Busniss.BusnissLayer.GetREOwnerSale(Model.ID).Count()+@RealEstateV1.Busniss.BusnissLayer.GetREOwnersRent(Model.ID).Count())" class="group1-Prev"></a>
+                    </div>
+                }
+                <ul class="estate-items row">
                     @foreach (var item in RealEstateV1.Busniss.BusnissLayer.GetREOwnerSale(Model.ID))
                     {
-                    <li class="col-lg-3 col-sm-3">
-                        <img width="150px" src=@Url.Content(@item.RealEstate.ImageURL) alt="">
-                        <span class="title">@item.RealEstate.Rekind.Kind</span>
-                        <span class="price">
-                            @item.Price
-                        </span>
-                        <span class="type">بيع
-                        </span>
-                       @Html.ActionLink("تفاصيل", "RealEstate", "Home", new { id = item.RealEstate.ID }, null)
-                    </li>
+                        count2++;
+                        if (count2 > 3)
+                        {
+                            dis2 = "none";
+                        }
+                        <li id="@("estates" + count2)" class="col-lg-4 col-sm-3" style="display:@(dis2);padding-right:15px">
+                            <img style="width:190px;height:150px;" src=@Url.Content(@item.RealEstate.ImageURL) alt="">
+                            <span class="title">@item.RealEstate.Rekind.Kind</span>
+                            <span class="price">
+                                @item.Price
+                            </span>
+                            <span class="type">
+                                بيع
+                            </span>
+                            @Html.ActionLink("تفاصيل", "RealEstate", "Home", new { id = item.RealEstate.ID }, null)
+                        </li>
 
                     }
                     @foreach (var item in RealEstateV1.Busniss.BusnissLayer.GetREOwnersRent(Model.ID))
                     {
-                        <li class="col-lg-3 col-sm-3">
-                            <img width="150px" src=@Url.Content(@item.RealEstate.ImageURL) alt="">
+                        count2++;
+                        if (count2 > 3)
+                        {
+                            dis2 = "none";
+                        }
+                        <li id="@("estates" + count2)" class="col-lg-4 col-sm-3" style="display:@(dis2);padding-right:15px;">
+                            <img style="width:190px;height:150px;" src=@Url.Content(@item.RealEstate.ImageURL) alt="">
                             <span class="title">@item.RealEstate.Rekind.Kind</span>
                             <span class="price">
                                 @item.Price
@@ -67,45 +87,50 @@
                             <span class="type">
                                 ايجار
                             </span>
-                           @Html.ActionLink("تفاصيل", "RealEstate", "Home", new { id = item.RealEstate.ID }, null)
+                            @Html.ActionLink("تفاصيل", "RealEstate", "Home", new { id = item.RealEstate.ID }, null)
                         </li>
 
                     }
                 </ul>
-
+                @if (RealEstateV1.Busniss.BusnissLayer.GetREOwnerSale(Model.ID).Count() > 3 || RealEstateV1.Busniss.BusnissLayer.GetREOwnersRent(Model.ID).Count() > 3)
+                {
+                    <div class="group1-Wrapper" style="position:absolute;float: right;right:15px;top:60px; width:5%;">
+                        <a onclick="nextImg('estates',@RealEstateV1.Busniss.BusnissLayer.GetREOwnerSale(Model.ID).Count()+@RealEstateV1.Busniss.BusnissLayer.GetREOwnersRent(Model.ID).Count())" class="group1-Next"></a>
+                    </div>
+                }
             </dd>
         </dl>
 
-        <dl class="offset4 col-lg-8 col-sm-7">
+        <dl class="offset4 col-lg-8 col-sm-7" style="float:left">
             <dt>عقارات مباعه</dt>
             <dd>
-                @if (RealEstateV1.Busniss.BusnissLayer.GetSoldRE(Model.ID).Count() > 0)
+                @if (RealEstateV1.Busniss.BusnissLayer.GetSoldRE(Model.ID).Count() > 3)
                 {
-                    <div class="group1-Wrapper" style="position:absolute;float: left;top:60px;left:30px; width:5%;z-index:4">
-                        <a onclick="previousImg(@RealEstateV1.Busniss.BusnissLayer.GetSoldRE(Model.ID).Count())" class="group1-Prev"></a>
+                    <div class="group1-Wrapper" style="position:absolute;float: left;top:60px;left:15px; width:5%;z-index:4">
+                        <a onclick="previousImg('sold',@RealEstateV1.Busniss.BusnissLayer.GetSoldRE(Model.ID).Count())" class="group1-Prev"></a>
                     </div>
                 }
-                <ul style="position:relative;right:55px" class="estate-items row pre-scrollable">
-                @foreach (var item in RealEstateV1.Busniss.BusnissLayer.GetSoldRE(Model.ID))
-                {
-                    count++;
-                    if (count > 3)
+                <ul class="estate-items row">
+                    @foreach (var item in RealEstateV1.Busniss.BusnissLayer.GetSoldRE(Model.ID))
                     {
-                        dis = "none";
+                        count++;
+                        if (count > 3)
+                        {
+                            dis = "none";
+                        }
+                        <li id="@("sold" + count)" class="col-lg-4 col-sm-3" style="display:@(dis);padding-right:15px">
+                            <img style="width:190px;height:150px;" src=@Url.Content(@item.RealEstate.ImageURL) alt="">
+                            <span class="title">@item.RealEstate.Rekind.Kind</span>
+                            <span class="price">@item.SoldPrice</span>
+                            <span class="type">مباع</span>
+                            @Html.ActionLink("تفاصيل", "RealEstate", "Home", new { id = item.RealEstate.ID }, null)
+                        </li>
                     }
-                    <li id="@("sold" + count)" class="col-lg-3 col-sm-3" style="display:@(dis)">
-                        <img style="width:150px" src=@Url.Content(@item.RealEstate.ImageURL) alt="">
-                        <span class="title">@item.RealEstate.Rekind.Kind</span>
-                        <span class="price">@item.SoldPrice</span>
-                        <span class="type">مباع</span>
-                        @Html.ActionLink("تفاصيل", "RealEstate", "Home", new { id = item.RealEstate.ID }, null)
-                    </li>
-                }
                 </ul>
-                @if (RealEstateV1.Busniss.BusnissLayer.GetSoldRE(Model.ID).Count() > 0)
+                @if (RealEstateV1.Busniss.BusnissLayer.GetSoldRE(Model.ID).Count() > 3)
                 {
-                    <div class="group1-Wrapper" style="position:absolute;float: right;top:60px; width:5%;">
-                        <a onclick="nextImg(@RealEstateV1.Busniss.BusnissLayer.GetSoldRE(Model.ID).Count())" class="group1-Next"></a>
+                    <div class="group1-Wrapper" style="position:absolute;float: right;right:15px;top:60px; width:5%;">
+                        <a onclick="nextImg('sold',@RealEstateV1.Busniss.BusnissLayer.GetSoldRE(Model.ID).Count())" class="group1-Next"></a>
                     </div>
                 }
             </dd>
@@ -121,14 +146,25 @@
         <dl class="offset4 col-lg-8 col-sm-7" style="float:left">
             <dt>توصيات</dt>
             <dd>
+                @if (Model.OwnerLike.Count() > 3)
+                {
+                    <div class="group1-Wrapper" style="position:absolute;float: left;top:60px;left:15px; width:5%;z-index:4">
+                        <a onclick="previousImg('Likers',@Model.OwnerLike.Count())" class="group1-Prev"></a>
+                    </div>
+                }
                 <ul class="recommended-items  row">
                     @foreach (var item in Model.OwnerLike)
                     {
-                        <li class="col-lg-4 col-sm-3">
-                            <img width="150px" src=@Url.Content(@item.Customer.ImgeUrl) alt="">
+                        count3++;
+                        if (count3 > 3)
+                        {
+                            dis3 = "none";
+                        }
+                        <li id="@("Likers" + count3)" class="col-lg-4 col-sm-3" style="display:@(dis3);padding-right:15px">
+                            <img style="width:190px;height:150px;" src=@Url.Content(@item.Customer.ImgeUrl) alt="">
                             <p>           العنوان :@item.Customer.address.Town.City.City , @item.Customer.address.Town.TownName ,@item.Customer.address.Street</p>
                             <p>
-                               الهاتف: @item.Customer.Phone
+                                الهاتف: @item.Customer.Phone
                             </p>
                             <p>
                                 الجوال: @item.Customer.Mobile
@@ -136,9 +172,13 @@
                         </li>
 
                     }
-                  
-
                 </ul>
+                @if (Model.OwnerLike.Count() > 3)
+                {
+                    <div class="group1-Wrapper" style="position:absolute;float: right;right:15px;top:60px; width:5%;">
+                        <a onclick="nextImg('Likers',@Model.OwnerLike.Count())" class="group1-Next"></a>
+                    </div>
+                }
             </dd>
         </dl>
 
