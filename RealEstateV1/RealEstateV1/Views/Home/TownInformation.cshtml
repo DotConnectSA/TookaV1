@@ -44,7 +44,7 @@
                     int counter = 1;
                     foreach (var it in Model.Comment)
                     {
-                        @Html.Partial("_TownPartial", it, new ViewDataDictionary { { "index", @counter } });
+                        @Html.Partial("_TownPartial", it, new ViewDataDictionary { { "index", @counter }, { "returnUrl", @ViewBag.returnUrl } });
                     counter = counter + 1;
                     }
 

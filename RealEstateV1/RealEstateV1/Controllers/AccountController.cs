@@ -89,7 +89,7 @@ namespace RealEstateV1.Controllers
                 case SignInStatus.Failure:
                 default:
                     ModelState.AddModelError("", "Invalid login attempt.");
-                    return View(model);
+                    return PartialView("Login", model);
             }
         }
 

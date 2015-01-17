@@ -194,6 +194,7 @@ namespace RealEstateV1.Controllers
 
         public ActionResult About()
         {
+            ViewBag.ReturnUrl = "about";
             return View();
         }
 
@@ -212,6 +213,7 @@ namespace RealEstateV1.Controllers
         public ActionResult RealEstatesOwners()
         {
             initialization();
+            ViewBag.ReturnUrl = "RealEstatesOwners";
             RealEstateContext db = new RealEstateContext();
             var owner = db.TOwner.ToList();
             return View(owner);
@@ -255,7 +257,8 @@ namespace RealEstateV1.Controllers
         }
 
         public ActionResult Contact()
-        {           
+        {
+            ViewBag.ReturnUrl = "contact";
             return View();
         }
         
@@ -263,6 +266,7 @@ namespace RealEstateV1.Controllers
         public ActionResult Rent()
         {
             initialization();
+            ViewBag.ReturnUrl = "rent";
             Busniss.SearchItem item = null;
             if (Busniss.SessionManager.searchKey != null)
             {
@@ -321,9 +325,27 @@ namespace RealEstateV1.Controllers
         public ActionResult Sale()
         {
            initialization();
+           ViewBag.ReturnUrl = "sale";
+
            // ViewBag.Message = "Your contact page.";
 
             return View();
+        }
+
+        [HttpGet]
+        public ActionResult AddRate(int id)
+        {
+            ViewBag.townId = id;
+            addRateInfo addrate = new addRateInfo();
+            return PartialView("_AddRatePartial", addrate);
+        }
+
+        [HttpPost]
+        public ActionResult AddRate(addRateInfo rateInfo, int townId)
+        {
+            AddTownComment(rateInfo.townRate, rateInfo.title, rateInfo.comment, townId);
+            Busniss.BusnissLayer.AddTownRate(rateInfo, townId);
+            return RedirectToAction("Index");
         }
 
         [Authorize]
@@ -500,6 +522,7 @@ namespace RealEstateV1.Controllers
         public ActionResult Discuss()
         {
             initialization();
+            ViewBag.ReturnUrl = "discuss";
             var dis = Busniss.BusnissLayer.GetDiscuss();
             return View(dis);
         }
@@ -507,14 +530,14 @@ namespace RealEstateV1.Controllers
         public ActionResult Supply()
         {
             ViewBag.Message = "Your contact page.";
-
+            ViewBag.ReturnUrl = "supply";
             return View();
         }
 
         public ActionResult TownInformation(int CityID = 1, int townID = 1)
         {
             initialization();
-
+            ViewBag.ReturnUrl = "towninformation";
             T_Town t = Busniss.BusnissLayer.GetTownID(townID);
 
 

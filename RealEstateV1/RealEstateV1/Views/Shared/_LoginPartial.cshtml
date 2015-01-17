@@ -5,7 +5,7 @@
     {
         @Html.AntiForgeryToken()
 
-        <ul class="nav navbar-nav navbar-right">
+        <ul class="nav navbar-nav">
             <li>
                 @Html.ActionLink("Hello " + User.Identity.GetUserName() + "!", "Index", "Manage", routeValues: null, htmlAttributes: new { title = "Manage" })
             </li>
@@ -18,8 +18,8 @@ else
     <ul class="nav navbar-nav navbar-right">
         @*<li>@Html.ActionLink("Register", "Register", "Account", routeValues: null, htmlAttributes: new { id = "registerLink" })</li>
             <li>@Html.ActionLink("Log in", "Login", "Account", routeValues: null, htmlAttributes: new { id = "loginLink" })</li>*@
-        <li><a data-toggle="modal" data-target="#RegisterModal" class="btn wide" id="registerLink">Register</a></li>
-        <li><a data-toggle="modal" data-target="#LoginModal" class="btn wide" id="loginLink">Log in</a></li>
+        <li><a onclick="load()" data-toggle="modal" data-target="#RegisterModal" class="btn wide" id="registerLink">Register</a></li>
+        <li><a onclick="load()" data-toggle="modal" data-target="#LoginModal" class="btn wide" id="loginLink">Log in</a></li>
     </ul>
 
 }
@@ -62,13 +62,20 @@ else
 
 <script type="text/javascript">
 
-    $(document).ready(
+    @*$(document).ready(
 	function()
 	{
 	    $("#Login-modal-body").load('@Url.Action("Login", "Account")');
 	    $("#Register-modal-body").load('@Url.Action("Register", "Account")');
 	    $("#forgetPass-modal-body").load('@Url.Action("ForgotPassword", "Account")');
 
-	});
+	});*@
+
+    function load()
+    {
+        $("#Login-modal-body").load('@Url.Action("Login", "Account", new { returnUrl = ViewBag.returnUrl })');
+        $("#Register-modal-body").load('@Url.Action("Register", "Account")');
+        $("#forgetPass-modal-body").load('@Url.Action("ForgotPassword", "Account")');
+    }
 
 </script>

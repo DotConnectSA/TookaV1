@@ -25,7 +25,7 @@
                     int counter = 1;
                     foreach (var item in Model)
                     {
-                        @Html.Partial("_DiscussPartial", item, new ViewDataDictionary { { "index", @counter } });
+                        @Html.Partial("_DiscussPartial", item, new ViewDataDictionary { { "index", @counter }, { "returnUrl", @ViewBag.returnUrl } });
                         counter = counter + 1;
                     }
                 }
@@ -194,6 +194,9 @@ else
     <script type="text/javascript">
         function dig()
         {
+            $("#Login-modal-body").load('@Url.Action("Login", "Account", new { returnUrl = ViewBag.returnUrl })');
+            $("#Register-modal-body").load('@Url.Action("Register", "Account")');
+            $("#forgetPass-modal-body").load('@Url.Action("ForgotPassword", "Account")');
             $('#LoginModal').modal({
                 show: 'true'
             });

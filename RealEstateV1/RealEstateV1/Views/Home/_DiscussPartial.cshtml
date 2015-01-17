@@ -1,6 +1,7 @@
 ﻿@model RealEstateV1.Models.T_Discuss
 @{
     var variable = (int)ViewData["index"];
+    var returnUrl = (string)ViewData["returnUrl"];
 }
 <li id="div@(variable)">
     <div class="comments-holder">
@@ -170,39 +171,54 @@ else
 {
     <script type="text/javascript">
 
-        function toggle(id) {
-            $("#toggle" + id).toggle();
-        }
+    function toggle(id) {
+        $("#toggle" + id).toggle();
+    }
 
-        function LikeD(id) {
-            $('#LoginModal').modal({
-                show: 'true'
-            });
-        }
+    function LikeD(id) {
+        $("#Login-modal-body").load('@Url.Action("Login", "Account", new { returnUrl = ViewBag.returnUrl })');
+        $("#Register-modal-body").load('@Url.Action("Register", "Account")');
+        $("#forgetPass-modal-body").load('@Url.Action("ForgotPassword", "Account")');
+        $('#LoginModal').modal({
+            show: 'true'
+        });
+    }
 
-        function DisLikeD(id) {
-            $('#LoginModal').modal({
-                show: 'true'
-            });
-        }
+    function DisLikeD(id) {
+        $("#Login-modal-body").load('@Url.Action("Login", "Account", new { returnUrl = ViewBag.returnUrl })');
+        $("#Register-modal-body").load('@Url.Action("Register", "Account")');
+        $("#forgetPass-modal-body").load('@Url.Action("ForgotPassword", "Account")');
+        $('#LoginModal').modal({
+            show: 'true'
+        });
+    }
 
-        function reportD(id) {
+    function reportD(id) {
+        $("#Login-modal-body").load('@Url.Action("Login", "Account", new { returnUrl = ViewBag.returnUrl })');
+        $("#Register-modal-body").load('@Url.Action("Register", "Account")');
+        $("#forgetPass-modal-body").load('@Url.Action("ForgotPassword", "Account")');
             $('#LoginModal').modal({
                 show: 'true'
             });
         }
 
         function reportR(id) {
+            $("#Login-modal-body").load('@Url.Action("Login", "Account", new { returnUrl = ViewBag.returnUrl })');
+            $("#Register-modal-body").load('@Url.Action("Register", "Account")');
+            $("#forgetPass-modal-body").load('@Url.Action("ForgotPassword", "Account")');
             $('#LoginModal').modal({
                 show: 'true'
             });
         }
 
         function AddRepaly(id) {
-            $('#LoginModal').modal({
-                show: 'true'
-            });
-        }
+            $("#Login-modal-body").load('@Url.Action("Login", "Account", new { returnUrl = ViewBag.returnUrl })');
+        $("#Register-modal-body").load('@Url.Action("Register", "Account")');
+        $("#forgetPass-modal-body").load('@Url.Action("ForgotPassword", "Account")');
+        $('#LoginModal').modal({
+            show: 'true'
+        });
+    }
 
 
     </script>

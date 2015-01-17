@@ -146,8 +146,6 @@
         function AddRepaly(id) {
             var i = "#sendR" + id;
             var rep = $(i).val();
-            alert(id);
-            alert(rep);
             $.ajax({
                 cache: false,
                 type: "POST",
@@ -168,35 +166,50 @@ else
 {
     <script type="text/javascript">
 
-        function toggle(id) {
-            $("#toggle" + id).toggle();
-        }
+    function toggle(id) {
+        $("#toggle" + id).toggle();
+    }
 
-        function LikeC(id) {
-            $('#LoginModal').modal({
-                show: 'true'
-            });
-        }
+    function LikeC(id) {
+        $("#Login-modal-body").load('@Url.Action("Login", "Account", new { returnUrl = ViewBag.returnUrl })');
+        $("#Register-modal-body").load('@Url.Action("Register", "Account")');
+        $("#forgetPass-modal-body").load('@Url.Action("ForgotPassword", "Account")');
+        $('#LoginModal').modal({
+            show: 'true'
+        });
+    }
 
-        function DisLikeC(id) {
-            $('#LoginModal').modal({
-                show: 'true'
-            });
-        }
+    function DisLikeC(id) {
+        $("#Login-modal-body").load('@Url.Action("Login", "Account", new { returnUrl = ViewBag.returnUrl })');
+        $("#Register-modal-body").load('@Url.Action("Register", "Account")');
+        $("#forgetPass-modal-body").load('@Url.Action("ForgotPassword", "Account")');
+        $('#LoginModal').modal({
+            show: 'true'
+        });
+    }
 
-        function reportC(id) {
-            $('#LoginModal').modal({
-                show: 'true'
-            });
-        }
+    function reportC(id) {
+        $("#Login-modal-body").load('@Url.Action("Login", "Account", new { returnUrl = ViewBag.returnUrl })');
+        $("#Register-modal-body").load('@Url.Action("Register", "Account")');
+        $("#forgetPass-modal-body").load('@Url.Action("ForgotPassword", "Account")');
+        $('#LoginModal').modal({
+            show: 'true'
+        });
+    }
 
-        function reportR(id) {
+    function reportR(id) {
+        $("#Login-modal-body").load('@Url.Action("Login", "Account", new { returnUrl = ViewBag.returnUrl })');
+        $("#Register-modal-body").load('@Url.Action("Register", "Account")');
+        $("#forgetPass-modal-body").load('@Url.Action("ForgotPassword", "Account")');
             $('#LoginModal').modal({
                 show: 'true'
             });
         }
 
         function AddRepaly(id) {
+            $("#Login-modal-body").load('@Url.Action("Login", "Account", new { returnUrl = ViewBag.returnUrl })');
+            $("#Register-modal-body").load('@Url.Action("Register", "Account")');
+            $("#forgetPass-modal-body").load('@Url.Action("ForgotPassword", "Account")');
             $('#LoginModal').modal({
                 show: 'true'
             });

@@ -25,7 +25,7 @@
             int counter = 1;
             foreach (var item in Model)
             {
-                @Html.Partial("_OwnerPartial", item, new ViewDataDictionary { { "index", @counter } });
+                @Html.Partial("_OwnerPartial", item, new ViewDataDictionary { { "index", @counter }, { "returnUrl", @ViewBag.returnUrl } });
                 counter = counter + 1;
             }
             

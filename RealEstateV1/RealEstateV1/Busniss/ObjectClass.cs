@@ -42,4 +42,27 @@ namespace RealEstateV1.Busniss
         public RealEstateV1.Models.T_Sale sale { get; set; }
         public List<KeyValuePair<string, int>> featureRate { get; set; }
     }
+
+    public class addRateInfo
+    {
+        [Display(Name = "تقييم العام")]
+        public int townRate { get; set; }
+        public List<int> featureRate { get; set; }
+        public List<RealEstateV1.Models.T_TownFeature> allFeature { get; set; }
+        [Display(Name = "عنوان")]
+        public string title { get; set; }
+        [Display(Name = "تعليقك")]
+        public string comment { get; set; }
+
+        public addRateInfo()
+        {
+            featureRate = new List<int>();
+            allFeature = BusnissLayer.GetAllFeature();
+            for (int i = 0; i < allFeature.Count(); i++)
+            {
+                featureRate.Add(0);
+            }
+        }
+
+    }
 }
