@@ -44,7 +44,7 @@
         <dl class="col-lg-8 col-sm-7" style="float:left">
             <dt>عقارات</dt>
             <dd>
-                @if (RealEstateV1.Busniss.BusnissLayer.GetREOwnerSale(Model.ID).Count() > 3 || RealEstateV1.Busniss.BusnissLayer.GetREOwnersRent(Model.ID).Count() > 3)
+                @if ((RealEstateV1.Busniss.BusnissLayer.GetREOwnerSale(Model.ID).Count() + RealEstateV1.Busniss.BusnissLayer.GetREOwnersRent(Model.ID).Count()) > 3)
                 {
                     <div class="group1-Wrapper" style="position:absolute;float: left;top:60px;left:15px; width:5%;z-index:4">
                         <a onclick="previousImg('estates',@RealEstateV1.Busniss.BusnissLayer.GetREOwnerSale(Model.ID).Count()+@RealEstateV1.Busniss.BusnissLayer.GetREOwnersRent(Model.ID).Count())" class="group1-Prev"></a>
@@ -92,7 +92,7 @@
 
                     }
                 </ul>
-                @if (RealEstateV1.Busniss.BusnissLayer.GetREOwnerSale(Model.ID).Count() > 3 || RealEstateV1.Busniss.BusnissLayer.GetREOwnersRent(Model.ID).Count() > 3)
+                @if ((RealEstateV1.Busniss.BusnissLayer.GetREOwnerSale(Model.ID).Count() + RealEstateV1.Busniss.BusnissLayer.GetREOwnersRent(Model.ID).Count()) > 3)
                 {
                     <div class="group1-Wrapper" style="position:absolute;float: right;right:15px;top:60px; width:5%;">
                         <a onclick="nextImg('estates',@RealEstateV1.Busniss.BusnissLayer.GetREOwnerSale(Model.ID).Count()+@RealEstateV1.Busniss.BusnissLayer.GetREOwnersRent(Model.ID).Count())" class="group1-Next"></a>

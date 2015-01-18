@@ -127,8 +127,7 @@
                                     x = x + (int)item.Rate;
                                     count++;
                                 }
-                                @{x = x / 1; numberOfRater = count;}
-                                @*@{x = x / count; numberOfRater = count;}*@
+                                @{if(count>0){x = x / count; numberOfRater = count;}}
                                 @{
                                     <div style="display:inline-block">
                                         @if (@x == 0)
@@ -187,8 +186,6 @@
                                 
                                 @foreach (var item in Model.featureRate)
                                 {
-                                    if (@item.Key != "تقييم العام")
-                                    {
                                         <div>
                                             @item.Key :
                                             @if (@item.Value == 0)
@@ -241,7 +238,6 @@
                                             }
 
                                         </div>
-                                    }
                                 }
                                 
                                 عدد المقيمين
@@ -652,12 +648,12 @@
             if(item.townFeatureKind!=null)
             {
                 <text>
-        var v=@item.townFeature.ID;
-        if(Feature==v)
-        {
-            var tab="<tr><td><div>"+"@item.townFeature.Feature  @item.townFeatureKind.Description"+"</div></td>"+"<td><div>"+"@item.townFeatureKind.Kind"+"</div></td>"+"<td><div>"+"@item.townFeatureKind.position.X"+"</div></td></tr>";
-            $("#table").append(tab);
-        }
+                var v=@item.townFeature.ID;
+                if(Feature==v)
+                {
+                    var tab="<tr><td><div>"+"@item.townFeature.Feature  @item.townFeatureKind.Description"+"</div></td>"+"<td><div>"+"@item.townFeatureKind.Kind"+"</div></td>"+"<td><div>"+"@item.townFeatureKind.position.X"+"</div></td></tr>";
+                    $("#table").append(tab);
+                }
                 </text>
             }
 
