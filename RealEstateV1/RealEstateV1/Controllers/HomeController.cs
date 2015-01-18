@@ -22,7 +22,6 @@ namespace RealEstateV1.Controllers
 
         public void initialization()
         { 
-            var town = new Dictionary<string, int> { { "الحي ", 0 } };
             var bathno = new Dictionary<string, int> { { "عدد الحمامات", 0 }, { "1", 1 }, { "2", 2 }, { "3", 3 }, { "4", 4 }, { "5", 5 } };
             var roomno = new Dictionary<string, int> { { " عدد الغرف", 0 }, { "1", 1 }, { "2", 2 }, { "3", 3 }, { "4", 4 }, { "5", 5 } };
             var lower = new Dictionary<string, int> { { "السعر الادنى", 0 }, { "100", 100 }, { "200", 200 }, { "300", 300 }, { "400", 400 }, { "500", 500 } };
@@ -37,7 +36,7 @@ namespace RealEstateV1.Controllers
             ViewBag.uperprice = new SelectList(uper, "Value", "Key");
             ViewBag.area = new SelectList(area, "Value", "Key"); 
             ViewBag.REFeature = Busniss.BusnissLayer.GetREFeatuer();
-            ViewBag.town = new SelectList(town, "Value", "Key");
+            ViewBag.town = Busniss.BusnissLayer.GetTownByCityIDSL(1);
 
 
             string realstate = " عقار جديد ";

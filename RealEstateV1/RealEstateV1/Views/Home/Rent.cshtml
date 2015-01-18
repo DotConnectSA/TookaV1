@@ -33,7 +33,7 @@
             {
                 foreach (var item in Model)
                 {
-                    @Html.Partial("_RentPartial", item);
+                    @Html.Partial("_RentPartial", item,new ViewDataDictionary { { "returnUrl", @ViewBag.returnUrl } });
                 }
             }
 

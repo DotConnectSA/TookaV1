@@ -337,7 +337,8 @@ namespace RealEstateV1.Busniss
                         counter++;
                     }
                 }
-                res.Add(new KeyValuePair<string, int>(townFeature[i].Feature, sum / counter));
+                if(counter!=0)
+                    res.Add(new KeyValuePair<string, int>(townFeature[i].Feature, sum / counter));
             }
             return res;
         }
@@ -374,6 +375,12 @@ namespace RealEstateV1.Busniss
             return DB.TTown.Where(a=>a.City.ID==cityID).ToList();
         }
 
+        public static SelectList GetTownByCityIDSL(int cityID)
+        {
+            RealEstateContext DB = new RealEstateContext();
+            SelectList a = new SelectList(GetTownByCityID(cityID), "ID", "TownName");
+            return a;
+        }
 
         public static T_RealEstate GetRealEstateByID(int REID)
         {

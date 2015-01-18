@@ -19,7 +19,7 @@ else
     foreach (var item in Model)
     {
    
-@Html.Partial("_SalePartial");
+@Html.Partial("_SalePartial",new ViewDataDictionary { { "returnUrl", @ViewBag.returnUrl } });
     }
 }
 

@@ -250,7 +250,10 @@
                                 عدد المقيمين
                                 @numberOfRater<br />
                                 اخر تحديث
-                                @Model.realEstate.address.Town.Comment.OrderBy(a => a.CreateDate).FirstOrDefault().CreateDate.ToShortDateString()
+                                @if (Model.realEstate.address.Town.Comment.Count!=0)
+                                {
+                                    @Model.realEstate.address.Town.Comment.OrderBy(a => a.CreateDate).FirstOrDefault().CreateDate.ToShortDateString()
+                                }
                             </td>
                             <td>
                                 نتائج التقييم العام : <br />
@@ -260,7 +263,14 @@
                                     x = x + @item.Rate.Rate;
                                     count++;
                                 }
-                                @{x = x / count;}
+                                @{
+                                    if(count!=0)
+                                    {
+                                        x = x / count;
+                                    }
+
+                                    
+                                    }
                                 @{
                                     <div style="display:inline-block">
                                         @if (@x == 0)
@@ -651,14 +661,18 @@
         $("#table").html('');
         @foreach (var item in Model.realEstate.address.Town.townLinkFeature)
         {
-            <text>
+            if(item.townFeatureKind!=null)
+            {
+                <text>
         var v=@item.townFeature.ID;
         if(Feature==v)
         {
             var tab="<tr><td><div>"+"@item.townFeature.Feature  @item.townFeatureKind.Description"+"</div></td>"+"<td><div>"+"@item.townFeatureKind.Kind"+"</div></td>"+"<td><div>"+"@item.townFeatureKind.position.X"+"</div></td></tr>";
             $("#table").append(tab);
         }
-        </text>
+                </text>
+            }
+
         }
 
 
@@ -667,22 +681,26 @@
             $("#table").html('');
             @foreach (var item in Model.realEstate.address.Town.townLinkFeature)
             {
-                <text>
-            var v=@item.townFeature.ID.ToString();
-            if(Feature==v)
-            {
-                var tab="<tr><td><div>"+"@item.townFeature.Feature  @item.townFeatureKind.Description"+"</div></td>"+"<td><div>"+"@item.townFeatureKind.Kind"+"</div></td>"+"<td><div>"+"@item.townFeatureKind.position.X"+"</div></td></tr>";
-                $("#table").append(tab);
-            }
-            </text>
+                if(item.townFeatureKind!=null)
+                {
+                    <text>
+                    var v=@item.townFeature.ID.ToString();
+                    if(Feature==v)
+                    {
+                        var tab="<tr><td><div>"+"@item.townFeature.Feature  @item.townFeatureKind.Description"+"</div></td>"+"<td><div>"+"@item.townFeatureKind.Kind"+"</div></td>"+"<td><div>"+"@item.townFeatureKind.position.X"+"</div></td></tr>";
+                        $("#table").append(tab);
+                    }
+                    </text>
+                }
+
            }
         });
     });
 </script>
 
 <div class="modal fade" id="mmyRateModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-sm">
-        <div class="modal-content" style="margin-top:100px">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content" style="margin-top:50px;height:550px">
             @*<div class="modal-header">*@
             @*<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>*@
             @*<h4 class="modal-title" id="myModalLabel">إضافة موضوع</h4>*@

@@ -30,8 +30,7 @@
       <a href="#">خريطة</a>
       <a href="#">إخفاء</a>
       <a href="#">fav</a>
-       
-        @Html.ActionLink("تفاصيل", "RealEstate", "Home", new { ID = Model.ID.ToString() }, null)
+        <a href="#" onclick="detail(@(Model.RealEstate.ID))">تفاصيل</a>
     </section>
 </li>
 <li>
@@ -102,3 +101,26 @@
       <a href="#">التفاصيل</a>
     </section>
 </li>
+
+
+@if (Request.IsAuthenticated)
+{
+    <script type="text/javascript">
+        function detail(id) {
+            window.location = '@Url.Action("RealEstate", "Home")/' + id;
+        }
+    </script>
+}
+else
+{
+    <script type="text/javascript">
+        function detail() {
+            $("#Login-modal-body").load('@Url.Action("Login", "Account", new { returnUrl = ViewBag.returnUrl })');
+            $("#Register-modal-body").load('@Url.Action("Register", "Account")');
+            $("#forgetPass-modal-body").load('@Url.Action("ForgotPassword", "Account")');
+            $('#LoginModal').modal({
+                show: 'true'
+            });
+        }
+    </script>
+}
