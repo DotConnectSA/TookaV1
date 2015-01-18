@@ -222,6 +222,7 @@ namespace RealEstateV1.Controllers
 
         public ActionResult RealEstate(int ID)
         {
+            ViewBag.ReturnUrl = "RealEstate/"+ID;
             T_RealEstate real = Busniss.BusnissLayer.GetRealEstateByID(ID);
             T_Rent rent = Busniss.BusnissLayer.GetRentByRSID(ID);
             T_Sale sale = Busniss.BusnissLayer.GetSaleByRSID(ID);
@@ -261,7 +262,6 @@ namespace RealEstateV1.Controllers
             return View();
         }
         
-        [HttpGet]
         public ActionResult Rent()
         {
             initialization();
@@ -269,7 +269,7 @@ namespace RealEstateV1.Controllers
             Busniss.SearchItem item = null;
             if (Busniss.SessionManager.searchKey != null)
             {
-            item = Busniss.SessionManager.searchKey;
+                item = Busniss.SessionManager.searchKey;
             }
             var result = Busniss.BusnissLayer.getRent(item);
              //Busniss.SessionManager.Result = result; //to be done for the rest of views
@@ -326,9 +326,14 @@ namespace RealEstateV1.Controllers
            initialization();
            ViewBag.ReturnUrl = "sale";
 
-           // ViewBag.Message = "Your contact page.";
+           Busniss.SearchItem item = null;
+           if (Busniss.SessionManager.searchKey != null)
+           {
+               item = Busniss.SessionManager.searchKey;
+           }
+           var result = Busniss.BusnissLayer.getSale(item);
 
-            return View();
+           return View(result.AsEnumerable<T_Sale>());
         }
 
         [HttpGet]

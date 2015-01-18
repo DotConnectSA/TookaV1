@@ -330,7 +330,7 @@
     <Content Include="Views\Home\_miniRE.cshtml" />
     <Content Include="Views\Home\_OwnerPartial.cshtml" />
     <Content Include="Views\Home\_RentPartial.cshtml" />
-    <Content Include="Views\Home\_SaleParial.cshtml" />
+    <Content Include="Views\Home\_SalePartial.cshtml" />
     <Content Include="Views\Home\_SearchBar.cshtml" />
     <Content Include="Views\Home\_TownPartial.cshtml" />
     <Content Include="Views\Home\otherOwner.cshtml" />

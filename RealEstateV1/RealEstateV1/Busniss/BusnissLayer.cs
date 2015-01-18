@@ -573,5 +573,52 @@ namespace RealEstateV1.Busniss
             }
                 return result.ToList();
         }
+
+        public static List<T_Sale> getSale(SearchItem item)
+        {
+            RealEstateContext DB = new RealEstateContext();
+            var result = DB.TSale.OrderBy(a => a.Price).AsQueryable();
+            if (Busniss.SessionManager.searchKey != null)
+            {
+                if (item.Area > 0)
+                {
+                    result = result.Where(a => a.RealEstate.Area == item.Area).AsQueryable();
+                }
+                if (item.Bathno > 0)
+                {
+                    result = result.Where(a => a.RealEstate.BathroomNo == item.Bathno).AsQueryable();
+                }
+                if (item.City > 0)
+                {
+                    result = result.Where(a => a.RealEstate.address.Town.City.ID == item.City).AsQueryable();
+                }
+                if (item.LowerPrice > 0)
+                {
+                    result = result.Where(a => a.Price < item.LowerPrice).AsQueryable();
+                }
+                if (item.UperPrice > 0)
+                {
+                    result = result.Where(a => a.Price > item.UperPrice).AsQueryable();
+                }
+                if (item.RealEstateKind > 0)
+                {
+                    result = result.Where(a => a.RealEstate.Rekind.ID < item.RealEstateKind).AsQueryable();
+                }
+                if (item.RoomNo > 0)
+                {
+                    result = result.Where(a => a.RealEstate.RoomNo < item.RoomNo).AsQueryable();
+                }
+                if (item.Town > 0)
+                {
+                    result = result.Where(a => a.RealEstate.address.Town.ID < item.Town).AsQueryable();
+                }
+                if (item.feature != null)
+                    foreach (int feature in item.feature)
+                    {
+                        result = result.Where(a => a.RealEstate.RealEstateFeature.Any(b => b.ID == feature)).AsQueryable();
+                    }
+            }
+            return result.ToList();
+        }
     }
 }

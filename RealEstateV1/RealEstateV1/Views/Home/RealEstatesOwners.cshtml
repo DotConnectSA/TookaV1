@@ -186,6 +186,16 @@
         }
         $("#nav"+index).css("color","blue");
         navIndex=index;
+        $("#prevbtn").removeClass("active");
+        $("#nextbtn").removeClass("active");
+        if (navIndex==num)
+        {
+            $("#nextbtn").addClass("active");
+        }
+        if(navIndex==1)
+        {
+            $("#prevbtn").addClass("active");
+        }
     }
 
     function prev()
