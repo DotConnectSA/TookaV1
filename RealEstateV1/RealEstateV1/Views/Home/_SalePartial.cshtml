@@ -1,0 +1,58 @@
+﻿@model RealEstateV1.Models.T_Sale
+
+<li>
+
+    <a href="@Url.Content(Model.RealEstate.ImageURL)">
+        <img style="height:50px;width:50px;" src="@Url.Content(Model.RealEstate.ImageURL)" />
+    </a>
+
+    <section class="list-top">
+        <span class="title">@Model.RealEstate.Rekind.Kind</span>
+        <br />
+        <dl>
+            <dt>المدينة</dt>
+            <dd>@Model.RealEstate.address.Town.TownName</dd>
+            <dt>العنوان</dt>
+            <dd>@Model.RealEstate.address.Street</dd>
+            <dt>عدد الغرف</dt>
+            <dd>@Model.RealEstate.RoomNo</dd>
+            <dt>عدد الحمامات</dt>
+            <dd>@Model.RealEstate.BathroomNo</dd>
+            <dt>المساحة</dt>
+            <dd>@Model.RealEstate.Area</dd>
+            <dt>تاريخ العرض</dt>
+            <dd></dd>
+        </dl>
+        <span class="price">@Model.Price<b>ريال</b></span>
+    </section>
+    <section class="list-bottom">
+        <a href="#">مكتب صاحب العقار</a>
+        <input id="compareCheck" type="checkbox" name="compare" /> <label> قارن</label>
+        <a href="#">خريطة</a>
+        <a href="#">إخفاء</a>
+        <a href="#">fav</a>
+        <a href="#" onclick="detail(@(Model.RealEstate.ID))">تفاصيل</a>
+    </section>
+</li>
+
+@if (Request.IsAuthenticated)
+{
+    <script type="text/javascript">
+        function detail(id) {
+            window.location = '@Url.Action("RealEstate", "Home")/' + id;
+        }
+    </script>
+}
+else
+{
+    <script type="text/javascript">
+        function detail() {
+            $("#Login-modal-body").load('@Url.Action("Login", "Account", new { returnUrl = ViewBag.returnUrl })');
+            $("#Register-modal-body").load('@Url.Action("Register", "Account")');
+            $("#forgetPass-modal-body").load('@Url.Action("ForgotPassword", "Account")');
+            $('#LoginModal').modal({
+                show: 'true'
+            });
+        }
+    </script>
+}
