@@ -68,6 +68,40 @@ namespace RealEstateV1.Controllers
 
             return View();
         }
+        [HttpGet]
+        public ActionResult sold()
+        {
+            initialization();
+
+            Busniss.SearchItem item = null;
+            if (Busniss.SessionManager.searchKey != null)
+            {
+                item = Busniss.SessionManager.searchKey;
+            }
+            var result = Busniss.BusnissLayer.getSold(item);
+            //Busniss.SessionManager.Result = result; //to be done for the rest of views
+            return View(result.AsEnumerable<T_Sale>());
+
+        }
+        [HttpGet]
+        public ActionResult Sale()
+        {
+            initialization();
+            // ViewBag.ReturnUrl = "sale";
+
+            initialization();
+
+            Busniss.SearchItem item = null;
+            if (Busniss.SessionManager.searchKey != null)
+            {
+                item = Busniss.SessionManager.searchKey;
+            }
+            var result = Busniss.BusnissLayer.getSale(item);
+            //Busniss.SessionManager.Result = result; //to be done for the rest of views
+            return View(result.AsEnumerable<T_Sale>());
+
+            //return View();
+        }
 
         [HttpPost]
         public ActionResult Index(Busniss.SearchItem item,int []feature)
@@ -321,16 +355,7 @@ namespace RealEstateV1.Controllers
              return RedirectToAction("Index");
         }
         
-        [HttpGet]
-        public ActionResult Sale()
-        {
-           initialization();
-           ViewBag.ReturnUrl = "sale";
-
-           // ViewBag.Message = "Your contact page.";
-
-            return View();
-        }
+        
 
         [HttpGet]
         public ActionResult AddRate(int id)

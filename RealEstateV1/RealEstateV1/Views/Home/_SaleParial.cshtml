@@ -1,24 +1,37 @@
 ﻿@model RealEstateV1.Models.T_Sale
-<tr>
-    <td>
-        <a href="@Url.Content("~/content/images/" + Model.RealEstate.ImageURL)">
-            <img src="@Url.Content("~/content/images/" + Model.RealEstate.ImageURL)" />
-        </a>
-    </td>
-    <td>
-        @Model.RealEstate.Rekind.Kind
+
+<li>
+
+    <a href="@Url.Content("~/" + Model.RealEstate.ImageURL)">
+        <img src="@Url.Content("~/" + Model.RealEstate.ImageURL)" />
+    </a>
+
+    <section class="list-top">
+        <span class="title">@Model.RealEstate.Rekind.Kind</span>
         <br />
-        @Model.RealEstate.RoomNo
-        <br />
-        @Model.RealEstate.BathroomNo
-        <br />
-        @Model.Price
-        <br />
-        @Model.Taksit
-        <br />
-        @Model.RealEstate.Area
-        <br />
-        @Model.RealEstate.address.Town.TownName
-        @Model.RealEstate.address.Street
-    </td>
-</tr>
+        <dl>
+            <dt>المدينة</dt>
+            <dd>@Model.RealEstate.address.Town.TownName</dd>
+            <dt>العنوان</dt>
+            <dd>@Model.RealEstate.address.Street</dd>
+            <dt>عدد الغرف</dt>
+            <dd>@Model.RealEstate.RoomNo</dd>
+            <dt>عدد الحمامات</dt>
+            <dd>@Model.RealEstate.BathroomNo</dd>
+            <dt>المساحة</dt>
+            <dd>@Model.RealEstate.Area</dd>
+            <dt>تاريخ العرض</dt>
+            <dd></dd>
+        </dl>
+        <span class="price rent">@Model.Price<b>ريال / شهر</b></span>
+    </section>
+    <section class="list-bottom">
+        <a href="#">مكتب صاحب العقار</a>
+        <input id="compareCheck" type="checkbox" name="compare" /> <label> قارن</label>
+        <a href="#">خريطة</a>
+        <a href="#">إخفاء</a>
+        <a href="#">fav</a>
+
+        @Html.ActionLink("تفاصيل", "RealEstate", "Home", new { ID = Model.RealEstate.ID.ToString() }, null)
+    </section>
+</li>
