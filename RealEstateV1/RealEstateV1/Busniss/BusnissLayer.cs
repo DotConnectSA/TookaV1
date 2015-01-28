@@ -625,6 +625,11 @@ namespace RealEstateV1.Busniss
         }
         public static bool isLikedEstate(int id)
         {
+            string currentUserId = HttpContext.Current.User.Identity.GetUserId();
+            if (currentUserId == null)
+            {
+                return false;
+            }
             RealEstateContext DB = new RealEstateContext();
             T_Customer customer = new T_Customer();
             customer = getCurrentCustomer(DB);

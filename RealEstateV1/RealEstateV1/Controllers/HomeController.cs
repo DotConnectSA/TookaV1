@@ -73,25 +73,35 @@ namespace RealEstateV1.Controllers
         }
 
         [HttpPost]
-        public ActionResult Index(Busniss.SearchItem item,int []feature)
+        public ActionResult Index(Busniss.SearchItem item, int[] feature)
         {
-           
+
             //if (item.Town==0)
             //{
-            //    ModelState.AddModelError("الحي", "يرجى ادخال الحي");
+            //    ModelState.AddModelError("ÇáÍí", "íÑÌì ÇÏÎÇá ÇáÍí");
             //}
-          //  if (ModelState.IsValid)
+            //  if (ModelState.IsValid)
             {
+                string a = "3";
+                if (Request["kind"] != null)
+                    a = Request["kind"].ToString();
+                if (a == "1")
+                    item.SearchKind = Busniss.MyEnumType.SearchKind.Rent;
+                else if (a == "2")
+                    item.SearchKind = Busniss.MyEnumType.SearchKind.Oldsale;
+                else
+                    item.SearchKind = Busniss.MyEnumType.SearchKind.Sale;
+
                 if (feature != null)
                     item.feature = feature.ToList();
                 else item.feature = new List<int>();
                 Busniss.SessionManager.searchKey = item;
-                if(item.SearchKind==Busniss.MyEnumType.SearchKind.Rent)
+                if (item.SearchKind == Busniss.MyEnumType.SearchKind.Rent)
                     return RedirectToAction("Rent");
-                if(item.SearchKind==Busniss.MyEnumType.SearchKind.Sale)
+                if (item.SearchKind == Busniss.MyEnumType.SearchKind.Sale)
                     return RedirectToAction("Sale");
-                if(item.SearchKind==Busniss.MyEnumType.SearchKind.Oldsale)
-                    return RedirectToAction("Result");
+                if (item.SearchKind == Busniss.MyEnumType.SearchKind.Oldsale)
+                    return RedirectToAction("Sold");
             }
             return Index();
         }
