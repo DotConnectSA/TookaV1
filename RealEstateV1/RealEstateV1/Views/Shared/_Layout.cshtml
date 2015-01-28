@@ -8,7 +8,7 @@
     @Scripts.Render("~/bundles/bootstrap")
 
     @Scripts.Render("~/bundles/modernizr")
-    @Scripts.Render("~/bundles/Index")
+    @*@Scripts.Render("~/bundles/Index")*@
     <script type="text/javascript" src="~/Scripts/Index.js"></script>
     @section Scripts {
     <script type="text/javascript">
@@ -72,7 +72,7 @@
                     <li>@Html.ActionLink("ايجار", "Rent", "Home")</li>
                     <li>@Html.ActionLink("استشارات عقارية", "Discuss", "Home")</li>
                     <li>@Html.ActionLink("تمويل عقاري", "Supply", "Home")</li>
-                    <li>@Html.ActionLink("معلومات محلية", "TownInformation", "Home", new { CityID = 1, townID = 1 }, null)</li>
+                    <li>@Html.ActionLink("معلومات محلية", "TownInformation", "Home", null)</li>
                     <li>@Html.ActionLink("عقاريون", "RealEstatesOwners", "Home")</li>
                     <li>@Html.ActionLink("اعرض عقارك", "Contact", "Home")</li>
                    

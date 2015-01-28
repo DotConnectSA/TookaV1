@@ -26,6 +26,9 @@ namespace RealEstateV1.Models
         [Display(Name = "الشعار")]
         public string logo { get; set; }
 
+        [Display(Name = "النوع")]
+        public Busniss.MyEnumType.ownerKind kind { get; set; }
+
         public int ShowNumber { get; set; }
         public virtual Collection<T_OwnerLike> OwnerLike { get; set; }
         public virtual T_Customer customer { get; set; }

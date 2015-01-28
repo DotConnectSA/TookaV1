@@ -5,9 +5,9 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-@Html.Partial("_SearchBar", new RealEstateV1.Busniss.SearchItem() { SearchKind = RealEstateV1.Busniss.MyEnumType.SearchKind.Rent })
+@Html.Partial("_SearchBar", new RealEstateV1.Busniss.SearchItem() { SearchKind = RealEstateV1.Busniss.MyEnumType.SearchKind.Sale })
 
-<h2>عقارات للبيع</h2>
+<h2>بيع</h2>
 
 <div class="view-controls-list" id="viewcontrols">
     <a class="mapview"><i class="fa fa-map fa-2x">خريطة</i></a>
@@ -30,7 +30,7 @@
             {
                 foreach (var item in Model)
                 {
-                    @Html.Partial("_SaleParial", item);
+                    @Html.Partial("_SalePartial", item, new ViewDataDictionary { { "returnUrl", @ViewBag.returnUrl } });
                 }
             }
 

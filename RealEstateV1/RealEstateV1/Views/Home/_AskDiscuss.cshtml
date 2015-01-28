@@ -38,6 +38,9 @@ else
         $(function () {
 
             $("#sendD").click(function () {
+                $("#Login-modal-body").load('@Url.Action("Login", "Account", new { returnUrl = ViewBag.returnUrl })');
+                $("#Register-modal-body").load('@Url.Action("Register", "Account")');
+                $("#forgetPass-modal-body").load('@Url.Action("ForgotPassword", "Account")');
                 $('#LoginModal').modal({
                     show: 'true'
                 });

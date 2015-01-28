@@ -14,8 +14,8 @@ namespace RealEstateV1.Models
         [Display(Name = "الحالة")]
         public string Status { get; set; }
         
-        public int CutomerLikeID { get; set; }
-        //user,owner
         public virtual T_Customer Customer { get; set; }
+
+        public virtual T_Owner Owner { get; set; }
     }
 }

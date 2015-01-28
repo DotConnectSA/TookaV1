@@ -11,6 +11,9 @@
             <a href="#" onclick="LikeD(@(Model.ID))"><div id="likeme@(Model.ID)">@Model.LikeNo</div></a>
         </div>
         <div class="comment-body">
+            <div style="float:right;width:50px">
+                <img width="50px" src=@Url.Content(Model.Customer.ImgeUrl) alt="">
+            </div>
             <span class="avatar-name">@Model.Customer.Name</span>
             <span class="time">@Model.CreatedDate</span>
             <p>@Model.Topic</p>
@@ -22,21 +25,22 @@
                     <textarea id="sendR@(Model.ID)" placeholder="اضف تعليق" style="margin: 0 50px 10px 10px;max-width:500px"></textarea>
                     <a onclick="AddRepaly(@(Model.ID))" class="responde btn">اضافة</a>
                 </div>
+                <div id="toggle@(Model.ID)Response">
+                    @foreach (var item in @Model.Replay)
+                    {
+                        <div class="responde" style="margin-top:5px;">
+                            <div class="comment-body">
+                                <span class="avatar-name">@item.Customer.Name</span>
+                                <span class="time">@item.CreatedDate</span>
+                                <span class="comment-links">
+                                    <a href="#" onclick="reportR(@(item.ID))">تبليغ</a>
+                                </span>
+                                <p>@item.Replaytxt</p>
 
-                @foreach (var item in @Model.Replay)
-                {
-                    <div class="responde" style="margin-top:5px;">
-                        <div class="comment-body">
-                            <span class="avatar-name">@item.Customer.Name</span>
-                            <span class="time">@item.CreatedDate</span>
-                            <span class="comment-links">
-                                <a href="#" onclick="reportR(@(item.ID))">تبليغ</a>
-                            </span>
-                            <p>@item.Replaytxt</p>
-
+                            </div>
                         </div>
-                    </div>
-                }
+                    }
+                </div>
             </div>
 
 
@@ -145,7 +149,7 @@
             });
 
         }
-
+        
         function AddRepaly(id) {
             var i = "#sendR" + id;
             var rep = $(i).val();
@@ -155,7 +159,8 @@
                 url: "@(Url.Action("AddDiscussRepaly"))",
                 data: { ID: id, test: rep },
                 success: function (data) {
-                    window.location.href = "/Home/Discuss/";
+                    var rep = $("#toggle" + id + "Response");
+                    rep.append(data);
                 },
                 error: function (xhr, ajaxOptions, thrownError) {
                     alert('Failed to retrieve states. ' + xhr + " - " + ajaxOptions + " - " + thrownError);
@@ -219,7 +224,6 @@ else
             show: 'true'
         });
     }
-
 
     </script>
 }

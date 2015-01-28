@@ -21,14 +21,15 @@ namespace RealEstateV1.Controllers
     {
 
         public void initialization()
-        { 
-            var town = new Dictionary<string, int> { { "الحي ", 0 } };
+        {
+            var tw = new Dictionary<string, int> { { "الحي", 0 } };
             var bathno = new Dictionary<string, int> { { "عدد الحمامات", 0 }, { "1", 1 }, { "2", 2 }, { "3", 3 }, { "4", 4 }, { "5", 5 } };
             var roomno = new Dictionary<string, int> { { " عدد الغرف", 0 }, { "1", 1 }, { "2", 2 }, { "3", 3 }, { "4", 4 }, { "5", 5 } };
             var lower = new Dictionary<string, int> { { "السعر الادنى", 0 }, { "100", 100 }, { "200", 200 }, { "300", 300 }, { "400", 400 }, { "500", 500 } };
             var uper = new Dictionary<string, int> { { "السعر الاعلى ", 0 }, { "10000", 10000 }, { "20000", 20000 }, { "30000", 30000 }, { "40000", 40000 }, { "50000", 50000 } };
             var area = new Dictionary<string, int> { { "المساحة ", 0 }, { "100", 100 }, { "200", 200 }, { "300", 300 }, { "400", 400 }, { "500", 500 } };
           //  ViewData["DDL"] = new SelectList(selectItems, "Key", "Value", id == "MyTest" ? "MyTest" : "Test2");
+            
             ViewBag.Cites = Busniss.BusnissLayer.GetCitesList();
             ViewBag.bathno = new SelectList(bathno, "Value", "Key");
             ViewBag.roomno = new SelectList(roomno, "Value", "Key");
@@ -37,7 +38,7 @@ namespace RealEstateV1.Controllers
             ViewBag.uperprice = new SelectList(uper, "Value", "Key");
             ViewBag.area = new SelectList(area, "Value", "Key"); 
             ViewBag.REFeature = Busniss.BusnissLayer.GetREFeatuer();
-            ViewBag.town = new SelectList(town, "Value", "Key");
+            ViewBag.town = new SelectList(tw, "Value", "Key");
 
 
             string realstate = " عقار جديد ";
@@ -58,6 +59,8 @@ namespace RealEstateV1.Controllers
             ViewBag.ImageAds = "left-ads.jpg";
             ViewBag.imageads2 = "right-ads.jpg";
             ViewBag.index = 1;
+            var resultInPage = new Dictionary<string, int> { { "2 نتائج في الصفحة", 0 }, { "5 نتائج في الصفحة", 1 }, { "10 نتائج في الصفحة", 2 } };
+            ViewBag.resultInPage = new SelectList(resultInPage, "Value", "Key");
         }
         #region actions
 
@@ -67,40 +70,6 @@ namespace RealEstateV1.Controllers
             initialization();
 
             return View();
-        }
-        [HttpGet]
-        public ActionResult sold()
-        {
-            initialization();
-
-            Busniss.SearchItem item = null;
-            if (Busniss.SessionManager.searchKey != null)
-            {
-                item = Busniss.SessionManager.searchKey;
-            }
-            var result = Busniss.BusnissLayer.getSold(item);
-            //Busniss.SessionManager.Result = result; //to be done for the rest of views
-            return View(result.AsEnumerable<T_Sale>());
-
-        }
-        [HttpGet]
-        public ActionResult Sale()
-        {
-            initialization();
-            // ViewBag.ReturnUrl = "sale";
-
-            initialization();
-
-            Busniss.SearchItem item = null;
-            if (Busniss.SessionManager.searchKey != null)
-            {
-                item = Busniss.SessionManager.searchKey;
-            }
-            var result = Busniss.BusnissLayer.getSale(item);
-            //Busniss.SessionManager.Result = result; //to be done for the rest of views
-            return View(result.AsEnumerable<T_Sale>());
-
-            //return View();
         }
 
         [HttpPost]
@@ -136,7 +105,7 @@ namespace RealEstateV1.Controllers
             }
             int id = 0;
             bool isValid = Int32.TryParse(CityID, out id);
-            var result = Busniss.BusnissLayer.GetTownByCityIDDropDown(id);
+            var result = Busniss.BusnissLayer.GetTownByCityIDDropDown2(id);
             return Json(result, JsonRequestBehavior.AllowGet);        
         }
 
@@ -173,20 +142,25 @@ namespace RealEstateV1.Controllers
             return RedirectToAction("RealEstate",id);
         }
         /////////////////////////////////////////////////////////////////////*********
-        public ActionResult GetTowninfo(string townID)
+        public JsonResult GetTowninfo(string cityID,string townID)
         {
             if (String.IsNullOrEmpty(townID))
             {
                 throw new ArgumentNullException("townID");
             }
-            int id = 0;
-            bool isValid = Int32.TryParse(townID, out id);
-            var result = Busniss.BusnissLayer.GetTownID(id);
-            return Json(result.Comment.ToList(), JsonRequestBehavior.AllowGet);
-
+            int tid = 0,cid=0;
+            bool isValid = Int32.TryParse(townID, out tid);
+            isValid = Int32.TryParse(cityID, out cid);
+            var result = Busniss.BusnissLayer.GetCommnetList(cid, tid);
+            List<int> commentListID = new List<int>();
+            for (int i = 0; i < result.Count(); i++)
+            {
+                commentListID.Add(result[i].ID);
+            }
+            return Json(commentListID, JsonRequestBehavior.AllowGet);
         }
 
-        public ActionResult GetComment(int CommentID, int index)
+        public ActionResult GetCommentByID(int CommentID, int index)
         {
             ViewBag.index = index;
             var result = Busniss.BusnissLayer.GetCommentByID(CommentID);
@@ -202,10 +176,16 @@ namespace RealEstateV1.Controllers
             int id = 0;
             bool isValid = Int32.TryParse(CityId, out id);
             var result = Busniss.BusnissLayer.GetOwnerByCity(id);
-            return Json(result.ToList(), JsonRequestBehavior.AllowGet);
+            List<int> ownerListID = new List<int>();
+            for (int i = 0; i < result.Count(); i++)
+            {
+                ownerListID.Add(result[i].ID);
+            }
+            return Json(ownerListID, JsonRequestBehavior.AllowGet);
         }
-        public ActionResult GetOwner(int OwnerId)
+        public ActionResult GetOwner(int OwnerId,int index)
         {
+            ViewBag.OwnerIndex = index;
             var result = Busniss.BusnissLayer.GetOwnerById(OwnerId);
             return PartialView("_OwnerPartial", result);
         }
@@ -257,6 +237,8 @@ namespace RealEstateV1.Controllers
 
         public ActionResult RealEstate(int ID)
         {
+            Busniss.BusnissLayer.AddSearchHistory(ID);
+            ViewBag.ReturnUrl = "RealEstate/"+ID;
             T_RealEstate real = Busniss.BusnissLayer.GetRealEstateByID(ID);
             T_Rent rent = Busniss.BusnissLayer.GetRentByRSID(ID);
             T_Sale sale = Busniss.BusnissLayer.GetSaleByRSID(ID);
@@ -296,7 +278,6 @@ namespace RealEstateV1.Controllers
             return View();
         }
         
-        [HttpGet]
         public ActionResult Rent()
         {
             initialization();
@@ -304,7 +285,7 @@ namespace RealEstateV1.Controllers
             Busniss.SearchItem item = null;
             if (Busniss.SessionManager.searchKey != null)
             {
-            item = Busniss.SessionManager.searchKey;
+                item = Busniss.SessionManager.searchKey;
             }
             var result = Busniss.BusnissLayer.getRent(item);
              //Busniss.SessionManager.Result = result; //to be done for the rest of views
@@ -355,7 +336,45 @@ namespace RealEstateV1.Controllers
              return RedirectToAction("Index");
         }
         
-        
+        [HttpGet]
+        public ActionResult Sale()
+        {
+           initialization();
+           ViewBag.ReturnUrl = "sale";
+
+           Busniss.SearchItem item = null;
+           if (Busniss.SessionManager.searchKey != null)
+           {
+               item = Busniss.SessionManager.searchKey;
+           }
+           var result = Busniss.BusnissLayer.getSale(item);
+
+           return View(result.AsEnumerable<T_Sale>());
+        }
+
+        public ActionResult SearchHistory()
+        {
+            ViewBag.ReturnUrl = "GetSearchHistory";
+            List<RealEstateFull> result = Busniss.BusnissLayer.GetSearchHistory();
+
+            return View(result.ToList());
+        }
+
+        [HttpGet]
+        public ActionResult sold()
+        {
+            initialization();
+
+            Busniss.SearchItem item = null;
+            if (Busniss.SessionManager.searchKey != null)
+            {
+                item = Busniss.SessionManager.searchKey;
+            }
+            var result = Busniss.BusnissLayer.getSold(item);
+            //Busniss.SessionManager.Result = result; //to be done for the rest of views
+            return View(result.AsEnumerable<T_Sale>());
+
+        }
 
         [HttpGet]
         public ActionResult AddRate(int id)
@@ -376,8 +395,26 @@ namespace RealEstateV1.Controllers
         [Authorize]
         public ActionResult LikeOwner(int ID)
         {
-            Busniss.BusnissLayer.LikeOwner(ID);
-            return RedirectToAction("RealEstatesOwners", "Home");
+            bool result = Busniss.BusnissLayer.LikeOwner(ID);
+            return Json(result, JsonRequestBehavior.AllowGet);
+        }
+
+        public ActionResult DisLikeOwner(int ID)
+        {
+            bool result = Busniss.BusnissLayer.DisLikeOwner(ID);
+            return Json(result, JsonRequestBehavior.AllowGet);
+        }
+
+        public ActionResult LikeEstate(int ID)
+        {
+            bool result = Busniss.BusnissLayer.LikeEstate(ID);
+            return Json(result, JsonRequestBehavior.AllowGet);
+        }
+
+        public ActionResult DisLikeEstate(int ID)
+        {
+            bool result = Busniss.BusnissLayer.DisLikeEstate(ID);
+            return Json(result, JsonRequestBehavior.AllowGet);
         }
 
         [Authorize]
@@ -533,15 +570,15 @@ namespace RealEstateV1.Controllers
         [Authorize]
         public ActionResult AddDiscussRepaly(int ID, string test)
         {
-            Busniss.BusnissLayer.AddDiscussRepaly(ID, test);
-            return Json(true, JsonRequestBehavior.AllowGet);
+            T_Replay rep = Busniss.BusnissLayer.AddDiscussRepaly(ID, test);
+            return PartialView("_ReplayPartial", rep);
         }
 
         [Authorize]
         public ActionResult AddCommentRepaly(int ID, string test)
         {
-            Busniss.BusnissLayer.AddCommentRepaly(ID, test);
-            return Json(true, JsonRequestBehavior.AllowGet);
+            T_Replay rep = Busniss.BusnissLayer.AddCommentRepaly(ID, test);
+            return PartialView("_ReplayPartial", rep);
         }
 
         public ActionResult Discuss()
@@ -559,14 +596,13 @@ namespace RealEstateV1.Controllers
             return View();
         }
 
-        public ActionResult TownInformation(int CityID = 1, int townID = 1)
+        public ActionResult TownInformation(int CityID = 0, int townID = 0)
         {
             initialization();
             ViewBag.ReturnUrl = "towninformation";
-            T_Town t = Busniss.BusnissLayer.GetTownID(townID);
+            List<T_TownComment> townCommentList = Busniss.BusnissLayer.GetCommnetList(CityID, townID);
 
-
-            return View(t);
+            return View(townCommentList.ToList());
         }
 
         [Authorize]

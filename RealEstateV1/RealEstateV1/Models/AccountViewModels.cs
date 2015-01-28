@@ -41,7 +41,7 @@ namespace RealEstateV1.Models
 
     public class ForgotViewModel
     {
-        [Required]
+        [Required(ErrorMessage = "الرجاء ادخال الايميل")]
         [Display(Name = "Email")]
         public string Email { get; set; }
     }
@@ -49,12 +49,12 @@ namespace RealEstateV1.Models
     public class LoginViewModel
     {
 
-        [Required]
+        [Required(ErrorMessage = "الرجاء ادخال الايميل")]
         [Display(Name = "Email")]
         [EmailAddress]
         public string Email { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "الرجاء ادخال كلمة المرور")]
         [DataType(DataType.Password)]
         [Display(Name = "Password")]
         public string Password { get; set; }
@@ -68,23 +68,24 @@ namespace RealEstateV1.Models
 
         public string ID { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "الرجاء ادخال الايميل")]
         [EmailAddress]
         [Display(Name = "الايميل")]
         public string Email { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "الرجاء ادخال كلمة المرور")]
         [StringLength(100, ErrorMessage = "The {0} must be at least {2} characters long.", MinimumLength = 6)]
         [DataType(DataType.Password)]
         [Display(Name = "كلمة المرور")]
         public string Password { get; set; }
 
+        [Required(ErrorMessage = "الرجاء تأكيد كلمة المرور")]
         [DataType(DataType.Password)]
         [Display(Name = "تأكيد كلمة المرور")]
         [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
         public string ConfirmPassword { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "الرجاء ادخال اسم المستخدم")]
         [Display(Name = "اسم المستخدم")]
         public string UserName { get; set; }
     }
@@ -112,7 +113,7 @@ namespace RealEstateV1.Models
 
     public class ForgotPasswordViewModel
     {
-        [Required]
+        [Required(ErrorMessage = "الرجاء ادخال الايميل")]
         [EmailAddress]
         [Display(Name = "Email")]
         public string Email { get; set; }

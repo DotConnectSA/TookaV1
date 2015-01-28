@@ -72,7 +72,8 @@ namespace RealEstateV1.Controllers
                 Logins = await UserManager.GetLoginsAsync(userId),
                 BrowserRemembered = await AuthenticationManager.TwoFactorBrowserRememberedAsync(userId)
             };
-            return View(model);
+            //return View(model);
+            return PartialView("Index", model);
         }
 
         //
@@ -215,7 +216,7 @@ namespace RealEstateV1.Controllers
         // GET: /Manage/ChangePassword
         public ActionResult ChangePassword()
         {
-            return View();
+            return PartialView("ChangePassword");
         }
 
         //
@@ -226,7 +227,7 @@ namespace RealEstateV1.Controllers
         {
             if (!ModelState.IsValid)
             {
-                return View(model);
+                return PartialView("ChangePassword", model);
             }
             var result = await UserManager.ChangePasswordAsync(User.Identity.GetUserId(), model.OldPassword, model.NewPassword);
             if (result.Succeeded)
@@ -236,10 +237,11 @@ namespace RealEstateV1.Controllers
                 {
                     await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
                 }
-                return RedirectToAction("Index", new { Message = ManageMessageId.ChangePasswordSuccess });
+                //return RedirectToAction("Index", new { Message = ManageMessageId.ChangePasswordSuccess });
+                return Json(new { Success = "true", Message = ManageMessageId.ChangePasswordSuccess }, JsonRequestBehavior.AllowGet);
             }
             AddErrors(result);
-            return View(model);
+            return PartialView("ChangePassword", model);
         }
 
         //
@@ -285,12 +287,17 @@ namespace RealEstateV1.Controllers
             var user = await UserManager.FindByIdAsync(User.Identity.GetUserId());
             if (user == null)
             {
-                return View("Error");
+                return PartialView("ManageLogins","Error");
             }
             var userLogins = await UserManager.GetLoginsAsync(User.Identity.GetUserId());
             var otherLogins = AuthenticationManager.GetExternalAuthenticationTypes().Where(auth => userLogins.All(ul => auth.AuthenticationType != ul.LoginProvider)).ToList();
             ViewBag.ShowRemoveButton = user.PasswordHash != null || userLogins.Count > 1;
-            return View(new ManageLoginsViewModel
+            //return View(new ManageLoginsViewModel
+            //{
+            //    CurrentLogins = userLogins,
+            //    OtherLogins = otherLogins
+            //});
+            return PartialView("ManageLogins", new ManageLoginsViewModel
             {
                 CurrentLogins = userLogins,
                 OtherLogins = otherLogins

@@ -17,11 +17,14 @@ namespace RealEstateV1.Models
         public string Email { get; set; }
         public virtual T_Address address { get; set; }
         public string ImgeUrl { get; set; }
-        [Display(Name = "جوال")]
+        [Display(Name = "الجوال")]
         public string Mobile { get; set; }
         [Display(Name = "هاتف")]
         public string Phone { get; set; }
+        [Display(Name = "فاكس")]
+        public string Fax { get; set; }
         public string ProfileID { get; set; }
+        [Display(Name = "نوع التسجيل")]
         public string Kind { get; set; }
     }
 }

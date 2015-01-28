@@ -19,5 +19,7 @@ namespace RealEstateV1.Models
 
         [Display(Name = "الاحداثيات")]
         public virtual T_position position { get; set; }
+
+        public virtual T_TownFeature townFeature { get; set; }
     }
 }

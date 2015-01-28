@@ -288,3 +288,188 @@ C:\Users\yasser\Documents\GitHub\TookaV1\RealEstateV1\RealEstateV1\bin\RazorEngi
 C:\Users\yasser\Documents\GitHub\TookaV1\RealEstateV1\RealEstateV1\bin\Postal.xml
 C:\Users\yasser\Documents\GitHub\TookaV1\RealEstateV1\RealEstateV1\bin\RazorEngine.pdb
 C:\Users\yasser\Documents\GitHub\TookaV1\RealEstateV1\RealEstateV1\bin\RazorEngine.xml
+C:\Users\Admin\Desktop\RealEstateV1\RealEstateV1\bin\Postal.dll
+C:\Users\Admin\Desktop\RealEstateV1\RealEstateV1\bin\RazorEngine.dll
+C:\Users\Admin\Desktop\RealEstateV1\RealEstateV1\bin\Postal.xml
+C:\Users\Admin\Desktop\RealEstateV1\RealEstateV1\bin\RazorEngine.pdb
+C:\Users\Admin\Desktop\RealEstateV1\RealEstateV1\bin\RazorEngine.xml
+C:\Users\Admin\Desktop\RealEstateV1(joud)\RealEstateV1\bin\RealEstateV1.dll.config
+C:\Users\Admin\Desktop\RealEstateV1(joud)\RealEstateV1\bin\RealEstateV1.dll
+C:\Users\Admin\Desktop\RealEstateV1(joud)\RealEstateV1\bin\RealEstateV1.pdb
+C:\Users\Admin\Desktop\RealEstateV1(joud)\RealEstateV1\bin\Antlr3.Runtime.dll
+C:\Users\Admin\Desktop\RealEstateV1(joud)\RealEstateV1\bin\EntityFramework.dll
+C:\Users\Admin\Desktop\RealEstateV1(joud)\RealEstateV1\bin\EntityFramework.SqlServer.dll
+C:\Users\Admin\Desktop\RealEstateV1(joud)\RealEstateV1\bin\Microsoft.AspNet.Identity.Core.dll
+C:\Users\Admin\Desktop\RealEstateV1(joud)\RealEstateV1\bin\Microsoft.AspNet.Identity.EntityFramework.dll
+C:\Users\Admin\Desktop\RealEstateV1(joud)\RealEstateV1\bin\Microsoft.AspNet.Identity.Owin.dll
+C:\Users\Admin\Desktop\RealEstateV1(joud)\RealEstateV1\bin\Microsoft.Owin.dll
+C:\Users\Admin\Desktop\RealEstateV1(joud)\RealEstateV1\bin\Microsoft.Owin.Host.SystemWeb.dll
+C:\Users\Admin\Desktop\RealEstateV1(joud)\RealEstateV1\bin\Microsoft.Owin.Security.Cookies.dll
+C:\Users\Admin\Desktop\RealEstateV1(joud)\RealEstateV1\bin\Microsoft.Owin.Security.dll
+C:\Users\Admin\Desktop\RealEstateV1(joud)\RealEstateV1\bin\Microsoft.Owin.Security.Facebook.dll
+C:\Users\Admin\Desktop\RealEstateV1(joud)\RealEstateV1\bin\Microsoft.Owin.Security.Google.dll
+C:\Users\Admin\Desktop\RealEstateV1(joud)\RealEstateV1\bin\Microsoft.Owin.Security.MicrosoftAccount.dll
+C:\Users\Admin\Desktop\RealEstateV1(joud)\RealEstateV1\bin\Microsoft.Owin.Security.OAuth.dll
+C:\Users\Admin\Desktop\RealEstateV1(joud)\RealEstateV1\bin\Microsoft.Owin.Security.Twitter.dll
+C:\Users\Admin\Desktop\RealEstateV1(joud)\RealEstateV1\bin\Microsoft.Web.Infrastructure.dll
+C:\Users\Admin\Desktop\RealEstateV1(joud)\RealEstateV1\bin\Newtonsoft.Json.dll
+C:\Users\Admin\Desktop\RealEstateV1(joud)\RealEstateV1\bin\Owin.dll
+C:\Users\Admin\Desktop\RealEstateV1(joud)\RealEstateV1\bin\Postal.dll
+C:\Users\Admin\Desktop\RealEstateV1(joud)\RealEstateV1\bin\RazorEngine.dll
+C:\Users\Admin\Desktop\RealEstateV1(joud)\RealEstateV1\bin\System.Web.Helpers.dll
+C:\Users\Admin\Desktop\RealEstateV1(joud)\RealEstateV1\bin\System.Web.Mvc.dll
+C:\Users\Admin\Desktop\RealEstateV1(joud)\RealEstateV1\bin\System.Web.Optimization.dll
+C:\Users\Admin\Desktop\RealEstateV1(joud)\RealEstateV1\bin\System.Web.Razor.dll
+C:\Users\Admin\Desktop\RealEstateV1(joud)\RealEstateV1\bin\System.Web.WebPages.Deployment.dll
+C:\Users\Admin\Desktop\RealEstateV1(joud)\RealEstateV1\bin\System.Web.WebPages.dll
+C:\Users\Admin\Desktop\RealEstateV1(joud)\RealEstateV1\bin\System.Web.WebPages.Razor.dll
+C:\Users\Admin\Desktop\RealEstateV1(joud)\RealEstateV1\bin\WebGrease.dll
+C:\Users\Admin\Desktop\RealEstateV1(joud)\RealEstateV1\bin\Postal.xml
+C:\Users\Admin\Desktop\RealEstateV1(joud)\RealEstateV1\bin\RazorEngine.pdb
+C:\Users\Admin\Desktop\RealEstateV1(joud)\RealEstateV1\bin\RazorEngine.xml
+C:\Users\Admin\Desktop\RealEstateV1(joud)\RealEstateV1\bin\System.Web.Helpers.xml
+C:\Users\Admin\Desktop\RealEstateV1(joud)\RealEstateV1\bin\System.Web.Mvc.xml
+C:\Users\Admin\Desktop\RealEstateV1(joud)\RealEstateV1\bin\System.Web.Optimization.xml
+C:\Users\Admin\Desktop\RealEstateV1(joud)\RealEstateV1\bin\System.Web.Razor.xml
+C:\Users\Admin\Desktop\RealEstateV1(joud)\RealEstateV1\bin\System.Web.WebPages.xml
+C:\Users\Admin\Desktop\RealEstateV1(joud)\RealEstateV1\bin\System.Web.WebPages.Deployment.xml
+C:\Users\Admin\Desktop\RealEstateV1(joud)\RealEstateV1\bin\System.Web.WebPages.Razor.xml
+C:\Users\Admin\Desktop\RealEstateV1(joud)\RealEstateV1\bin\Antlr3.Runtime.pdb
+C:\Users\Admin\Desktop\RealEstateV1(joud)\RealEstateV1\bin\Newtonsoft.Json.xml
+C:\Users\Admin\Desktop\RealEstateV1(joud)\RealEstateV1\bin\EntityFramework.xml
+C:\Users\Admin\Desktop\RealEstateV1(joud)\RealEstateV1\bin\EntityFramework.SqlServer.xml
+C:\Users\Admin\Desktop\RealEstateV1(joud)\RealEstateV1\bin\Microsoft.AspNet.Identity.Core.xml
+C:\Users\Admin\Desktop\RealEstateV1(joud)\RealEstateV1\bin\Microsoft.AspNet.Identity.Owin.xml
+C:\Users\Admin\Desktop\RealEstateV1(joud)\RealEstateV1\bin\Microsoft.AspNet.Identity.EntityFramework.xml
+C:\Users\Admin\Desktop\RealEstateV1(joud)\RealEstateV1\bin\Microsoft.Owin.xml
+C:\Users\Admin\Desktop\RealEstateV1(joud)\RealEstateV1\bin\Microsoft.Owin.Host.SystemWeb.xml
+C:\Users\Admin\Desktop\RealEstateV1(joud)\RealEstateV1\bin\Microsoft.Owin.Security.xml
+C:\Users\Admin\Desktop\RealEstateV1(joud)\RealEstateV1\bin\Microsoft.Owin.Security.Facebook.xml
+C:\Users\Admin\Desktop\RealEstateV1(joud)\RealEstateV1\bin\Microsoft.Owin.Security.Cookies.xml
+C:\Users\Admin\Desktop\RealEstateV1(joud)\RealEstateV1\bin\Microsoft.Owin.Security.OAuth.xml
+C:\Users\Admin\Desktop\RealEstateV1(joud)\RealEstateV1\bin\Microsoft.Owin.Security.Google.xml
+C:\Users\Admin\Desktop\RealEstateV1(joud)\RealEstateV1\bin\Microsoft.Owin.Security.Twitter.xml
+C:\Users\Admin\Desktop\RealEstateV1(joud)\RealEstateV1\bin\Microsoft.Owin.Security.MicrosoftAccount.xml
+C:\Users\Admin\Desktop\RealEstateV1(joud)\RealEstateV1\obj\Debug\RealEstateV1.csprojResolveAssemblyReference.cache
+C:\Users\Admin\Desktop\RealEstateV1(joud)\RealEstateV1\obj\Debug\RealEstateV1.dll
+C:\Users\Admin\Desktop\RealEstateV1(joud)\RealEstateV1\obj\Debug\RealEstateV1.pdb
+C:\Users\HP\Desktop\Current Projects\Dot Connect\RealEstateV1(joud)\RealEstateV1\bin\RealEstateV1.dll.config
+C:\Users\HP\Desktop\Current Projects\Dot Connect\RealEstateV1(joud)\RealEstateV1\bin\RealEstateV1.dll
+C:\Users\HP\Desktop\Current Projects\Dot Connect\RealEstateV1(joud)\RealEstateV1\bin\RealEstateV1.pdb
+C:\Users\HP\Desktop\Current Projects\Dot Connect\RealEstateV1(joud)\RealEstateV1\bin\Antlr3.Runtime.dll
+C:\Users\HP\Desktop\Current Projects\Dot Connect\RealEstateV1(joud)\RealEstateV1\bin\EntityFramework.dll
+C:\Users\HP\Desktop\Current Projects\Dot Connect\RealEstateV1(joud)\RealEstateV1\bin\EntityFramework.SqlServer.dll
+C:\Users\HP\Desktop\Current Projects\Dot Connect\RealEstateV1(joud)\RealEstateV1\bin\Microsoft.AspNet.Identity.Core.dll
+C:\Users\HP\Desktop\Current Projects\Dot Connect\RealEstateV1(joud)\RealEstateV1\bin\Microsoft.AspNet.Identity.EntityFramework.dll
+C:\Users\HP\Desktop\Current Projects\Dot Connect\RealEstateV1(joud)\RealEstateV1\bin\Microsoft.AspNet.Identity.Owin.dll
+C:\Users\HP\Desktop\Current Projects\Dot Connect\RealEstateV1(joud)\RealEstateV1\bin\Microsoft.Owin.dll
+C:\Users\HP\Desktop\Current Projects\Dot Connect\RealEstateV1(joud)\RealEstateV1\bin\Microsoft.Owin.Host.SystemWeb.dll
+C:\Users\HP\Desktop\Current Projects\Dot Connect\RealEstateV1(joud)\RealEstateV1\bin\Microsoft.Owin.Security.Cookies.dll
+C:\Users\HP\Desktop\Current Projects\Dot Connect\RealEstateV1(joud)\RealEstateV1\bin\Microsoft.Owin.Security.dll
+C:\Users\HP\Desktop\Current Projects\Dot Connect\RealEstateV1(joud)\RealEstateV1\bin\Microsoft.Owin.Security.Facebook.dll
+C:\Users\HP\Desktop\Current Projects\Dot Connect\RealEstateV1(joud)\RealEstateV1\bin\Microsoft.Owin.Security.Google.dll
+C:\Users\HP\Desktop\Current Projects\Dot Connect\RealEstateV1(joud)\RealEstateV1\bin\Microsoft.Owin.Security.MicrosoftAccount.dll
+C:\Users\HP\Desktop\Current Projects\Dot Connect\RealEstateV1(joud)\RealEstateV1\bin\Microsoft.Owin.Security.OAuth.dll
+C:\Users\HP\Desktop\Current Projects\Dot Connect\RealEstateV1(joud)\RealEstateV1\bin\Microsoft.Owin.Security.Twitter.dll
+C:\Users\HP\Desktop\Current Projects\Dot Connect\RealEstateV1(joud)\RealEstateV1\bin\Microsoft.Web.Infrastructure.dll
+C:\Users\HP\Desktop\Current Projects\Dot Connect\RealEstateV1(joud)\RealEstateV1\bin\Newtonsoft.Json.dll
+C:\Users\HP\Desktop\Current Projects\Dot Connect\RealEstateV1(joud)\RealEstateV1\bin\Owin.dll
+C:\Users\HP\Desktop\Current Projects\Dot Connect\RealEstateV1(joud)\RealEstateV1\bin\Postal.dll
+C:\Users\HP\Desktop\Current Projects\Dot Connect\RealEstateV1(joud)\RealEstateV1\bin\RazorEngine.dll
+C:\Users\HP\Desktop\Current Projects\Dot Connect\RealEstateV1(joud)\RealEstateV1\bin\System.Web.Helpers.dll
+C:\Users\HP\Desktop\Current Projects\Dot Connect\RealEstateV1(joud)\RealEstateV1\bin\System.Web.Mvc.dll
+C:\Users\HP\Desktop\Current Projects\Dot Connect\RealEstateV1(joud)\RealEstateV1\bin\System.Web.Optimization.dll
+C:\Users\HP\Desktop\Current Projects\Dot Connect\RealEstateV1(joud)\RealEstateV1\bin\System.Web.Razor.dll
+C:\Users\HP\Desktop\Current Projects\Dot Connect\RealEstateV1(joud)\RealEstateV1\bin\System.Web.WebPages.Deployment.dll
+C:\Users\HP\Desktop\Current Projects\Dot Connect\RealEstateV1(joud)\RealEstateV1\bin\System.Web.WebPages.dll
+C:\Users\HP\Desktop\Current Projects\Dot Connect\RealEstateV1(joud)\RealEstateV1\bin\System.Web.WebPages.Razor.dll
+C:\Users\HP\Desktop\Current Projects\Dot Connect\RealEstateV1(joud)\RealEstateV1\bin\WebGrease.dll
+C:\Users\HP\Desktop\Current Projects\Dot Connect\RealEstateV1(joud)\RealEstateV1\bin\Postal.xml
+C:\Users\HP\Desktop\Current Projects\Dot Connect\RealEstateV1(joud)\RealEstateV1\bin\RazorEngine.pdb
+C:\Users\HP\Desktop\Current Projects\Dot Connect\RealEstateV1(joud)\RealEstateV1\bin\RazorEngine.xml
+C:\Users\HP\Desktop\Current Projects\Dot Connect\RealEstateV1(joud)\RealEstateV1\bin\System.Web.Helpers.xml
+C:\Users\HP\Desktop\Current Projects\Dot Connect\RealEstateV1(joud)\RealEstateV1\bin\System.Web.Mvc.xml
+C:\Users\HP\Desktop\Current Projects\Dot Connect\RealEstateV1(joud)\RealEstateV1\bin\System.Web.Optimization.xml
+C:\Users\HP\Desktop\Current Projects\Dot Connect\RealEstateV1(joud)\RealEstateV1\bin\System.Web.Razor.xml
+C:\Users\HP\Desktop\Current Projects\Dot Connect\RealEstateV1(joud)\RealEstateV1\bin\System.Web.WebPages.xml
+C:\Users\HP\Desktop\Current Projects\Dot Connect\RealEstateV1(joud)\RealEstateV1\bin\System.Web.WebPages.Deployment.xml
+C:\Users\HP\Desktop\Current Projects\Dot Connect\RealEstateV1(joud)\RealEstateV1\bin\System.Web.WebPages.Razor.xml
+C:\Users\HP\Desktop\Current Projects\Dot Connect\RealEstateV1(joud)\RealEstateV1\bin\Antlr3.Runtime.pdb
+C:\Users\HP\Desktop\Current Projects\Dot Connect\RealEstateV1(joud)\RealEstateV1\bin\Newtonsoft.Json.xml
+C:\Users\HP\Desktop\Current Projects\Dot Connect\RealEstateV1(joud)\RealEstateV1\bin\EntityFramework.xml
+C:\Users\HP\Desktop\Current Projects\Dot Connect\RealEstateV1(joud)\RealEstateV1\bin\EntityFramework.SqlServer.xml
+C:\Users\HP\Desktop\Current Projects\Dot Connect\RealEstateV1(joud)\RealEstateV1\bin\Microsoft.AspNet.Identity.Core.xml
+C:\Users\HP\Desktop\Current Projects\Dot Connect\RealEstateV1(joud)\RealEstateV1\bin\Microsoft.AspNet.Identity.Owin.xml
+C:\Users\HP\Desktop\Current Projects\Dot Connect\RealEstateV1(joud)\RealEstateV1\bin\Microsoft.AspNet.Identity.EntityFramework.xml
+C:\Users\HP\Desktop\Current Projects\Dot Connect\RealEstateV1(joud)\RealEstateV1\bin\Microsoft.Owin.xml
+C:\Users\HP\Desktop\Current Projects\Dot Connect\RealEstateV1(joud)\RealEstateV1\bin\Microsoft.Owin.Host.SystemWeb.xml
+C:\Users\HP\Desktop\Current Projects\Dot Connect\RealEstateV1(joud)\RealEstateV1\bin\Microsoft.Owin.Security.xml
+C:\Users\HP\Desktop\Current Projects\Dot Connect\RealEstateV1(joud)\RealEstateV1\bin\Microsoft.Owin.Security.Facebook.xml
+C:\Users\HP\Desktop\Current Projects\Dot Connect\RealEstateV1(joud)\RealEstateV1\bin\Microsoft.Owin.Security.Cookies.xml
+C:\Users\HP\Desktop\Current Projects\Dot Connect\RealEstateV1(joud)\RealEstateV1\bin\Microsoft.Owin.Security.OAuth.xml
+C:\Users\HP\Desktop\Current Projects\Dot Connect\RealEstateV1(joud)\RealEstateV1\bin\Microsoft.Owin.Security.Google.xml
+C:\Users\HP\Desktop\Current Projects\Dot Connect\RealEstateV1(joud)\RealEstateV1\bin\Microsoft.Owin.Security.Twitter.xml
+C:\Users\HP\Desktop\Current Projects\Dot Connect\RealEstateV1(joud)\RealEstateV1\bin\Microsoft.Owin.Security.MicrosoftAccount.xml
+C:\Users\HP\Desktop\Current Projects\Dot Connect\RealEstateV1(joud)\RealEstateV1\obj\Debug\RealEstateV1.csprojResolveAssemblyReference.cache
+C:\Users\HP\Desktop\Current Projects\Dot Connect\RealEstateV1(joud)\RealEstateV1\obj\Debug\RealEstateV1.dll
+C:\Users\HP\Desktop\Current Projects\Dot Connect\RealEstateV1(joud)\RealEstateV1\obj\Debug\RealEstateV1.pdb
+C:\Users\HP\Desktop\RealEstateV1(joud)\RealEstateV1\bin\RealEstateV1.dll.config
+C:\Users\HP\Desktop\RealEstateV1(joud)\RealEstateV1\bin\RealEstateV1.dll
+C:\Users\HP\Desktop\RealEstateV1(joud)\RealEstateV1\bin\RealEstateV1.pdb
+C:\Users\HP\Desktop\RealEstateV1(joud)\RealEstateV1\bin\Antlr3.Runtime.dll
+C:\Users\HP\Desktop\RealEstateV1(joud)\RealEstateV1\bin\EntityFramework.dll
+C:\Users\HP\Desktop\RealEstateV1(joud)\RealEstateV1\bin\EntityFramework.SqlServer.dll
+C:\Users\HP\Desktop\RealEstateV1(joud)\RealEstateV1\bin\Microsoft.AspNet.Identity.Core.dll
+C:\Users\HP\Desktop\RealEstateV1(joud)\RealEstateV1\bin\Microsoft.AspNet.Identity.EntityFramework.dll
+C:\Users\HP\Desktop\RealEstateV1(joud)\RealEstateV1\bin\Microsoft.AspNet.Identity.Owin.dll
+C:\Users\HP\Desktop\RealEstateV1(joud)\RealEstateV1\bin\Microsoft.Owin.dll
+C:\Users\HP\Desktop\RealEstateV1(joud)\RealEstateV1\bin\Microsoft.Owin.Host.SystemWeb.dll
+C:\Users\HP\Desktop\RealEstateV1(joud)\RealEstateV1\bin\Microsoft.Owin.Security.Cookies.dll
+C:\Users\HP\Desktop\RealEstateV1(joud)\RealEstateV1\bin\Microsoft.Owin.Security.dll
+C:\Users\HP\Desktop\RealEstateV1(joud)\RealEstateV1\bin\Microsoft.Owin.Security.Facebook.dll
+C:\Users\HP\Desktop\RealEstateV1(joud)\RealEstateV1\bin\Microsoft.Owin.Security.Google.dll
+C:\Users\HP\Desktop\RealEstateV1(joud)\RealEstateV1\bin\Microsoft.Owin.Security.MicrosoftAccount.dll
+C:\Users\HP\Desktop\RealEstateV1(joud)\RealEstateV1\bin\Microsoft.Owin.Security.OAuth.dll
+C:\Users\HP\Desktop\RealEstateV1(joud)\RealEstateV1\bin\Microsoft.Owin.Security.Twitter.dll
+C:\Users\HP\Desktop\RealEstateV1(joud)\RealEstateV1\bin\Microsoft.Web.Infrastructure.dll
+C:\Users\HP\Desktop\RealEstateV1(joud)\RealEstateV1\bin\Newtonsoft.Json.dll
+C:\Users\HP\Desktop\RealEstateV1(joud)\RealEstateV1\bin\Owin.dll
+C:\Users\HP\Desktop\RealEstateV1(joud)\RealEstateV1\bin\Postal.dll
+C:\Users\HP\Desktop\RealEstateV1(joud)\RealEstateV1\bin\RazorEngine.dll
+C:\Users\HP\Desktop\RealEstateV1(joud)\RealEstateV1\bin\System.Web.Helpers.dll
+C:\Users\HP\Desktop\RealEstateV1(joud)\RealEstateV1\bin\System.Web.Mvc.dll
+C:\Users\HP\Desktop\RealEstateV1(joud)\RealEstateV1\bin\System.Web.Optimization.dll
+C:\Users\HP\Desktop\RealEstateV1(joud)\RealEstateV1\bin\System.Web.Razor.dll
+C:\Users\HP\Desktop\RealEstateV1(joud)\RealEstateV1\bin\System.Web.WebPages.Deployment.dll
+C:\Users\HP\Desktop\RealEstateV1(joud)\RealEstateV1\bin\System.Web.WebPages.dll
+C:\Users\HP\Desktop\RealEstateV1(joud)\RealEstateV1\bin\System.Web.WebPages.Razor.dll
+C:\Users\HP\Desktop\RealEstateV1(joud)\RealEstateV1\bin\WebGrease.dll
+C:\Users\HP\Desktop\RealEstateV1(joud)\RealEstateV1\bin\Postal.xml
+C:\Users\HP\Desktop\RealEstateV1(joud)\RealEstateV1\bin\RazorEngine.pdb
+C:\Users\HP\Desktop\RealEstateV1(joud)\RealEstateV1\bin\RazorEngine.xml
+C:\Users\HP\Desktop\RealEstateV1(joud)\RealEstateV1\bin\System.Web.Helpers.xml
+C:\Users\HP\Desktop\RealEstateV1(joud)\RealEstateV1\bin\System.Web.Mvc.xml
+C:\Users\HP\Desktop\RealEstateV1(joud)\RealEstateV1\bin\System.Web.Optimization.xml
+C:\Users\HP\Desktop\RealEstateV1(joud)\RealEstateV1\bin\System.Web.Razor.xml
+C:\Users\HP\Desktop\RealEstateV1(joud)\RealEstateV1\bin\System.Web.WebPages.xml
+C:\Users\HP\Desktop\RealEstateV1(joud)\RealEstateV1\bin\System.Web.WebPages.Deployment.xml
+C:\Users\HP\Desktop\RealEstateV1(joud)\RealEstateV1\bin\System.Web.WebPages.Razor.xml
+C:\Users\HP\Desktop\RealEstateV1(joud)\RealEstateV1\bin\Antlr3.Runtime.pdb
+C:\Users\HP\Desktop\RealEstateV1(joud)\RealEstateV1\bin\Newtonsoft.Json.xml
+C:\Users\HP\Desktop\RealEstateV1(joud)\RealEstateV1\bin\EntityFramework.xml
+C:\Users\HP\Desktop\RealEstateV1(joud)\RealEstateV1\bin\EntityFramework.SqlServer.xml
+C:\Users\HP\Desktop\RealEstateV1(joud)\RealEstateV1\bin\Microsoft.AspNet.Identity.Core.xml
+C:\Users\HP\Desktop\RealEstateV1(joud)\RealEstateV1\bin\Microsoft.AspNet.Identity.Owin.xml
+C:\Users\HP\Desktop\RealEstateV1(joud)\RealEstateV1\bin\Microsoft.AspNet.Identity.EntityFramework.xml
+C:\Users\HP\Desktop\RealEstateV1(joud)\RealEstateV1\bin\Microsoft.Owin.xml
+C:\Users\HP\Desktop\RealEstateV1(joud)\RealEstateV1\bin\Microsoft.Owin.Host.SystemWeb.xml
+C:\Users\HP\Desktop\RealEstateV1(joud)\RealEstateV1\bin\Microsoft.Owin.Security.xml
+C:\Users\HP\Desktop\RealEstateV1(joud)\RealEstateV1\bin\Microsoft.Owin.Security.Facebook.xml
+C:\Users\HP\Desktop\RealEstateV1(joud)\RealEstateV1\bin\Microsoft.Owin.Security.Cookies.xml
+C:\Users\HP\Desktop\RealEstateV1(joud)\RealEstateV1\bin\Microsoft.Owin.Security.OAuth.xml
+C:\Users\HP\Desktop\RealEstateV1(joud)\RealEstateV1\bin\Microsoft.Owin.Security.Google.xml
+C:\Users\HP\Desktop\RealEstateV1(joud)\RealEstateV1\bin\Microsoft.Owin.Security.Twitter.xml
+C:\Users\HP\Desktop\RealEstateV1(joud)\RealEstateV1\bin\Microsoft.Owin.Security.MicrosoftAccount.xml
+C:\Users\HP\Desktop\RealEstateV1(joud)\RealEstateV1\obj\Debug\RealEstateV1.csprojResolveAssemblyReference.cache
+C:\Users\HP\Desktop\RealEstateV1(joud)\RealEstateV1\obj\Debug\RealEstateV1.dll
+C:\Users\HP\Desktop\RealEstateV1(joud)\RealEstateV1\obj\Debug\RealEstateV1.pdb

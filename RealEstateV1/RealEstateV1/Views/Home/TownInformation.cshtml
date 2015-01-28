@@ -1,4 +1,4 @@
-﻿@model RealEstateV1.Models.T_Town
+﻿@model IEnumerable<RealEstateV1.Models.T_TownComment>
 
 @{
     ViewBag.Title = "TownInformation";
@@ -13,19 +13,6 @@
 </div>
 
 <h2>معلومات محلية</h2>
-
-@*<table class="table" >
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.TownName)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Description)
-            </th>
-            <th></th>
-        </tr>
-    </table>*@
-
 
 <div id="container">
     <div class="row">
@@ -42,10 +29,10 @@
                 else
                 {
                     int counter = 1;
-                    foreach (var it in Model.Comment)
+                    foreach (var it in Model)
                     {
                         @Html.Partial("_TownPartial", it, new ViewDataDictionary { { "index", @counter }, { "returnUrl", @ViewBag.returnUrl } });
-                    counter = counter + 1;
+                        counter = counter + 1;
                     }
 
                 }
@@ -102,16 +89,23 @@
 
 
 <script type="text/javascript">
-
+    var size;
+    var counter;
     function getComm(Commnet,index)
     {
         $.ajax({
             cache: false,
             type: "POST",
-            url: "@(Url.Action("GetComment"))",
+            url: "@(Url.Action("GetCommentByID"))",
             data: { "CommentID": Commnet,"index":index },
             success: function (data) {
                 $("#list").append(data);
+                
+                counter=counter+1;
+                if(size==counter)
+                {
+                    init(size);
+                }
             },
             error: function (xhr, ajaxOptions, thrownError) {
                 alert('Failed to retrieve states. ' + xhr + " - " + ajaxOptions + " - " + thrownError);
@@ -120,32 +114,37 @@
         });
     }
 
-    function getTownComm(town)
+    function getTownComm(city,town)
     {
         var town1 = town;
         $.ajax({
             cache: false,
             type: "POST",
             url: "@(Url.Action("GetTowninfo"))",
-            data: { "townID": town1 },
+            data: {"cityID":city, "townID": town1 },
             success: function (data) {
-                //alert(data.length);
+
                 $("#list").html('');
-                init(data.length);
+                size=data.length;
+                counter=0;
                 var index=1;
                 $.each(data, function (id, Comment) {
-                    getComm(Comment.ID,index);
+                    getComm(Comment,index);
                     index++;
                 });
-                //alert(result);
-                //$("#list").html(result);
-
+                if(data.length==0)
+                {
+                    init(data.length);
+                }
             },
             error: function (xhr, ajaxOptions, thrownError) {
+
                 alert('Failed to retrieve states. ' + xhr + " - " + ajaxOptions + " - " + thrownError);
 
             }
         });
+
+        
     }
 
     $(function () {
@@ -161,11 +160,12 @@
                 success: function (data) {
                     ddtown.html('');
                     $("#list").html('');
+                    ddtown.append($('<option></option>').val(0).html("الحي"));
                     $.each(data, function (id, option) {
                         ddtown.append($('<option></option>').val(option.id).html(option.name));
                     });
-
-                    getTownComm(data[0].id);
+                    
+                    getTownComm(selection,0);
                 },
                 error: function (xhr, ajaxOptions, thrownError) {
                     alert('Failed to retrieve states. ' + xhr + " - " + ajaxOptions + " - " + thrownError);
@@ -178,21 +178,26 @@
 
         $("#town").change(function () {
             var town1 = $("#town").val();
+            var city = $("#City").val();
             $.ajax({
                 cache: false,
                 type: "POST",
                 url: "@(Url.Action("GetTowninfo"))",
-                data: { "townID": town1 },
+                data: {"cityID":city, "townID": town1 },
                 success: function (data) {
 
                     $("#list").html('');
-                    //alert(data.length);
-                    init(data.length);
+                    size=data.length;
+                    counter=0;
+                    var index=1;
                     $.each(data, function (id, Comment) {
-                        getComm(Comment.ID);
+                        getComm(Comment,index);
+                        index++;
                     });
-                    //alert(result);
-                    //$("#list").html(result);
+                    if(data.length==0)
+                    {
+                        init(data.length);
+                    }
 
                 },
                 error: function (xhr, ajaxOptions, thrownError) {
@@ -200,6 +205,8 @@
 
                 }
             });
+
+            
         });
 
     });
@@ -207,7 +214,7 @@
 
 <script type="text/javascript">
     var showCount=2;    //you should change this number
-    var num=@Model.Comment.Count() / showCount;
+    var num=@Model.Count() / showCount;
     num=Math.ceil(num);
     var navIndex;
     var totalCount;
@@ -229,10 +236,10 @@
             //alert(i);
         }
 
-
+        $("#nav").html('');
         for(i=num;i>=1;i--)
         {
-
+            
             $("#nav").append( "<a id='nav"+i+"' onclick='alter("+i+")' style='cursor: pointer;color:gray;padding:5px;'>"+i+"</a>");
 
         }
@@ -246,7 +253,8 @@
     $(document).ready(
 	function()
 	{
-	    init(@Model.Comment.Count());
+	    $("#nav").html('');
+	    init(@Model.Count());
 	}
 	);
 
@@ -266,6 +274,16 @@
         }
         $("#nav"+index).css("color","blue");
         navIndex=index;
+        $("#prevbtn").removeClass("active");
+        $("#nextbtn").removeClass("active");
+        if (navIndex==num)
+        {
+            $("#nextbtn").addClass("active");
+        }
+        if(navIndex==1)
+        {
+            $("#prevbtn").addClass("active");
+        }
     }
 
     function prev()

@@ -33,5 +33,7 @@ namespace RealEstateV1.Models
         public virtual T_City City { get; set; }
        
         public virtual Collection<T_TownLinkFeature> townLinkFeature { get; set; }
+
+        public virtual Collection<T_TownFeatureKind> townFeatureKind { get; set; }
     }
 }

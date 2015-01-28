@@ -88,7 +88,7 @@ namespace RealEstateV1.Controllers
                     return RedirectToAction("SendCode", new { ReturnUrl = returnUrl, RememberMe = model.RememberMe });
                 case SignInStatus.Failure:
                 default:
-                    ModelState.AddModelError("", "Invalid login attempt.");
+                    ModelState.AddModelError("", "الرجاء اعادة المحاولة");
                     return PartialView("Login", model);
             }
         }

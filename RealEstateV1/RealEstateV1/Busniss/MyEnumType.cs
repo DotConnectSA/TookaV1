@@ -19,6 +19,14 @@ namespace RealEstateV1.Busniss
         {
             active = 1, sold = 2
         }
+        public enum RealEstateSituation
+        {
+            good = 1, used = 2, underIns = 3
+        }
+        public enum ownerKind
+        {
+            own = 1,  proker= 2, office = 3
+        }
         public enum FavoritStatus
         {
             active = 1
@@ -33,7 +41,7 @@ namespace RealEstateV1.Busniss
         }
         public enum SearchKind
         {
-            Rent=0,Sale,Oldsale
+            Rent=0,Sale=1,Oldsale=2
         }
 
     }

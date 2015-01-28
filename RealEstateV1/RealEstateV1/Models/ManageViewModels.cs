@@ -41,19 +41,19 @@ namespace RealEstateV1.Models
 
     public class ChangePasswordViewModel
     {
-        [Required]
+        [Required(ErrorMessage = "الرجاء ادخال كلمة المرور الحالية")]
         [DataType(DataType.Password)]
-        [Display(Name = "Current password")]
+        [Display(Name = "كلمة المرور الحالية")]
         public string OldPassword { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "الرجاء ادخال كلمة المرور الجديدة")]
         [StringLength(100, ErrorMessage = "The {0} must be at least {2} characters long.", MinimumLength = 6)]
         [DataType(DataType.Password)]
-        [Display(Name = "New password")]
+        [Display(Name = "كلمة المرور الجديدة")]
         public string NewPassword { get; set; }
 
         [DataType(DataType.Password)]
-        [Display(Name = "Confirm new password")]
+        [Display(Name = "تأكيد كلمة المرور الجديدة")]
         [Compare("NewPassword", ErrorMessage = "The new password and confirmation password do not match.")]
         public string ConfirmPassword { get; set; }
     }

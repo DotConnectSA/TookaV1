@@ -48,19 +48,16 @@
         var data=[];
         var k="";
 
-        @foreach(var item in Model.Town.townLinkFeature)
+        @foreach(var item in Model.Town.townFeatureKind)
         {
-            if(item.townFeatureKind!=null)
+            <text>
+            k="@item.townFeature.Feature.ToString()";
+            if (k == kind)
             {
-                <text>
-                k="@item.townFeature.Feature.ToString()";
-                if (k == kind)
-                {
-                    var v={"Id": @item.ID, "PlaceName": "@item.townFeatureKind.Kind", "Desc":"@item.townFeatureKind.Description","GeoLong": "@item.townFeatureKind.position.X", "GeoLat": "@item.townFeatureKind.position.Y"};
-                    data.push(v);
-                }
-                </text>
+                var v={"Id": @item.ID, "PlaceName": "@item.Kind", "Desc":"@item.Description","GeoLong": "@item.position.X", "GeoLat": "@item.position.Y"};
+                data.push(v);
             }
+            </text>
 
         }
 

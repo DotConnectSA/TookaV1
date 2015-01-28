@@ -57,7 +57,7 @@
                         ddtown.append($('<option></option>').val(option.id).html(option.name));
                     });
 
-                    statesProgress.hide();
+                    //statesProgress.hide();
                 },
                 error: function (xhr, ajaxOptions, thrownError) {
                     alert('Failed to retrieve states. ' + xhr + " - " + ajaxOptions + " - " + thrownError);
@@ -92,7 +92,6 @@
                 url: "@(Url.Action("ChangeSearch"))",
                 data: JSON.stringify(obj),
                 success: function (data) {
-                    //alert("success");
 
                 },
                 error: function (xhr, ajaxOptions, thrownError) {

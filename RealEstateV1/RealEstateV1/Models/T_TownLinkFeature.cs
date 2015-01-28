@@ -17,6 +17,5 @@ namespace RealEstateV1.Models
         [Display(Name = "تقييم")]
         public virtual T_TownRate Rate { get; set; }
 
-        public virtual T_TownFeatureKind townFeatureKind { get; set; }
     }
 }

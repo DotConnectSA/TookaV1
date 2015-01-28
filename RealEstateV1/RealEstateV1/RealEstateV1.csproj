@@ -281,7 +281,9 @@
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />
     <Content Include="Scripts\_references.js" />
-    <Content Include="Web.config" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </Content>
@@ -330,7 +332,7 @@
     <Content Include="Views\Home\_miniRE.cshtml" />
     <Content Include="Views\Home\_OwnerPartial.cshtml" />
     <Content Include="Views\Home\_RentPartial.cshtml" />
-    <Content Include="Views\Home\_SaleParial.cshtml" />
+    <Content Include="Views\Home\_SalePartial.cshtml" />
     <Content Include="Views\Home\_SearchBar.cshtml" />
     <Content Include="Views\Home\_TownPartial.cshtml" />
     <Content Include="Views\Home\otherOwner.cshtml" />
@@ -341,6 +343,10 @@
     <Content Include="Views\Emails\Web.config" />
     <Content Include="Views\Emails\_ViewStart.cshtml" />
     <Content Include="Views\Home\_AddRatePartial.cshtml" />
+    <Content Include="Views\Home\sold.cshtml" />
+    <Content Include="Views\Home\SearchHistory.cshtml" />
+    <Content Include="Views\Home\_SearchHistoryPartial.cshtml" />
+    <Content Include="Views\Home\_ReplayPartial.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

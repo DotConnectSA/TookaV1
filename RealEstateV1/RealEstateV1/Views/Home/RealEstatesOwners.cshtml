@@ -5,37 +5,44 @@
     ViewBag.JS = false;
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-@Html.Partial("_SearchBar", new RealEstateV1.Busniss.SearchItem())
+@*@Html.Partial("_SearchBar", new RealEstateV1.Busniss.SearchItem())*@
 <h2>عقاريون</h2>
 <div align="left" style="margin-bottom:35px;margin-left:35px">
+    @Html.DropDownList("resultInPage", (SelectList)ViewBag.resultInPage)
     @Html.DropDownList("OwnerCity", (SelectList)ViewBag.Cites)
 </div>
 
 <div id="container">
-    <ul class="list col-lg-9 col-sm-7" id="list">
+    <div class="list col-lg-9 col-sm-7">
+        <ul id="list">
 
-        @if (Model == null)
-        {
-            <li id="div1">
-                لايوجد بيانات
-            </li>
-        }
-        else
-        {
-            int counter = 1;
-            foreach (var item in Model)
+            @if (Model == null)
             {
-                @Html.Partial("_OwnerPartial", item, new ViewDataDictionary { { "index", @counter }, { "returnUrl", @ViewBag.returnUrl } });
-                counter = counter + 1;
+                <li id="div1">
+                    لايوجد بيانات
+                </li>
             }
-            
-        }
+            else
+            {
+                int counter = 1;
+                foreach (var item in Model)
+                {
+                    @Html.Partial("_OwnerPartial", item, new ViewDataDictionary { { "OwnerIndex", @counter }, { "returnUrl", @ViewBag.returnUrl } });
+                                                                                                                                                    counter = counter + 1;
+                }
+
+            }
+
+        </ul>
+
         <div style="text-align: center;">
             <button id="prevbtn" type="button" onclick="prev()" class="btn btn-default">السابق</button>
             <span id="nav"></span>
             <a id="nextbtn" onclick="next()" class="btn btn-default">التالي</a>
         </div>
-    </ul>
+    </div>
+
+
 
     <aside class="left-col list col-lg-3 col-sm-5">
         <div class="block ads">
@@ -84,14 +91,21 @@
 </div>
 
 <script type="text/javascript">
-    function getOwner(OwnerId) {
+    var size;
+    var counter;
+    function getOwner(OwnerId,index) {
         $.ajax({
             cache: false,
             type: "POST",
             url: "@(Url.Action("GetOwner"))",
-            data: { "OwnerId": OwnerId },
+            data: { "OwnerId": OwnerId,"index":index },
             success: function (data) {
-            $("#list").append(data);
+                $("#list").append(data);
+                counter=counter+1;
+                if(size==counter)
+                {
+                    init(size);
+                }
         },
         error: function (xhr, ajaxOptions, thrownError) {
             alert('Failed to retrieve states. ' + xhr + " - " + ajaxOptions + " - " + thrownError);
@@ -110,11 +124,18 @@
                 data: { "CityId": OwnerCity },
                 success: function (data) {
                     $("#list").html('');
+                    size=data.length;
+                    counter=0;
+                    var index=1;
                     $.each(data, function (id, OwnerCity) {
-                        getOwner(OwnerCity.id);
+                        getOwner(OwnerCity,index);
+                        index++;
                     });
-                    $("#list").html(result);
-                    alert("hi");
+                    if(data.length==0)
+                    {
+                        init(data.length);
+                    }
+                    
                 },
                 error: function (xhr, ajaxOptions, thrownError) {
                     alert('Failed to retrieve states. ' + xhr + " - " + ajaxOptions + " - " + thrownError);
@@ -149,7 +170,7 @@
             //alert(i);
         }
 
-
+        $("#nav").html('');
         for(i=num;i>=1;i--)
         {
 
@@ -158,7 +179,7 @@
         }
         navIndex=1;
         $("#prevbtn").addClass("active");
-        if (navIndex+1>num)
+        if (navIndex>num)
             $("#nextbtn").addClass("active");
         $("#nav"+navIndex).css("color","blue");
     }
@@ -166,6 +187,7 @@
     $(document).ready(
 	function()
 	{
+	    $("#nav").html('');
 	    init(@Model.Count());
 	}
 	);
@@ -186,6 +208,16 @@
         }
         $("#nav"+index).css("color","blue");
         navIndex=index;
+        $("#prevbtn").removeClass("active");
+        $("#nextbtn").removeClass("active");
+        if (navIndex==num)
+        {
+            $("#nextbtn").addClass("active");
+        }
+        if(navIndex==1)
+        {
+            $("#prevbtn").addClass("active");
+        }
     }
 
     function prev()
@@ -213,8 +245,96 @@
             alter(navIndex+1);
         }
     }
-    function LikeOwner(id) {
-        var dis = '<img style="cursor:pointer;width:38px;height:38px" onclick="DisLikeOwner('+id+')" src="/Content/images/Dislike.png" />';
-        $("#likeDislike"+id+"").html(dis);
-    }
+
+    $(document).ready(function () {
+
+        var resultInPage = $("#resultInPage").val();
+        if(resultInPage == 0)
+        {
+            showCount = 2;
+        }
+        else if(resultInPage == 1)
+        {
+            showCount = 5;
+        }
+        else if(resultInPage == 2)
+        {
+            showCount = 10;
+        }
+        init(@Model.Count());
+    });
+
+    $("#resultInPage").change(function () {
+        var resultInPage = $("#resultInPage").val();
+        if(resultInPage == 0)
+        {
+            showCount = 2;
+        }
+        else if(resultInPage == 1)
+        {
+            showCount = 5;
+        }
+        else if(resultInPage == 2)
+        {
+            showCount = 10;
+        }
+        init(@Model.Count());
+    });
 </script>
+
+@if (Request.IsAuthenticated)
+{
+    <script type="text/javascript">
+        function LikeOwner(Ownerid) {
+
+            var id = Ownerid;
+            $.ajax({
+                cache: false,
+                type: "POST",
+                url: "@(Url.Action("LikeOwner"))",
+                data: { "ID": id },
+                success: function (data) {
+                    var dis = '<img style="cursor:pointer;width:35px;height:35px" onclick="DisLikeOwner('+Ownerid+')" src="/Content/images/Dislike.png" />';
+                    $("#likeDislike"+Ownerid+"").html(dis);
+                },
+                error: function (xhr, ajaxOptions, thrownError) {
+                    alert('Failed to retrieve states. ' + xhr + " - " + ajaxOptions + " - " + thrownError);
+
+                }
+            });
+        }
+    </script>
+
+    <script type="text/javascript">
+        function DisLikeOwner(Ownerid) {
+        var id = Ownerid;
+        $.ajax({
+            cache: false,
+            type: "POST",
+            url: "@(Url.Action("DisLikeOwner"))",
+            data: { "ID": id },
+            success: function (data) {
+                var dis = '<img style="cursor:pointer;width:35px;height:35px" onclick="LikeOwner('+Ownerid+')" src="/Content/images/ico2.png" />';
+                $("#likeDislike"+Ownerid+"").html(dis);
+            },
+            error: function (xhr, ajaxOptions, thrownError) {
+                alert('Failed to retrieve states. ' + xhr + " - " + ajaxOptions + " - " + thrownError);
+
+            }
+        });
+    }
+    </script>
+}
+else
+{
+    <script type="text/javascript">
+        function LikeOwner() {
+            $("#Login-modal-body").load('@Url.Action("Login", "Account", new { returnUrl = ViewBag.returnUrl })');
+            $("#Register-modal-body").load('@Url.Action("Register", "Account")');
+            $("#forgetPass-modal-body").load('@Url.Action("ForgotPassword", "Account")');
+            $('#LoginModal').modal({
+                show: 'true'
+            });
+        }
+    </script>
+}

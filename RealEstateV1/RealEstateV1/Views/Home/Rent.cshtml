@@ -6,8 +6,6 @@
 }
 
 
-
-
 @Html.Partial("_SearchBar", new RealEstateV1.Busniss.SearchItem() { SearchKind = RealEstateV1.Busniss.MyEnumType.SearchKind.Rent })
 
 <h2>إيجار</h2>
@@ -33,7 +31,7 @@
             {
                 foreach (var item in Model)
                 {
-                    @Html.Partial("_RentPartial", item);
+                    @Html.Partial("_RentPartial", item,new ViewDataDictionary { { "returnUrl", @ViewBag.returnUrl } });
                 }
             }
 

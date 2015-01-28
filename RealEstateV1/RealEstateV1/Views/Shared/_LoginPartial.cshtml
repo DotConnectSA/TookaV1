@@ -7,9 +7,11 @@
 
         <ul class="nav navbar-nav">
             <li>
-                @Html.ActionLink("Hello " + User.Identity.GetUserName() + "!", "Index", "Manage", routeValues: null, htmlAttributes: new { title = "Manage" })
+                <a href="#" onclick="openManage()">@User.Identity.GetUserName()</a>
+                @*@Html.ActionLink(User.Identity.GetUserName(), "Index", "Manage", routeValues: null, htmlAttributes: new { title = "Manage" })*@
             </li>
-            <li><a href="javascript:document.getElementById('logoutForm').submit()">Log off</a></li>
+            <li><a href="javascript:document.getElementById('logoutForm').submit()">تسجيل خروج</a></li>
+            <li><a href="#" onclick="getHistory()">سجل البحث</a></li>
         </ul>
     }
 }
@@ -26,12 +28,12 @@ else
 
 <div class="modal fade" id="LoginModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg">
-        <div class="modal-content" style="margin-top:100px">
+        <div class="modal-content" style="margin-top:100px;float:none;">
             @*<div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                 <h4 class="modal-title" id="myModalLabel">Login</h4>
             </div>*@
-            <div class="modal-body" id="Login-modal-body">
+            <div class="modal-body" id="Login-modal-body" style="float: none;">
 
             </div>
         </div><!-- /.modal-content -->
@@ -40,8 +42,8 @@ else
 
 <div class="modal fade" id="RegisterModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-sm">
-        <div class="modal-content" style="margin-top:50px">
-            <div class="modal-body" id="Register-modal-body">
+        <div class="modal-content" style="margin-top:50px;width:700px;height:550px;float:none;" >
+            <div class="modal-body" id="Register-modal-body" style="float: none;">
 
             </div>
         </div><!-- /.modal-content -->
@@ -58,6 +60,35 @@ else
     </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
 
+<div class="modal fade" id="manageModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content" style="margin-top:100px;">
+            <div class="modal-body" id="Manage-modal-body" style="float: none;width:500px">
+                
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+<div class="modal fade" id="changePassModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content" style="margin-top:100px;">
+            <div class="modal-body" id="ChangePass-modal-body" style="float: none;width:500px">
+
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+<div class="modal fade" id="manageLoginsModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content" style="margin-top:100px;height:300px;">
+            <div class="modal-body" id="ManageLogins-modal-body" style="float: none;width:500px">
+
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
 
 
 <script type="text/javascript">
@@ -71,11 +102,23 @@ else
 
 	});*@
 
-    function load()
-    {
+    function load() {
         $("#Login-modal-body").load('@Url.Action("Login", "Account", new { returnUrl = ViewBag.returnUrl })');
         $("#Register-modal-body").load('@Url.Action("Register", "Account")');
         $("#forgetPass-modal-body").load('@Url.Action("ForgotPassword", "Account")');
+    }
+
+    function getHistory() {
+        window.location = '@Url.Action("SearchHistory", "Home")';
+    }
+
+    function openManage() {
+        $("#Manage-modal-body").load('@Url.Action("Index", "Manage", new { returnUrl = ViewBag.returnUrl })');
+        $("#ChangePass-modal-body").load('@Url.Action("ChangePassword", "Manage")');
+        $("#ManageLogins-modal-body").load('@Url.Action("ManageLogins", "Manage")');
+        $('#manageModal').modal({
+            show: 'true'
+        });
     }
 
 </script>
