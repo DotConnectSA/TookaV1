@@ -10,11 +10,11 @@
         <div class="header holder">
             <a class="home logo" href="/"></a>
             <div class="right-logo">
-                <div class="sell-cost">ÞíãÉ ÇáÚÞÇÑÇÊ ÇáãÈÇÚÉ <b>@ViewBag.allcost</b></div>
+                <div class="sell-cost">قيمة العقارات المباعة <b>@ViewBag.allcost</b></div>
                 <div class="subscribe">
-                    ÇáÇÔÊÑÇß ÈÇáäÔÑÉ ÇáÅÎÈÇÑíÉ
+                    الاشتراك بالنشرة الإخبارية
                     <input type="email" id="email" />
-                    <input type="button" id="semail" value="ÇÔÊÑß" />
+                    <input type="button" id="semail" value="اشترك" />
                 </div>
             </div>
             <div class="clear"></div>
@@ -56,9 +56,9 @@
 
             <div class="tabs">
                 <ul class="tab-links">
-                    <li id="a1" class="active"><a href="#tab1" onclick="clickTab(3)">ÚÞÇÑ ááÈíÚ</a></li>
-                    <li id="a2"><a href="#tab2" onclick="clickTab(1)">ÚÞÇÑ ááÅíÌÇÑ</a></li>
-                    <li id="a3"><a href="#tab3" onclick="clickTab(2)">ÚÞÇÑÇÊ ãÈÇÚÉ</a></li>
+                    <li id="a1" class="active"><a href="#tab1" onclick="clickTab(3)">عقار للبيع</a></li>
+                    <li id="a2"><a href="#tab2" onclick="clickTab(1)">عقار للإيجار</a></li>
+                    <li id="a3"><a href="#tab3" onclick="clickTab(2)">عقارات مباعة</a></li>
 
                 </ul>
 
@@ -95,7 +95,7 @@
 
 
                 </div>
-                <input type="button" id="hid" value="ÈÍË ãÊÞÏã">
+                <input type="button" id="hid" value="بحث متقدم">
             </div> <!-- tabs -->
         </div><!-- searchbox -->
 
@@ -118,7 +118,7 @@
 
 <div class="three-columns">
     <div class="right-col col">
-        <h3>ÚÞÇÑÇÊ ÌÏå Çáíæã</h3>
+        <h3>عقارات جده اليوم</h3>
         <a href="@Url.Content("~/content/images/" +ViewBag.jeddahImage)">
             <img src="@Url.Content("~/content/images/" + ViewBag.jeddahImage)" />
         </a>
@@ -126,14 +126,14 @@
     </div>
 
     <div class="middle-col col">
-        <h3>ÚÞÇÑÇÊ ÇáÑíÇÖ Çáíæã</h3>
+        <h3>عقارات الرياض اليوم</h3>
         <a href="@Url.Content("~/content/images/" +ViewBag.RyadImage)">
             <img src="@Url.Content("~/content/images/" + ViewBag.RyadImage)" />
         </a>
         <div class="counts">@ViewBag.RyadcountToday</div>
     </div>
     <div class="left-col col">
-        <h3>ÚÞÇÑÇÊ ÇáÔÑÞíÉ Çáíæã</h3>
+        <h3>عقارات الشرقية اليوم</h3>
         <a href="@Url.Content("~/content/images/" +ViewBag.EstImage)">
             <img src="@Url.Content("~/content/images/" + ViewBag.estImage)" />
         </a>

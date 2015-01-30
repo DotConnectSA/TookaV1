@@ -1,6 +1,6 @@
 ﻿@model RealEstateV1.Busniss.RealEstateFull
 
-<li>
+<li id="div@(Model.realEstate.ID)">
 
     <a href="@Url.Content(Model.realEstate.ImageURL)">
         <img style="height:50px;width:50px;" src="@Url.Content(Model.realEstate.ImageURL)" />
@@ -42,7 +42,7 @@
         <a href="#">مكتب صاحب العقار</a>
         <input id="compareCheck" type="checkbox" name="compare" />قارن <label> قارن</label>
         <a href="#">خريطة</a>
-        <a href="#">إخفاء</a>
+        <a href="#" onclick="hide(@(Model.realEstate.ID))">إخفاء</a>
         <a href="#">fav</a>
         <a href="#" onclick="detail(@(Model.realEstate.ID))">تفاصيل</a>
     </section>
@@ -54,3 +54,36 @@
         window.location = '@Url.Action("RealEstate", "Home")/' + id;
     }
 </script>
+
+@if (Request.IsAuthenticated)
+{
+    <script type="text/javascript">
+        function hide(id) {
+            $.ajax({
+                cache: false,
+                type: "POST",
+                url: "@(Url.Action("HideEstate"))",
+                data: { "estateID": id },
+                success: function (data) {
+                    $('#div' + id).hide();
+                },
+                error: function (xhr, ajaxOptions, thrownError) {
+                    alert('Failed to retrieve states. ' + xhr + " - " + ajaxOptions + " - " + thrownError);
+                }
+            });
+        }
+    </script>
+}
+else
+{
+    <script type="text/javascript">
+        function hide(id) {
+            $("#Login-modal-body").load('@Url.Action("Login", "Account", new { returnUrl = ViewBag.returnUrl })');
+            $("#Register-modal-body").load('@Url.Action("Register", "Account")');
+            $("#forgetPass-modal-body").load('@Url.Action("ForgotPassword", "Account")');
+            $('#LoginModal').modal({
+                show: 'true'
+            });
+        }
+    </script>
+}

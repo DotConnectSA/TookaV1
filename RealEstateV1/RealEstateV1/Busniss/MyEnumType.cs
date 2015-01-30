@@ -21,7 +21,7 @@ namespace RealEstateV1.Busniss
         }
         public enum RealEstateSituation
         {
-            good = 1, used = 2, underIns = 3
+            good = 1, used = 2, underConstruction = 3
         }
         public enum ownerKind
         {

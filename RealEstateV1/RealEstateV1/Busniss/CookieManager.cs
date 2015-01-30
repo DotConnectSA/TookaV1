@@ -29,6 +29,7 @@ namespace RealEstateV1.Busniss
         public static bool findCookie(string CookieName, string key)
         {
             HttpCookie cookie = HttpContext.Current.Request.Cookies[CookieName];
+            
             if (cookie != null)
             {
                 string val = cookie.Values[key];
@@ -40,9 +41,21 @@ namespace RealEstateV1.Busniss
             return false;
         }
 
+        public static List<string> getKeyList(string CookieName)
+        {
+            HttpCookie cookie = HttpContext.Current.Request.Cookies[CookieName];
+            if (cookie != null)
+            {
+                List<string> list = cookie.Values.AllKeys.ToList();
+                return list;
+            }
+            return null;
+        }
+
         public static string CookieValue(string CookieName, string key)
         {
             HttpCookie cookie = HttpContext.Current.Request.Cookies[CookieName];
+            
             if (cookie != null)
             {
                 string val = cookie.Values[key];

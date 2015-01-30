@@ -32,6 +32,12 @@ namespace RealEstateV1.Busniss
             //DB.SaveChanges();
         }
 
+        public static List<string> hideEstateList(int custID)
+        {
+            List<string> list = CookieManager.getKeyList("HideCust" + custID);
+            return list;
+        }
+
         public static void ExternalRegister(RegisterExternalCustomerViewModel model)
         {
             RealEstateContext DB = new RealEstateContext();
@@ -256,6 +262,19 @@ namespace RealEstateV1.Busniss
                 return null;
             }
         }
+        public static List<T_SearchHistory> GetSearchEstates(int ownerID)
+        {
+            try
+            {
+                RealEstateContext DB = new RealEstateContext();
+                return DB.TSearchHistory.Where(a => a.Customer.ID == ownerID).ToList();
+            }
+            catch (Exception)
+            {
+
+                return null;
+            }
+        }
         public static void AddDiscuss(string topic)
         {
             RealEstateContext DB = new RealEstateContext();
@@ -452,6 +471,26 @@ namespace RealEstateV1.Busniss
             {
                 RealEstateFull RE = new RealEstateFull();
                 RE.realEstate = searchHistory[i].realEstate;
+                RE.rent = GetRentByRSID(RE.realEstate.ID);
+                RE.sale = GetSaleByRSID(RE.realEstate.ID);
+                realEstate.Add(RE);
+            }
+
+            return realEstate;
+        }
+
+        public static List<RealEstateFull> GetFavorit()
+        {
+            RealEstateContext DB = new RealEstateContext();
+            T_Customer customer = getCurrentCustomer(DB);
+
+            List<T_Favorit> favorit = DB.TFavorit.Where(x => x.Customer.ID == customer.ID).ToList();
+            List<RealEstateFull> realEstate = new List<RealEstateFull>();
+
+            for (int i = 0; i < favorit.Count(); i++)
+            {
+                RealEstateFull RE = new RealEstateFull();
+                RE.realEstate = favorit[i].RealEstate;
                 RE.rent = GetRentByRSID(RE.realEstate.ID);
                 RE.sale = GetSaleByRSID(RE.realEstate.ID);
                 realEstate.Add(RE);
@@ -776,7 +815,30 @@ namespace RealEstateV1.Busniss
                     result = result.Where(a => a.RealEstate.RealEstateFeature.Any(b => b.ID == feature)).AsQueryable();
                 }
             }
-                return result.ToList();
+            T_Customer customer = getCurrentCustomer(DB);
+            if (customer != null)
+            {
+                List<T_Rent> rentList = new List<T_Rent>();
+                List<string> list = hideEstateList(customer.ID);
+                for (int i = 0; i < result.Count(); i++)
+                {
+                    bool search = false;
+                    for (int j = 0; j < list.Count(); j++)
+                    {
+                        int str = result.ToList()[i].RealEstate.ID;
+                        if (str.ToString() == list[j])
+                        {
+                            search = true;
+                        }
+                    }
+                    if (search == false)
+                    {
+                        rentList.Add(result.ToList()[i]);
+                    }
+                }
+                return rentList;
+            }
+            return result.ToList();
         }
 
         public static List<T_Sale> getSale(SearchItem item)
@@ -823,6 +885,30 @@ namespace RealEstateV1.Busniss
                         result = result.Where(a => a.RealEstate.RealEstateFeature.Any(b => b.ID == feature)).AsQueryable();
                     }
             }
+            T_Customer customer = getCurrentCustomer(DB);
+            if(customer!=null)
+            {
+                List<T_Sale> saleList = new List<T_Sale>();
+                List<string> list = hideEstateList(customer.ID);
+                for (int i=0;i<result.Count();i++)
+                {
+                    bool search = false;
+                    for (int j=0;j<list.Count();j++)
+                    {
+                        int str = result.ToList()[i].RealEstate.ID;
+                        if (str.ToString() == list[j])
+                        {
+                            search = true;
+                        }
+                    }
+                    if(search==false)
+                    {
+                        saleList.Add(result.ToList()[i]);
+                    }
+                }
+                return saleList;
+            }
+            
             return result.ToList();
         }
 
@@ -869,6 +955,29 @@ namespace RealEstateV1.Busniss
                     {
                         result = result.Where(a => a.RealEstate.RealEstateFeature.Any(b => b.ID == feature)).AsQueryable();
                     }
+            }
+            T_Customer customer = getCurrentCustomer(DB);
+            if (customer != null)
+            {
+                List<T_Sale> saleList = new List<T_Sale>();
+                List<string> list = hideEstateList(customer.ID);
+                for (int i = 0; i < result.Count(); i++)
+                {
+                    bool search = false;
+                    for (int j = 0; j < list.Count(); j++)
+                    {
+                        int str = result.ToList()[i].RealEstate.ID;
+                        if (str.ToString() == list[j])
+                        {
+                            search = true;
+                        }
+                    }
+                    if (search == false)
+                    {
+                        saleList.Add(result.ToList()[i]);
+                    }
+                }
+                return saleList;
             }
             return result.ToList();
         }

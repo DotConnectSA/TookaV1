@@ -109,6 +109,7 @@ namespace RealEstateV1.Controllers
         //[AcceptVerbs(HttpVerbs.Get)]
         public ActionResult GetTown(string CityID)
         {
+            ViewBag.ReturnUrl = "towninformation";
             if (String.IsNullOrEmpty(CityID))
             {
                 throw new ArgumentNullException("CityID");
@@ -154,6 +155,7 @@ namespace RealEstateV1.Controllers
         /////////////////////////////////////////////////////////////////////*********
         public JsonResult GetTowninfo(string cityID,string townID)
         {
+            ViewBag.ReturnUrl = "towninformation";
             if (String.IsNullOrEmpty(townID))
             {
                 throw new ArgumentNullException("townID");
@@ -172,6 +174,7 @@ namespace RealEstateV1.Controllers
 
         public ActionResult GetCommentByID(int CommentID, int index)
         {
+            ViewBag.ReturnUrl = "towninformation";
             ViewBag.index = index;
             var result = Busniss.BusnissLayer.GetCommentByID(CommentID);
             return PartialView("_TownPartial", result);
@@ -179,6 +182,7 @@ namespace RealEstateV1.Controllers
 
         public ActionResult GetOwnerByCity(string CityId)
         {
+            ViewBag.ReturnUrl = "RealEstatesOwners";
             if (String.IsNullOrEmpty(CityId))
             {
                 throw new ArgumentNullException("CityId");
@@ -195,6 +199,7 @@ namespace RealEstateV1.Controllers
         }
         public ActionResult GetOwner(int OwnerId,int index)
         {
+            ViewBag.ReturnUrl = "RealEstatesOwners";
             ViewBag.OwnerIndex = index;
             var result = Busniss.BusnissLayer.GetOwnerById(OwnerId);
             return PartialView("_OwnerPartial", result);
@@ -364,8 +369,16 @@ namespace RealEstateV1.Controllers
 
         public ActionResult SearchHistory()
         {
-            ViewBag.ReturnUrl = "GetSearchHistory";
+            ViewBag.ReturnUrl = "SearchHistory";
             List<RealEstateFull> result = Busniss.BusnissLayer.GetSearchHistory();
+
+            return View(result.ToList());
+        }
+
+        public ActionResult FavoritEstates()
+        {
+            ViewBag.ReturnUrl = "FavoritEstates";
+            List<RealEstateFull> result = Busniss.BusnissLayer.GetFavorit();
 
             return View(result.ToList());
         }
@@ -431,16 +444,19 @@ namespace RealEstateV1.Controllers
         //[AcceptVerbs(HttpVerbs.Post)]
         public ActionResult LikeD(int ID)
         {
-            string value = Busniss.CookieManager.CookieValue("Discuss", "Discuss" + ID);
+            RealEstateContext DB = new RealEstateContext();
+            T_Customer customer = Busniss.BusnissLayer.getCurrentCustomer(DB);
+            string key = "Disc" + ID + "Cust" + customer.ID;
+            string value = Busniss.CookieManager.CookieValue("Discuss", key);
             if (value == null)
             {
-                Busniss.CookieManager.SetCookie("Discuss", "Discuss" + ID, "true",7);
+                Busniss.CookieManager.SetCookie("Discuss", key, "true", 7);
                 bool result = Busniss.BusnissLayer.LikeD(ID);
                 return Json(result, JsonRequestBehavior.AllowGet);
             }
             else if (value == "false")
             {
-                Busniss.CookieManager.SetCookie("Discuss", "Discuss" + ID, "true", 7);
+                Busniss.CookieManager.SetCookie("Discuss", key, "true", 7);
                 bool result = Busniss.BusnissLayer.RemoveDisLikeD(ID);
                 result = Busniss.BusnissLayer.LikeD(ID);
                 return Json("addRem", JsonRequestBehavior.AllowGet);
@@ -453,18 +469,40 @@ namespace RealEstateV1.Controllers
 
         [Authorize]
         //[AcceptVerbs(HttpVerbs.Post)]
-        public ActionResult LikeC(int ID)
+        public ActionResult HideEstate(int estateID)
         {
-            string value = Busniss.CookieManager.CookieValue("Comment", "Comment" + ID);
+            RealEstateContext DB = new RealEstateContext();
+            T_Customer customer = Busniss.BusnissLayer.getCurrentCustomer(DB);
+            string key = estateID.ToString();
+            string value = Busniss.CookieManager.CookieValue("HideCust" + customer.ID, key);
             if (value == null)
             {
-                Busniss.CookieManager.SetCookie("Comment", "Comment" + ID, "true", 7);
+                Busniss.CookieManager.SetCookie("HideCust" + customer.ID, key, "true", 7);
+                return Json(true, JsonRequestBehavior.AllowGet);
+            }
+            else
+            {
+                return Json(true, JsonRequestBehavior.AllowGet);
+            }
+        }
+
+        [Authorize]
+        //[AcceptVerbs(HttpVerbs.Post)]
+        public ActionResult LikeC(int ID)
+        {
+            RealEstateContext DB = new RealEstateContext();
+            T_Customer customer = Busniss.BusnissLayer.getCurrentCustomer(DB);
+            string key = "Comm" + ID + "Cust" + customer.ID;
+            string value = Busniss.CookieManager.CookieValue("Comment", key);
+            if (value == null)
+            {
+                Busniss.CookieManager.SetCookie("Comment", key, "true", 7);
                 bool result = Busniss.BusnissLayer.LikeC(ID);
                 return Json(result, JsonRequestBehavior.AllowGet);
             }
             else if (value == "false")
             {
-                Busniss.CookieManager.SetCookie("Comment", "Comment" + ID, "true", 7);
+                Busniss.CookieManager.SetCookie("Comment", key, "true", 7);
                 bool result = Busniss.BusnissLayer.RemoveDisLikeC(ID);
                 result = Busniss.BusnissLayer.LikeC(ID);
                 return Json("addRem", JsonRequestBehavior.AllowGet);
@@ -480,16 +518,19 @@ namespace RealEstateV1.Controllers
         //[AcceptVerbs(HttpVerbs.Post)]
         public ActionResult DisLikeD(int ID)
         {
-            string value = Busniss.CookieManager.CookieValue("Discuss", "Discuss" + ID);
+            RealEstateContext DB = new RealEstateContext();
+            T_Customer customer = Busniss.BusnissLayer.getCurrentCustomer(DB);
+            string key = "Disc" + ID + "Cust" + customer.ID;
+            string value = Busniss.CookieManager.CookieValue("Discuss", key);
             if (value == null)
             {
-                Busniss.CookieManager.SetCookie("Discuss", "Discuss" + ID, "false", 7);
+                Busniss.CookieManager.SetCookie("Discuss", key, "false", 7);
                 bool result = Busniss.BusnissLayer.DisLikeD(ID);
                 return Json(result, JsonRequestBehavior.AllowGet);
             }
             else if (value == "true")
             {
-                Busniss.CookieManager.SetCookie("Discuss", "Discuss" + ID, "false", 7);
+                Busniss.CookieManager.SetCookie("Discuss", key, "false", 7);
                 bool result = Busniss.BusnissLayer.RemoveLikeD(ID);
                 result = Busniss.BusnissLayer.DisLikeD(ID);
                 return Json("addRem", JsonRequestBehavior.AllowGet);
@@ -504,16 +545,19 @@ namespace RealEstateV1.Controllers
         //[AcceptVerbs(HttpVerbs.Post)]
         public ActionResult DisLikeC(int ID)
         {
-            string value = Busniss.CookieManager.CookieValue("Comment", "Comment" + ID);
+            RealEstateContext DB = new RealEstateContext();
+            T_Customer customer = Busniss.BusnissLayer.getCurrentCustomer(DB);
+            string key = "Comm" + ID + "Cust" + customer.ID;
+            string value = Busniss.CookieManager.CookieValue("Comment", key);
             if (value == null)
             {
-                Busniss.CookieManager.SetCookie("Comment", "Comment" + ID, "false", 7);
+                Busniss.CookieManager.SetCookie("Comment", key, "false", 7);
                 bool result = Busniss.BusnissLayer.DisLikeC(ID);
                 return Json(result, JsonRequestBehavior.AllowGet);
             }
             else if (value == "true")
             {
-                Busniss.CookieManager.SetCookie("Comment", "Comment" + ID, "false", 7);
+                Busniss.CookieManager.SetCookie("Comment", key, "false", 7);
                 bool result = Busniss.BusnissLayer.RemoveLikeC(ID);
                 result = Busniss.BusnissLayer.DisLikeC(ID);
                 return Json("addRem", JsonRequestBehavior.AllowGet);
@@ -529,10 +573,13 @@ namespace RealEstateV1.Controllers
         //[AcceptVerbs(HttpVerbs.Post)]
         public ActionResult reportD(int ID)
         {
-            string value = Busniss.CookieManager.CookieValue("RepotDiscuss", "RepotDiscuss" + ID);
+            RealEstateContext DB = new RealEstateContext();
+            T_Customer customer = Busniss.BusnissLayer.getCurrentCustomer(DB);
+            string key = "RepDisc" + ID + "Cust" + customer.ID;
+            string value = Busniss.CookieManager.CookieValue("ReportDiscuss", key);
             if (value == null)
             {
-                Busniss.CookieManager.SetCookie("RepotDiscuss", "RepotDiscuss" + ID, "true", 7);
+                Busniss.CookieManager.SetCookie("ReportDiscuss", key, "true", 7);
                 bool result = Busniss.BusnissLayer.reportD(ID);
                 return Json(result, JsonRequestBehavior.AllowGet);
             }
@@ -546,10 +593,13 @@ namespace RealEstateV1.Controllers
         //[AcceptVerbs(HttpVerbs.Post)]
         public ActionResult reportC(int ID)
         {
-            string value = Busniss.CookieManager.CookieValue("RepotComment", "RepotComment" + ID);
+            RealEstateContext DB = new RealEstateContext();
+            T_Customer customer = Busniss.BusnissLayer.getCurrentCustomer(DB);
+            string key = "RepComm" + ID + "Cust" + customer.ID;
+            string value = Busniss.CookieManager.CookieValue("ReportComment", key);
             if (value == null)
             {
-                Busniss.CookieManager.SetCookie("RepotComment", "RepotComment" + ID, "true", 7);
+                Busniss.CookieManager.SetCookie("ReportComment", key, "true", 7);
                 bool result = Busniss.BusnissLayer.reportC(ID);
                 return Json(result, JsonRequestBehavior.AllowGet);
             }
@@ -564,10 +614,13 @@ namespace RealEstateV1.Controllers
         //[AcceptVerbs(HttpVerbs.Post)]
         public ActionResult reportR(int ID)
         {
-            string value = Busniss.CookieManager.CookieValue("RepotReport", "RepotReport" + ID);
+            RealEstateContext DB = new RealEstateContext();
+            T_Customer customer = Busniss.BusnissLayer.getCurrentCustomer(DB);
+            string key = "RepRep" + ID + "Cust" + customer.ID;
+            string value = Busniss.CookieManager.CookieValue("ReportReport", key);
             if (value == null)
             {
-                Busniss.CookieManager.SetCookie("RepotReport", "RepotReport" + ID, "true", 7);
+                Busniss.CookieManager.SetCookie("ReportReport", key, "true", 7);
                 bool result = Busniss.BusnissLayer.reportR(ID);
                 return Json(result, JsonRequestBehavior.AllowGet);
             }

@@ -347,6 +347,8 @@
     <Content Include="Views\Home\SearchHistory.cshtml" />
     <Content Include="Views\Home\_SearchHistoryPartial.cshtml" />
     <Content Include="Views\Home\_ReplayPartial.cshtml" />
+    <Content Include="Views\Home\FavoritEstates.cshtml" />
+    <Content Include="Views\Home\_FavoritPartial.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -10,8 +10,9 @@
                 <a href="#" onclick="openManage()">@User.Identity.GetUserName()</a>
                 @*@Html.ActionLink(User.Identity.GetUserName(), "Index", "Manage", routeValues: null, htmlAttributes: new { title = "Manage" })*@
             </li>
-            <li><a href="javascript:document.getElementById('logoutForm').submit()">تسجيل خروج</a></li>
+            <li><a href="#" onclick="getFavorit()">عقارات مفضلة</a></li>
             <li><a href="#" onclick="getHistory()">سجل البحث</a></li>
+            <li><a href="javascript:document.getElementById('logoutForm').submit()">تسجيل خروج</a></li>
         </ul>
     }
 }
@@ -110,6 +111,11 @@ else
 
     function getHistory() {
         window.location = '@Url.Action("SearchHistory", "Home")';
+    }
+
+    function getFavorit()
+    {
+        window.location = '@Url.Action("FavoritEstates", "Home")';
     }
 
     function openManage() {

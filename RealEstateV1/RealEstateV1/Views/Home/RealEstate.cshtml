@@ -463,6 +463,11 @@
                                   </div>
                               }
                           </td>
+                        <td>
+                            <div >
+                                <a style="cursor:pointer" onclick="hide(@(Model.realEstate.ID))">اخفاء</a>
+                            </div>
+                        </td>
                     </tr>
                     <tr>
                         <td width="50%">
@@ -793,6 +798,39 @@ else
 {
     <script type="text/javascript">
         function detail() {
+            $("#Login-modal-body").load('@Url.Action("Login", "Account", new { returnUrl = ViewBag.returnUrl })');
+            $("#Register-modal-body").load('@Url.Action("Register", "Account")');
+            $("#forgetPass-modal-body").load('@Url.Action("ForgotPassword", "Account")');
+            $('#LoginModal').modal({
+                show: 'true'
+            });
+        }
+    </script>
+}
+
+@if (Request.IsAuthenticated)
+{
+    <script type="text/javascript">
+    function hide(id) {
+        $.ajax({
+            cache: false,
+            type: "POST",
+            url: "@(Url.Action("HideEstate"))",
+                data: { "estateID": id },
+                success: function (data) {
+                    window.location = '@Url.Action("Index", "Home")';
+                },
+                error: function (xhr, ajaxOptions, thrownError) {
+                    alert('Failed to retrieve states. ' + xhr + " - " + ajaxOptions + " - " + thrownError);
+                }
+            });
+        }
+    </script>
+}
+else
+{
+    <script type="text/javascript">
+        function hide(id) {
             $("#Login-modal-body").load('@Url.Action("Login", "Account", new { returnUrl = ViewBag.returnUrl })');
             $("#Register-modal-body").load('@Url.Action("Register", "Account")');
             $("#forgetPass-modal-body").load('@Url.Action("ForgotPassword", "Account")');
