@@ -40,7 +40,14 @@ namespace RealEstateV1.Busniss
         public RealEstateV1.Models.T_RealEstate realEstate { get; set; }
         public RealEstateV1.Models.T_Rent rent { get; set; }
         public RealEstateV1.Models.T_Sale sale { get; set; }
-        public List<KeyValuePair<string, int>> featureRate { get; set; }
+        public List<FeatureRate> featureRate { get; set; }
+    }
+
+    public class FeatureRate
+    {
+        public string feature { get; set; }
+        public int rate { get; set; }
+        public int count { get; set; }
     }
 
     public class addRateInfo

@@ -1,8 +1,5 @@
 ﻿@model RealEstateV1.Models.T_Owner
-@{
-    var variable = (int)ViewData["OwnerIndex"];
-}
-<li id="div@(variable)">
+<li>
     <div style="position : relative;border:double;height:180px">
         <div style="float:right;width:140px">
             <img width="150px" src=@Url.Content(Model.customer.ImgeUrl) alt="">

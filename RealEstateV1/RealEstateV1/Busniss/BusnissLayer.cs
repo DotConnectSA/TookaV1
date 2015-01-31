@@ -117,6 +117,13 @@ namespace RealEstateV1.Busniss
             return DB.TTownComment.Single(a => a.ID == id);
         }
 
+
+        public static T_Discuss GetDiscussByID(int id)
+        {
+            RealEstateContext DB = new RealEstateContext();
+            return DB.TDiscuss.Single(a => a.ID == id);
+        }
+
         public static List<T_TownComment> GetCommnetList(int cityid, int townid)
         {
             RealEstateContext DB = new RealEstateContext();
@@ -231,7 +238,7 @@ namespace RealEstateV1.Busniss
             string currentUserId = HttpContext.Current.User.Identity.GetUserId();
             //ApplicationUser currentUser = context.Users.FirstOrDefault(x => x.Id == currentUserId);
 
-            T_Customer cust = DB.TCustomer.Single(x => x.ProfileID == currentUserId);
+            T_Customer cust = DB.TCustomer.SingleOrDefault(x => x.ProfileID == currentUserId);
             
             return cust;
         }
@@ -390,32 +397,40 @@ namespace RealEstateV1.Busniss
            
         }
 
-        public static List<KeyValuePair<string, int>> getFeatureRate(int townID)
+        public static List<FeatureRate> getFeatureRate(int townID)
         {
             RealEstateContext DB = new RealEstateContext();
             List<T_TownFeature> townFeature = DB.TTFeature.ToList();
             T_Town town = DB.TTown.SingleOrDefault(a => a.ID == townID);
             var townRate = DB.TTownRate.Distinct();
-            List<KeyValuePair<string, int>> pair = new List<KeyValuePair<string, int>>();
+            List<FeatureRate> pair = new List<FeatureRate>();
             for (int i = 0; i < town.townLinkFeature.Count(); i++)
             {
-                KeyValuePair<string, int> p = new KeyValuePair<string, int>(town.townLinkFeature[i].townFeature.Feature, town.townLinkFeature[i].Rate.Rate);
+                FeatureRate p=new FeatureRate();
+                p.feature = town.townLinkFeature[i].townFeature.Feature;
+                p.rate = town.townLinkFeature[i].Rate.Rate;
                 pair.Add(p);
             }
-            List<KeyValuePair<string, int>> res = new List<KeyValuePair<string, int>>();
+            List<FeatureRate> res = new List<FeatureRate>();
             for (int i = 0; i < townFeature.Count(); i++)
             {
                 int counter = 0, sum = 0;
                 for (int j = 0; j < pair.Count(); j++)
                 {
-                    if (townFeature[i].Feature == pair[j].Key)
+                    if (townFeature[i].Feature == pair[j].feature)
                     {
-                        sum += pair[j].Value;
+                        sum += pair[j].rate;
                         counter++;
                     }
                 }
                 if(counter!=0)
-                    res.Add(new KeyValuePair<string, int>(townFeature[i].Feature, sum / counter));
+                {
+                    FeatureRate FR = new FeatureRate();
+                    FR.feature = townFeature[i].Feature;
+                    FR.rate = sum / counter;
+                    FR.count = counter;
+                    res.Add(FR);
+                }
             }
             return res;
         }

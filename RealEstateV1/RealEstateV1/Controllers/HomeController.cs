@@ -19,6 +19,7 @@ namespace RealEstateV1.Controllers
     [RequireHttps]
     public class HomeController : Controller
     {
+        public static int indexNumber = 2;
 
         public void initialization()
         {
@@ -106,6 +107,12 @@ namespace RealEstateV1.Controllers
             return Index();
         }
 
+        public JsonResult changeIndexCount(int number)
+        {
+            indexNumber = number;
+            return Json(true, JsonRequestBehavior.AllowGet);  
+        }
+
         //[AcceptVerbs(HttpVerbs.Get)]
         public ActionResult GetTown(string CityID)
         {
@@ -153,54 +160,10 @@ namespace RealEstateV1.Controllers
             return RedirectToAction("RealEstate",id);
         }
         /////////////////////////////////////////////////////////////////////*********
-        public JsonResult GetTowninfo(string cityID,string townID)
-        {
-            ViewBag.ReturnUrl = "towninformation";
-            if (String.IsNullOrEmpty(townID))
-            {
-                throw new ArgumentNullException("townID");
-            }
-            int tid = 0,cid=0;
-            bool isValid = Int32.TryParse(townID, out tid);
-            isValid = Int32.TryParse(cityID, out cid);
-            var result = Busniss.BusnissLayer.GetCommnetList(cid, tid);
-            List<int> commentListID = new List<int>();
-            for (int i = 0; i < result.Count(); i++)
-            {
-                commentListID.Add(result[i].ID);
-            }
-            return Json(commentListID, JsonRequestBehavior.AllowGet);
-        }
 
-        public ActionResult GetCommentByID(int CommentID, int index)
-        {
-            ViewBag.ReturnUrl = "towninformation";
-            ViewBag.index = index;
-            var result = Busniss.BusnissLayer.GetCommentByID(CommentID);
-            return PartialView("_TownPartial", result);
-        }
-
-        public ActionResult GetOwnerByCity(string CityId)
+        public ActionResult GetOwner(int OwnerId)
         {
             ViewBag.ReturnUrl = "RealEstatesOwners";
-            if (String.IsNullOrEmpty(CityId))
-            {
-                throw new ArgumentNullException("CityId");
-            }
-            int id = 0;
-            bool isValid = Int32.TryParse(CityId, out id);
-            var result = Busniss.BusnissLayer.GetOwnerByCity(id);
-            List<int> ownerListID = new List<int>();
-            for (int i = 0; i < result.Count(); i++)
-            {
-                ownerListID.Add(result[i].ID);
-            }
-            return Json(ownerListID, JsonRequestBehavior.AllowGet);
-        }
-        public ActionResult GetOwner(int OwnerId,int index)
-        {
-            ViewBag.ReturnUrl = "RealEstatesOwners";
-            ViewBag.OwnerIndex = index;
             var result = Busniss.BusnissLayer.GetOwnerById(OwnerId);
             return PartialView("_OwnerPartial", result);
         }
@@ -244,12 +207,51 @@ namespace RealEstateV1.Controllers
             initialization();
             ViewBag.ReturnUrl = "RealEstatesOwners";
             RealEstateContext db = new RealEstateContext();
-            var owner = db.TOwner.ToList();
-            return View(owner);
+            List<T_Owner> owner = db.TOwner.ToList();
+            indexNumber = 2;
+            int count = indexNumber;
+            ViewBag.showCount = count;
+            ViewBag.totalCount = owner.Count();
+            List<T_Owner> res = new List<T_Owner>();
+            for (int i = 0; i < owner.Count(); i++)
+            {
+                if (count == 0)
+                {
+                    break;
+                }
+                res.Add(owner[i]);
+                count--;
+            }
+            return View(res);
+        }
+
+        public ActionResult OwnersByIndex(int start, int CityID)
+        {
+            ViewBag.ReturnUrl = "towninformation";
+
+            List<T_Owner> ownertList = Busniss.BusnissLayer.GetOwnerByCity(CityID);
+            int count = indexNumber;
+            List<int> res = new List<int>();
+            for (int i = start; i < ownertList.Count(); i++)
+            {
+                if (count == 0)
+                {
+                    break;
+                }
+                res.Add(ownertList[i].ID);
+                count--;
+            }
+            return Json(res, JsonRequestBehavior.AllowGet);
+        }
+
+        public ActionResult OwnersByIndexCount(int start, int CityID)
+        {
+            ViewBag.ReturnUrl = "towninformation";
+
+            List<T_Owner> ownertList = Busniss.BusnissLayer.GetOwnerByCity(CityID);
+            return Json(ownertList.Count(), JsonRequestBehavior.AllowGet);
         }
         
-
-
         public ActionResult RealEstate(int ID)
         {
             Busniss.BusnissLayer.AddSearchHistory(ID);
@@ -648,8 +650,49 @@ namespace RealEstateV1.Controllers
         {
             initialization();
             ViewBag.ReturnUrl = "discuss";
-            var dis = Busniss.BusnissLayer.GetDiscuss();
-            return View(dis);
+            
+            List<T_Discuss> dis = Busniss.BusnissLayer.GetDiscuss();
+            indexNumber = 2;
+            int count = indexNumber;
+            ViewBag.showCount = count;
+            ViewBag.totalCount=dis.Count();
+            List<T_Discuss> res = new List<T_Discuss>();
+            for (int i = 0; i < dis.Count();i++ )
+            {
+                if(count==0)
+                {
+                    break;
+                }
+                res.Add(dis[i]);
+                count--;
+            }
+            return View(res);
+        }
+
+        public ActionResult DiscussByIndex(int start)
+        {
+            ViewBag.ReturnUrl = "discuss";
+
+            List<T_Discuss> dis = Busniss.BusnissLayer.GetDiscuss();
+            int count = indexNumber;
+            List<int> res = new List<int>();
+            for (int i = start; i < dis.Count(); i++)
+            {
+                if (count == 0)
+                {
+                    break;
+                }
+                res.Add(dis[i].ID);
+                count--;
+            }
+            return Json(res, JsonRequestBehavior.AllowGet);
+        }
+
+        public ActionResult GetDiscussByID(int DiscussID)
+        {
+            ViewBag.ReturnUrl = "discuss";
+            var result = Busniss.BusnissLayer.GetDiscussByID(DiscussID);
+            return PartialView("_DiscussPartial", result);
         }
 
         public ActionResult Supply()
@@ -664,8 +707,55 @@ namespace RealEstateV1.Controllers
             initialization();
             ViewBag.ReturnUrl = "towninformation";
             List<T_TownComment> townCommentList = Busniss.BusnissLayer.GetCommnetList(CityID, townID);
+            indexNumber = 2;
+            int count = indexNumber;
+            ViewBag.showCount = count;
+            ViewBag.totalCount = townCommentList.Count();
+            List<T_TownComment> res = new List<T_TownComment>();
+            for (int i = 0; i < townCommentList.Count(); i++)
+            {
+                if (count == 0)
+                {
+                    break;
+                }
+                res.Add(townCommentList[i]);
+                count--;
+            }
+            return View(res);
+        }
 
-            return View(townCommentList.ToList());
+        public ActionResult CommentByIndex(int start,int CityID, int townID)
+        {
+            ViewBag.ReturnUrl = "towninformation";
+
+            List<T_TownComment> townCommentList = Busniss.BusnissLayer.GetCommnetList(CityID, townID);
+            int count = indexNumber;
+            List<int> res = new List<int>();
+            for (int i = start; i < townCommentList.Count(); i++)
+            {
+                if (count == 0)
+                {
+                    break;
+                }
+                res.Add(townCommentList[i].ID);
+                count--;
+            }
+            return Json(res, JsonRequestBehavior.AllowGet);
+        }
+
+        public ActionResult CommentByIndexCount(int start, int CityID, int townID)
+        {
+            ViewBag.ReturnUrl = "towninformation";
+
+            List<T_TownComment> townCommentList = Busniss.BusnissLayer.GetCommnetList(CityID, townID);
+            return Json(townCommentList.Count(), JsonRequestBehavior.AllowGet);
+        }
+
+        public ActionResult GetCommentByID(int CommentID)
+        {
+            ViewBag.ReturnUrl = "towninformation";
+            var result = Busniss.BusnissLayer.GetCommentByID(CommentID);
+            return PartialView("_TownPartial", result);
         }
 
         [Authorize]

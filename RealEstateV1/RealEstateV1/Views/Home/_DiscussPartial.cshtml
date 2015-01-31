@@ -1,9 +1,8 @@
 ﻿@model RealEstateV1.Models.T_Discuss
 @{
-    var variable = (int)ViewData["index"];
     var returnUrl = (string)ViewData["returnUrl"];
 }
-<li id="div@(variable)">
+<li>
     <div class="comments-holder">
         <div class="comment-links">
             <a href="#" onclick="reportD(@(Model.ID))">تبليغ</a>

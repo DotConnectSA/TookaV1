@@ -91,21 +91,15 @@
 </div>
 
 <script type="text/javascript">
-    var size;
-    var counter;
-    function getOwner(OwnerId,index) {
+
+    function getOwner(OwnerId) {
         $.ajax({
             cache: false,
             type: "POST",
             url: "@(Url.Action("GetOwner"))",
-            data: { "OwnerId": OwnerId,"index":index },
+            data: { "OwnerId": OwnerId},
             success: function (data) {
                 $("#list").append(data);
-                counter=counter+1;
-                if(size==counter)
-                {
-                    init(size);
-                }
         },
         error: function (xhr, ajaxOptions, thrownError) {
             alert('Failed to retrieve states. ' + xhr + " - " + ajaxOptions + " - " + thrownError);
@@ -113,73 +107,79 @@
         }
     });
     }
+
+    function changeCity()
+    {
+        var OwnerCity = $("#OwnerCity").val();
+            
+        $.ajax({
+            cache: false,
+            type: "POST",
+            url: "@(Url.Action("OwnersByIndexCount"))",
+            data: {"start":0, "cityID":OwnerCity },
+        success: function (data) {
+            init(data);
+        },
+        error: function (xhr, ajaxOptions, thrownError) {
+            alert('Failed to retrieve states. ' + xhr + " - " + ajaxOptions + " - " + thrownError);
+        }
+    });
+
+    $.ajax({
+        cache: false,
+        type: "POST",
+        url: "@(Url.Action("OwnersByIndex"))",
+        data: {"start":0, "cityID":OwnerCity, },
+    success: function (data) {
+        $("#list").html('');
+
+        $.each(data, function (id, OwnerCity) {
+            getOwner(OwnerCity);
+        });
+                    
+    },
+    error: function (xhr, ajaxOptions, thrownError) {
+        alert('Failed to retrieve states. ' + xhr + " - " + ajaxOptions + " - " + thrownError);
+
+    }
+    });
+    }
+
     $(function () {
 
         $("#OwnerCity").change(function () {
-            var OwnerCity = $("#OwnerCity").val();
-            $.ajax({
-                cache: false,
-                type: "POST",
-                url: "@(Url.Action("GetOwnerByCity"))",
-                data: { "CityId": OwnerCity },
-                success: function (data) {
-                    $("#list").html('');
-                    size=data.length;
-                    counter=0;
-                    var index=1;
-                    $.each(data, function (id, OwnerCity) {
-                        getOwner(OwnerCity,index);
-                        index++;
-                    });
-                    if(data.length==0)
-                    {
-                        init(data.length);
-                    }
-                    
-                },
-                error: function (xhr, ajaxOptions, thrownError) {
-                    alert('Failed to retrieve states. ' + xhr + " - " + ajaxOptions + " - " + thrownError);
-
-                }
-            });
+            
+            changeCity();
         });
 
     });
 </script>
 <script type="text/javascript">
-    var showCount=2;    //you should change this number
-    var num=@Model.Count() / showCount;
-    num=Math.ceil(num);
+    var showCount=@ViewBag.showCount;
+    var totalCount=@ViewBag.totalCount;
+    var numOfIndex=totalCount / showCount;
+    numOfIndex=Math.ceil(numOfIndex);
     var navIndex;
-    var totalCount;
+    var startNum=0;
 
     function init(count)
     {
-        totalCount=count;
-        num=totalCount / showCount;
-        num=Math.ceil(num);
-
-        for(i=1;i<=totalCount;i++)
-        {
-            $("#div" + i).hide();
-            //alert(i);
-        }
-        for(i=1;i<=showCount;i++)
-        {
-            $("#div" + i).show();
-            //alert(i);
-        }
-
         $("#nav").html('');
-        for(i=num;i>=1;i--)
+        totalCount=count;
+        numOfIndex=totalCount/showCount;
+        numOfIndex=Math.ceil(numOfIndex);
+
+        var n=(numOfIndex-1)*showCount;
+        for(i=numOfIndex;i>=1;i--)
         {
-
-            $("#nav").append( "<a id='nav"+i+"' onclick='alter("+i+")' style='cursor: pointer;color:gray;padding:5px;'>"+i+"</a>");
-
+            $("#nav").append( "<a id='nav"+i+"' onclick='alter("+i+","+n+")' style='cursor: pointer;color:gray;padding:5px;'>"+i+"</a>");
+            n=n-showCount;
         }
         navIndex=1;
+        $("#prevbtn").removeClass("active");
+        $("#nextbtn").removeClass("active");
         $("#prevbtn").addClass("active");
-        if (navIndex>num)
+        if (numOfIndex<=1)
             $("#nextbtn").addClass("active");
         $("#nav"+navIndex).css("color","blue");
     }
@@ -187,30 +187,26 @@
     $(document).ready(
 	function()
 	{
-	    $("#nav").html('');
-	    init(@Model.Count());
+	    init(totalCount);
 	}
 	);
 
-    function alter(index)
+    function alter(index,start)
     {
-        for(i=1;i<=totalCount;i++)
-        {
-            $("#div" + i).hide();
-        }
-        for(i=showCount*(index-1)+1;i<=showCount*(index-1)+showCount;i++)
-        {
-            $("#div" + i).show();
-        }
-        for (i=1;i<=num;i++)
+        var OwnerCity = $("#OwnerCity").val();
+
+        startNum=start;
+        for (i=1;i<=numOfIndex;i++)
         {
             $("#nav"+i).css("color","gray");
         }
         $("#nav"+index).css("color","blue");
+
+
         navIndex=index;
         $("#prevbtn").removeClass("active");
         $("#nextbtn").removeClass("active");
-        if (navIndex==num)
+        if (navIndex==numOfIndex)
         {
             $("#nextbtn").addClass("active");
         }
@@ -218,6 +214,22 @@
         {
             $("#prevbtn").addClass("active");
         }
+
+        $.ajax({
+            cache: false,
+            type: "POST",
+            url: "@(Url.Action("OwnersByIndex"))",
+            data: {"start":start,"CityID":OwnerCity },
+        success: function (data) {
+            $("#list").html('');
+            $.each(data, function (id, Comment) {
+                getOwner(Comment);
+            });
+        },
+        error: function (xhr, ajaxOptions, thrownError) {
+            alert('Failed to retrieve states. ' + xhr + " - " + ajaxOptions + " - " + thrownError);
+        }
+    });
     }
 
     function prev()
@@ -229,56 +241,51 @@
                 $("#prevbtn").addClass("active");
             }
             $("#nextbtn").removeClass("active");
-            alter(navIndex-1);
+            alter(navIndex-1,startNum-showCount);
         }
     }
 
     function next()
     {
-        if(navIndex+1<=num)
+        if(navIndex+1<=numOfIndex)
         {
-            if (navIndex+1==num)
+            if (navIndex+1==numOfIndex)
             {
                 $("#nextbtn").addClass("active");
             }
             $("#prevbtn").removeClass("active");
-            alter(navIndex+1);
+            alter(navIndex+1,startNum+showCount);
         }
     }
 
-    $(document).ready(function () {
-
-        var resultInPage = $("#resultInPage").val();
-        if(resultInPage == 0)
-        {
-            showCount = 2;
-        }
-        else if(resultInPage == 1)
-        {
-            showCount = 5;
-        }
-        else if(resultInPage == 2)
-        {
-            showCount = 10;
-        }
-        init(@Model.Count());
-    });
-
     $("#resultInPage").change(function () {
         var resultInPage = $("#resultInPage").val();
+        var count;
         if(resultInPage == 0)
         {
-            showCount = 2;
+            count = 2;
         }
         else if(resultInPage == 1)
         {
-            showCount = 5;
+            count = 5;
         }
         else if(resultInPage == 2)
         {
-            showCount = 10;
+            count = 10;
         }
-        init(@Model.Count());
+        showCount=count;
+        $.ajax({
+            cache: false,
+            type: "POST",
+            url: "@(Url.Action("changeIndexCount"))",
+            data: {"number":count },
+            success: function (data) {
+                changeCity();
+            },
+            error: function (xhr, ajaxOptions, thrownError) {
+                alert('Failed to retrieve states. ' + xhr + " - " + ajaxOptions + " - " + thrownError);
+            }
+        });
     });
 </script>
 

@@ -5,8 +5,6 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-@*@Html.Partial("_SearchBar", new RealEstateV1.Busniss.SearchItem())*@
-
 <div style="position:absolute;left:50%;top:85px;">
     @Html.DropDownList("City", (SelectList)ViewBag.Cites)
     @Html.DropDownList("town", (SelectList)ViewBag.town)
@@ -89,23 +87,16 @@
 
 
 <script type="text/javascript">
-    var size;
-    var counter;
-    function getComm(Commnet,index)
+
+    function getComm(Commnet)
     {
         $.ajax({
             cache: false,
             type: "POST",
             url: "@(Url.Action("GetCommentByID"))",
-            data: { "CommentID": Commnet,"index":index },
+            data: { "CommentID": Commnet },
             success: function (data) {
                 $("#list").append(data);
-                
-                counter=counter+1;
-                if(size==counter)
-                {
-                    init(size);
-                }
             },
             error: function (xhr, ajaxOptions, thrownError) {
                 alert('Failed to retrieve states. ' + xhr + " - " + ajaxOptions + " - " + thrownError);
@@ -114,28 +105,36 @@
         });
     }
 
-    function getTownComm(city,town)
+    function getTownComm(start,city,town)
     {
-        var town1 = town;
         $.ajax({
             cache: false,
             type: "POST",
-            url: "@(Url.Action("GetTowninfo"))",
-            data: {"cityID":city, "townID": town1 },
+            url: "@(Url.Action("CommentByIndexCount"))",
+            data: {"start":start, "cityID":city, "townID": town },
             success: function (data) {
+                init(data);
+        },
+        error: function (xhr, ajaxOptions, thrownError) {
 
+            alert('Failed to retrieve states. ' + xhr + " - " + ajaxOptions + " - " + thrownError);
+
+        }
+    });
+
+        $.ajax({
+            cache: false,
+            type: "POST",
+            url: "@(Url.Action("CommentByIndex"))",
+            data: {"start":start, "cityID":city, "townID": town },
+            success: function (data) {
                 $("#list").html('');
-                size=data.length;
-                counter=0;
-                var index=1;
+                
+
                 $.each(data, function (id, Comment) {
-                    getComm(Comment,index);
-                    index++;
+                    getComm(Comment);
                 });
-                if(data.length==0)
-                {
-                    init(data.length);
-                }
+
             },
             error: function (xhr, ajaxOptions, thrownError) {
 
@@ -144,7 +143,7 @@
             }
         });
 
-        
+
     }
 
     $(function () {
@@ -164,8 +163,8 @@
                     $.each(data, function (id, option) {
                         ddtown.append($('<option></option>').val(option.id).html(option.name));
                     });
-                    
-                    getTownComm(selection,0);
+
+                    getTownComm(0,selection,0);
                 },
                 error: function (xhr, ajaxOptions, thrownError) {
                     alert('Failed to retrieve states. ' + xhr + " - " + ajaxOptions + " - " + thrownError);
@@ -177,75 +176,40 @@
 
 
         $("#town").change(function () {
-            var town1 = $("#town").val();
+            var town = $("#town").val();
             var city = $("#City").val();
-            $.ajax({
-                cache: false,
-                type: "POST",
-                url: "@(Url.Action("GetTowninfo"))",
-                data: {"cityID":city, "townID": town1 },
-                success: function (data) {
-
-                    $("#list").html('');
-                    size=data.length;
-                    counter=0;
-                    var index=1;
-                    $.each(data, function (id, Comment) {
-                        getComm(Comment,index);
-                        index++;
-                    });
-                    if(data.length==0)
-                    {
-                        init(data.length);
-                    }
-
-                },
-                error: function (xhr, ajaxOptions, thrownError) {
-                    alert('Failed to retrieve states. ' + xhr + " - " + ajaxOptions + " - " + thrownError);
-
-                }
-            });
-
-            
+            getTownComm(0,city,town);
         });
 
     });
 </script>
 
 <script type="text/javascript">
-    var showCount=2;    //you should change this number
-    var num=@Model.Count() / showCount;
-    num=Math.ceil(num);
+    var showCount=@ViewBag.showCount;
+    var totalCount=@ViewBag.totalCount;
+    var numOfIndex=totalCount / showCount;
+    numOfIndex=Math.ceil(numOfIndex);
     var navIndex;
-    var totalCount;
+    var startNum=0;
 
     function init(count)
     {
-        totalCount=count;
-        num=totalCount / showCount;
-        num=Math.ceil(num);
-
-        for(i=1;i<=totalCount;i++)
-        {
-            $("#div" + i).hide();
-            //alert(i);
-        }
-        for(i=1;i<=showCount;i++)
-        {
-            $("#div" + i).show();
-            //alert(i);
-        }
-
         $("#nav").html('');
-        for(i=num;i>=1;i--)
-        {
-            
-            $("#nav").append( "<a id='nav"+i+"' onclick='alter("+i+")' style='cursor: pointer;color:gray;padding:5px;'>"+i+"</a>");
+        totalCount=count;
+        numOfIndex=totalCount/showCount;
+        numOfIndex=Math.ceil(numOfIndex);
 
+        var n=(numOfIndex-1)*showCount;
+        for(i=numOfIndex;i>=1;i--)
+        {
+            $("#nav").append( "<a id='nav"+i+"' onclick='alter("+i+","+n+")' style='cursor: pointer;color:gray;padding:5px;'>"+i+"</a>");
+            n=n-showCount;
         }
         navIndex=1;
+        $("#prevbtn").removeClass("active");
+        $("#nextbtn").removeClass("active");
         $("#prevbtn").addClass("active");
-        if (navIndex+1>num)
+        if (numOfIndex<=1)
             $("#nextbtn").addClass("active");
         $("#nav"+navIndex).css("color","blue");
     }
@@ -253,30 +217,27 @@
     $(document).ready(
 	function()
 	{
-	    $("#nav").html('');
-	    init(@Model.Count());
+	    init(totalCount);
 	}
 	);
 
-    function alter(index)
+    function alter(index,start)
     {
-        for(i=1;i<=totalCount;i++)
-        {
-            $("#div" + i).hide();
-        }
-        for(i=showCount*(index-1)+1;i<=showCount*(index-1)+showCount;i++)
-        {
-            $("#div" + i).show();
-        }
-        for (i=1;i<=num;i++)
+        var town = $("#town").val();
+        var city = $("#City").val();
+
+        startNum=start;
+        for (i=1;i<=numOfIndex;i++)
         {
             $("#nav"+i).css("color","gray");
         }
         $("#nav"+index).css("color","blue");
+        
+
         navIndex=index;
         $("#prevbtn").removeClass("active");
         $("#nextbtn").removeClass("active");
-        if (navIndex==num)
+        if (navIndex==numOfIndex)
         {
             $("#nextbtn").addClass("active");
         }
@@ -284,6 +245,22 @@
         {
             $("#prevbtn").addClass("active");
         }
+        
+        $.ajax({
+            cache: false,
+            type: "POST",
+            url: "@(Url.Action("CommentByIndex"))",
+            data: {"start":start,"CityID":city,"townID":town },
+            success: function (data) {
+                $("#list").html('');
+                $.each(data, function (id, Comment) {
+                    getComm(Comment);
+                });
+            },
+            error: function (xhr, ajaxOptions, thrownError) {
+                alert('Failed to retrieve states. ' + xhr + " - " + ajaxOptions + " - " + thrownError);
+            }
+        });
     }
 
     function prev()
@@ -295,20 +272,20 @@
                 $("#prevbtn").addClass("active");
             }
             $("#nextbtn").removeClass("active");
-            alter(navIndex-1);
+            alter(navIndex-1,startNum-showCount);
         }
     }
 
     function next()
     {
-        if(navIndex+1<=num)
+        if(navIndex+1<=numOfIndex)
         {
-            if (navIndex+1==num)
+            if (navIndex+1==numOfIndex)
             {
                 $("#nextbtn").addClass("active");
             }
             $("#prevbtn").removeClass("active");
-            alter(navIndex+1);
+            alter(navIndex+1,startNum+showCount);
         }
     }
 </script>

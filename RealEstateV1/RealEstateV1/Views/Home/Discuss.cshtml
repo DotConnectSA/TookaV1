@@ -5,7 +5,7 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-@Html.Partial("_SearchBar", new RealEstateV1.Busniss.SearchItem())
+@*@Html.Partial("_SearchBar", new RealEstateV1.Busniss.SearchItem())*@
 
 <h2>إستشارات عقارية</h2>
 
@@ -13,7 +13,7 @@
     <div class="row">
         <div class="list col-lg-9 col-sm-7">
             <hr />
-            <ul>
+            <ul id="list">
                 @if (Model == null)
                 {
                     <li id="div1">
@@ -26,7 +26,7 @@
                     foreach (var item in Model)
                     {
                         @Html.Partial("_DiscussPartial", item, new ViewDataDictionary { { "index", @counter }, { "returnUrl", @ViewBag.returnUrl } });
-                        counter = counter + 1;
+                                                                                                                                                     counter = counter + 1;
                     }
                 }
             </ul>
@@ -97,61 +97,52 @@
 </div><!-- /.modal -->
 
 <script type="text/javascript">
-    var showCount=2;    //you should change this number
-    var num=@Model.Count() / showCount;
-    num=Math.ceil(num);
+    var showCount=@ViewBag.showCount;
+    var totalCount=@ViewBag.totalCount;
+    var numOfIndex=totalCount / showCount;
+    numOfIndex=Math.ceil(numOfIndex);
     var navIndex;
+    var startNum=0;
 
     $(document).ready(
 	function()
 	{
-	    for(i=1;i<=@Model.Count();i++)
-	    {
-	        $("#div" + i).hide();
-	        //alert(i);
-	    }
-	    for(i=1;i<=showCount;i++)
-	    {
-	        $("#div" + i).show();
-	        //alert(i);
-	    }
-
-
-	    for(i=num;i>=1;i--)
-	    {
-
-	        $("#nav").append( "<a id='nav"+i+"' onclick='alter("+i+")' style='cursor: pointer;color:gray;padding:5px;'>"+i+"</a>");
-
-	    }
-	    navIndex=1;
-	    $("#prevbtn").addClass("active");
-	    if (navIndex+1>num)
-	        $("#nextbtn").addClass("active");
-	    $("#nav"+navIndex).css("color","blue");
+	    init();
 	}
 	);
 
-    function alter(index)
+    function init()
     {
-        for(i=1;i<=@Model.Count();i++)
+        var n=(numOfIndex-1)*showCount;
+        for(i=numOfIndex;i>=1;i--)
         {
-            $("#div" + i).hide();
+            $("#nav").append( "<a id='nav"+i+"' onclick='alter("+i+","+n+")' style='cursor: pointer;color:gray;padding:5px;'>"+i+"</a>");
+            n=n-showCount;
         }
-        for(i=showCount*(index-1)+1;i<=showCount*(index-1)+showCount;i++)
-        {
-            $("#div" + i).show();
-        }
-        for (i=1;i<=num;i++)
+        navIndex=1;
+        $("#prevbtn").removeClass("active");
+        $("#nextbtn").removeClass("active");
+        $("#prevbtn").addClass("active");
+        if (numOfIndex<=1)
+            $("#nextbtn").addClass("active");
+        $("#nav"+navIndex).css("color","blue");
+    }
+
+    function alter(index,start)
+    {
+        
+        startNum=start;
+        for (i=1;i<=numOfIndex;i++)
         {
             $("#nav"+i).css("color","gray");
         }
         $("#nav"+index).css("color","blue");
-
+        
 
         navIndex=index;
         $("#prevbtn").removeClass("active");
         $("#nextbtn").removeClass("active");
-        if (navIndex==num)
+        if (navIndex==numOfIndex)
         {
             $("#nextbtn").addClass("active");
         }
@@ -159,6 +150,38 @@
         {
             $("#prevbtn").addClass("active");
         }
+        
+        $.ajax({
+            cache: false,
+            type: "POST",
+            url: "@(Url.Action("DiscussByIndex"))",
+            data: {"start":start },
+            success: function (data) {
+                $("#list").html('');
+                $.each(data, function (id, Comment) {
+                    getDiscuss(Comment);
+                });
+            },
+            error: function (xhr, ajaxOptions, thrownError) {
+                alert('Failed to retrieve states. ' + xhr + " - " + ajaxOptions + " - " + thrownError);
+            }
+        });
+    }
+
+    function getDiscuss(Commnet)
+    {
+        $.ajax({
+            cache: false,
+            type: "POST",
+            url: "@(Url.Action("GetDiscussByID"))",
+            data: { "DiscussID": Commnet },
+            success: function (data) {
+                $("#list").append(data);
+            },
+            error: function (xhr, ajaxOptions, thrownError) {
+                alert('Failed to retrieve states. ' + xhr + " - " + ajaxOptions + " - " + thrownError);
+            }
+        });
     }
 
     function prev()
@@ -170,20 +193,20 @@
                 $("#prevbtn").addClass("active");
             }
             $("#nextbtn").removeClass("active");
-            alter(navIndex-1);
+            alter(navIndex-1,startNum-showCount);
         }
     }
 
     function next()
     {
-        if(navIndex+1<=num)
+        if(navIndex+1<=numOfIndex)
         {
-            if (navIndex+1==num)
+            if (navIndex+1==numOfIndex)
             {
                 $("#nextbtn").addClass("active");
             }
             $("#prevbtn").removeClass("active");
-            alter(navIndex+1);
+            alter(navIndex+1,startNum+showCount);
         }
     }
 </script>
