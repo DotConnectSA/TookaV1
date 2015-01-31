@@ -1,0 +1,347 @@
+﻿@model IEnumerable<RealEstateV1.Models.T_Owner>
+
+@{
+    ViewBag.Title = "Owners";
+    ViewBag.JS = false;
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@*@Html.Partial("_SearchBar", new RealEstateV1.Busniss.SearchItem())*@
+<h2>عقاريون</h2>
+<div align="left" style="margin-bottom:35px;margin-left:35px">
+    @Html.DropDownList("resultInPage", (SelectList)ViewBag.resultInPage)
+    @Html.DropDownList("OwnerCity", (SelectList)ViewBag.Cites)
+</div>
+
+<div id="container">
+    <div class="list col-lg-9 col-sm-7">
+        <ul id="list">
+
+            @if (Model == null)
+            {
+                <li id="div1">
+                    لايوجد بيانات
+                </li>
+            }
+            else
+            {
+                int counter = 1;
+                foreach (var item in Model)
+                {
+                    @Html.Partial("_OwnerPartial", item, new ViewDataDictionary { { "OwnerIndex", @counter }, { "returnUrl", @ViewBag.returnUrl } });
+                                                                                                                                                    counter = counter + 1;
+                }
+
+            }
+
+        </ul>
+
+        <div style="text-align: center;">
+            <button id="prevbtn" type="button" onclick="prev()" class="btn btn-default">السابق</button>
+            <span id="nav"></span>
+            <a id="nextbtn" onclick="next()" class="btn btn-default">التالي</a>
+        </div>
+    </div>
+
+
+
+    <aside class="left-col list col-lg-3 col-sm-5">
+        <div class="block ads">
+
+            <div class="content">
+                <a href="#">
+                    <img src="@Url.Content("~/Content/images/ad1.jpg")" />
+                </a>
+            </div>
+        </div>
+        <div class="block ads">
+
+            <div class="content">
+                <a href="#">
+                    <img src="@Url.Content("~/Content/images/ad2.jpg")" />
+                </a>
+            </div>
+        </div>
+
+        <div class="block blue">
+            <h3>عقارات قريبة</h3>
+            <div class="content">
+                <ul>
+                    @for (int i = 0; i < 2; i++)
+                    {
+                        @Html.Partial("_miniRE")
+                    }
+                </ul>
+            </div>
+        </div>
+
+        <div class="block">
+            <h3>نقاشات عقارية</h3>
+            <div class="content">
+                @Html.Partial("_AskDiscuss")
+            </div>
+        </div>
+        <div class="block google">
+
+            <div class="content">
+                <img src="@Url.Content("~/Content/images/google.png")" />
+            </div>
+        </div>
+    </aside>
+    <div class="clear"></div>
+</div>
+
+<script type="text/javascript">
+
+    function getOwner(OwnerId) {
+        $.ajax({
+            cache: false,
+            type: "POST",
+            url: "@(Url.Action("GetOwner"))",
+            data: { "OwnerId": OwnerId},
+            success: function (data) {
+                $("#list").append(data);
+        },
+        error: function (xhr, ajaxOptions, thrownError) {
+            alert('Failed to retrieve states. ' + xhr + " - " + ajaxOptions + " - " + thrownError);
+
+        }
+    });
+    }
+
+    function changeCity()
+    {
+        var OwnerCity = $("#OwnerCity").val();
+            
+        $.ajax({
+            cache: false,
+            type: "POST",
+            url: "@(Url.Action("OwnersByIndexCount"))",
+            data: {"start":0, "cityID":OwnerCity },
+        success: function (data) {
+            init(data);
+        },
+        error: function (xhr, ajaxOptions, thrownError) {
+            alert('Failed to retrieve states. ' + xhr + " - " + ajaxOptions + " - " + thrownError);
+        }
+    });
+
+    $.ajax({
+        cache: false,
+        type: "POST",
+        url: "@(Url.Action("OwnersByIndex"))",
+        data: {"start":0, "cityID":OwnerCity, },
+    success: function (data) {
+        $("#list").html('');
+
+        $.each(data, function (id, OwnerCity) {
+            getOwner(OwnerCity);
+        });
+                    
+    },
+    error: function (xhr, ajaxOptions, thrownError) {
+        alert('Failed to retrieve states. ' + xhr + " - " + ajaxOptions + " - " + thrownError);
+
+    }
+    });
+    }
+
+    $(function () {
+
+        $("#OwnerCity").change(function () {
+            
+            changeCity();
+        });
+
+    });
+</script>
+<script type="text/javascript">
+    var showCount=@ViewBag.showCount;
+    var totalCount=@ViewBag.totalCount;
+    var numOfIndex=totalCount / showCount;
+    numOfIndex=Math.ceil(numOfIndex);
+    var navIndex;
+    var startNum=0;
+
+    function init(count)
+    {
+        $("#nav").html('');
+        totalCount=count;
+        numOfIndex=totalCount/showCount;
+        numOfIndex=Math.ceil(numOfIndex);
+
+        var n=(numOfIndex-1)*showCount;
+        for(i=numOfIndex;i>=1;i--)
+        {
+            $("#nav").append( "<a id='nav"+i+"' onclick='alter("+i+","+n+")' style='cursor: pointer;color:gray;padding:5px;'>"+i+"</a>");
+            n=n-showCount;
+        }
+        navIndex=1;
+        $("#prevbtn").removeClass("active");
+        $("#nextbtn").removeClass("active");
+        $("#prevbtn").addClass("active");
+        if (numOfIndex<=1)
+            $("#nextbtn").addClass("active");
+        $("#nav"+navIndex).css("color","blue");
+    }
+
+    $(document).ready(
+	function()
+	{
+	    init(totalCount);
+	}
+	);
+
+    function alter(index,start)
+    {
+        var OwnerCity = $("#OwnerCity").val();
+
+        startNum=start;
+        for (i=1;i<=numOfIndex;i++)
+        {
+            $("#nav"+i).css("color","gray");
+        }
+        $("#nav"+index).css("color","blue");
+
+
+        navIndex=index;
+        $("#prevbtn").removeClass("active");
+        $("#nextbtn").removeClass("active");
+        if (navIndex==numOfIndex)
+        {
+            $("#nextbtn").addClass("active");
+        }
+        if(navIndex==1)
+        {
+            $("#prevbtn").addClass("active");
+        }
+
+        $.ajax({
+            cache: false,
+            type: "POST",
+            url: "@(Url.Action("OwnersByIndex"))",
+            data: {"start":start,"CityID":OwnerCity },
+        success: function (data) {
+            $("#list").html('');
+            $.each(data, function (id, Comment) {
+                getOwner(Comment);
+            });
+        },
+        error: function (xhr, ajaxOptions, thrownError) {
+            alert('Failed to retrieve states. ' + xhr + " - " + ajaxOptions + " - " + thrownError);
+        }
+    });
+    }
+
+    function prev()
+    {
+        if(navIndex-1>0)
+        {
+            if(navIndex-1==1)
+            {
+                $("#prevbtn").addClass("active");
+            }
+            $("#nextbtn").removeClass("active");
+            alter(navIndex-1,startNum-showCount);
+        }
+    }
+
+    function next()
+    {
+        if(navIndex+1<=numOfIndex)
+        {
+            if (navIndex+1==numOfIndex)
+            {
+                $("#nextbtn").addClass("active");
+            }
+            $("#prevbtn").removeClass("active");
+            alter(navIndex+1,startNum+showCount);
+        }
+    }
+
+    $("#resultInPage").change(function () {
+        var resultInPage = $("#resultInPage").val();
+        var count;
+        if(resultInPage == 0)
+        {
+            count = 2;
+        }
+        else if(resultInPage == 1)
+        {
+            count = 5;
+        }
+        else if(resultInPage == 2)
+        {
+            count = 10;
+        }
+        showCount=count;
+        $.ajax({
+            cache: false,
+            type: "POST",
+            url: "@(Url.Action("changeIndexCount"))",
+            data: {"number":count },
+            success: function (data) {
+                changeCity();
+            },
+            error: function (xhr, ajaxOptions, thrownError) {
+                alert('Failed to retrieve states. ' + xhr + " - " + ajaxOptions + " - " + thrownError);
+            }
+        });
+    });
+</script>
+
+@if (Request.IsAuthenticated)
+{
+    <script type="text/javascript">
+        function LikeOwner(Ownerid) {
+
+            var id = Ownerid;
+            $.ajax({
+                cache: false,
+                type: "POST",
+                url: "@(Url.Action("LikeOwner"))",
+                data: { "ID": id },
+                success: function (data) {
+                    var dis = '<img style="cursor:pointer;width:35px;height:35px" onclick="DisLikeOwner('+Ownerid+')" src="/Content/images/Dislike.png" />';
+                    $("#likeDislike"+Ownerid+"").html(dis);
+                },
+                error: function (xhr, ajaxOptions, thrownError) {
+                    alert('Failed to retrieve states. ' + xhr + " - " + ajaxOptions + " - " + thrownError);
+
+                }
+            });
+        }
+    </script>
+
+    <script type="text/javascript">
+        function DisLikeOwner(Ownerid) {
+        var id = Ownerid;
+        $.ajax({
+            cache: false,
+            type: "POST",
+            url: "@(Url.Action("DisLikeOwner"))",
+            data: { "ID": id },
+            success: function (data) {
+                var dis = '<img style="cursor:pointer;width:35px;height:35px" onclick="LikeOwner('+Ownerid+')" src="/Content/images/ico2.png" />';
+                $("#likeDislike"+Ownerid+"").html(dis);
+            },
+            error: function (xhr, ajaxOptions, thrownError) {
+                alert('Failed to retrieve states. ' + xhr + " - " + ajaxOptions + " - " + thrownError);
+
+            }
+        });
+    }
+    </script>
+}
+else
+{
+    <script type="text/javascript">
+        function LikeOwner() {
+            $("#Login-modal-body").load('@Url.Action("Login", "Account", new { returnUrl = ViewBag.returnUrl })');
+            $("#Register-modal-body").load('@Url.Action("Register", "Account")');
+            $("#forgetPass-modal-body").load('@Url.Action("ForgotPassword", "Account")');
+            $('#LoginModal').modal({
+                show: 'true'
+            });
+        }
+    </script>
+}

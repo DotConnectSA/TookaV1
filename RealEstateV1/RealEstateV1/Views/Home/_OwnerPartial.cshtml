@@ -1,0 +1,80 @@
+﻿@model RealEstateV1.Models.T_Owner
+<li>
+    <div style="position : relative;border:double;height:180px">
+        <div style="float:right;width:140px">
+            <img width="150px" src=@Url.Content(Model.customer.ImgeUrl) alt="">
+        </div>
+        <div style="float:right;margin-right:15px">
+            <div style="margin-top:0px">
+                @Html.DisplayFor(modelItem => Model.customer.Name)
+            </div>
+            <div style="margin-top:15px">
+                @Html.DisplayFor(modelItem => Model.customer.address.Street)
+                <br />
+                هاتف   @Html.DisplayFor(modelItem => Model.customer.Phone)
+                <br />
+                جوال   @Html.DisplayFor(modelItem => Model.customer.Mobile)
+            </div>
+            <div>
+                <img width="150px" src=@Url.Content(Model.logo) alt="">
+            </div>
+        </div>
+        <div style="float:left;margin-left:40px;margin-top:40px">
+            <div style="margin-left:200px">
+                <div>
+                    العقارات التي تم بيعها :   @RealEstateV1.Busniss.BusnissLayer.GetSoldRE(Model.ID).Count()
+                </div>
+                <div align="left">
+                    النشاطات : @RealEstateV1.Busniss.BusnissLayer.GetOwnerActivityNO(Model.ID)
+                </div>
+            </div>
+            <div style="float:left;margin-top:35px;left:0px;">
+
+                
+                @if (RealEstateV1.Busniss.BusnissLayer.isLikedOwner(Model.ID))
+                {
+                    <div style="float:right" id="likeDislike@(Model.ID)">
+                        <img style="cursor:pointer;width:35px;height:35px" onclick="DisLikeOwner(@(Model.ID))" src="/Content/images/Dislike.png" />
+                    </div>
+                }
+                else
+                {
+                    <div style="float:right" id="likeDislike@(Model.ID)">
+                        <img style="cursor:pointer" onclick="LikeOwner(@(Model.ID))" src="~/Content/images/ico2.png" />
+                    </div>
+                }
+                <div style="float:right;margin-top:10px">
+                    <img src="~/Content/images/sell-cost.png" />
+                    <div style="margin-top:-25px;margin-right:15px">
+                        <a href="#" onclick="detail(@(Model.ID))">تفاصيل</a>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+</li>
+
+@if (Request.IsAuthenticated)
+{
+    <script type="text/javascript">
+        function detail(ownerid) {
+            window.location = '@Url.Action("Owner", "Home")/' + ownerid;
+        }
+    </script>
+}
+else
+{
+    <script type="text/javascript">
+        function detail() {
+            $("#Login-modal-body").load('@Url.Action("Login", "Account", new { returnUrl = ViewBag.returnUrl })');
+            $("#Register-modal-body").load('@Url.Action("Register", "Account")');
+            $("#forgetPass-modal-body").load('@Url.Action("ForgotPassword", "Account")');
+            $('#LoginModal').modal({
+                show: 'true'
+            });
+        }
+    </script>
+}
+

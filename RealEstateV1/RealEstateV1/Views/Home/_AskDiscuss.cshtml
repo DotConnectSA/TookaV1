@@ -1,0 +1,51 @@
+﻿<textarea id="textD" placeholder="الموضوع"></textarea>
+
+<input type="button" class="btn btn-primary" id="sendD" value="ارسل" />
+
+@if (Request.IsAuthenticated)
+{
+    <script type="text/javascript">
+
+        $(function () {
+
+            $("#sendD").click(function () {
+
+                var topbic = $("#textD").val();
+
+                $.ajax({
+                    cache: false,
+                    type: "POST",
+                    url: "@(Url.Action("AddDiscuss"))",
+                    data: { Topic: topbic },
+                    success: function (data) {
+                        $("#textD").val("");
+                        window.location.href = "/Home/Discuss/";
+                    },
+                    error: function (xhr, ajaxOptions, thrownError) {
+                        alert('Failed to retrieve states. ' + xhr + " - " + ajaxOptions + " - " + thrownError);
+
+                    }
+                });
+            });
+        });
+    </script>
+
+}
+else
+{
+    <script type="text/javascript">
+
+        $(function () {
+
+            $("#sendD").click(function () {
+                $("#Login-modal-body").load('@Url.Action("Login", "Account", new { returnUrl = ViewBag.returnUrl })');
+                $("#Register-modal-body").load('@Url.Action("Register", "Account")');
+                $("#forgetPass-modal-body").load('@Url.Action("ForgotPassword", "Account")');
+                $('#LoginModal').modal({
+                    show: 'true'
+                });
+            });
+        });
+    </script>
+}
+

@@ -1,0 +1,83 @@
+﻿@model IEnumerable<RealEstateV1.Models.T_Sale>
+
+@{
+    ViewBag.Title = "Sale";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@Html.Partial("_SearchBar", new RealEstateV1.Busniss.SearchItem() { SearchKind = RealEstateV1.Busniss.MyEnumType.SearchKind.Sale })
+
+<h2>بيع</h2>
+
+<div class="view-controls-list" id="viewcontrols">
+    <a class="mapview"><i class="fa fa-map fa-2x">خريطة</i></a>
+    <a class="gridview"><i class="fa fa-th fa-2x">صور</i></a>
+    <a class="listview active"><i class="fa fa-list fa-2x">قائمة</i></a>
+
+</div>
+
+<div id="container">
+    <div class="row rent">
+        <ul class="list col-lg-9 col-sm-7">
+
+            @if (Model == null)
+            {
+                <li>
+                    لايوجد بيانات
+                </li>
+            }
+            else
+            {
+                foreach (var item in Model)
+                {
+                    @Html.Partial("_SalePartial", item, new ViewDataDictionary { { "returnUrl", @ViewBag.returnUrl } });
+                }
+            }
+
+        </ul>
+        <aside class="left-col list col-lg-3 col-sm-5">
+            <div class="block ads">
+
+                <div class="content">
+                    <a href="#">
+                        <img src="@Url.Content("~/Content/images/ad1.jpg")" />
+                    </a>
+                </div>
+            </div>
+            <div class="block ads">
+
+                <div class="content">
+                    <a href="#">
+                        <img src="@Url.Content("~/Content/images/ad2.jpg")" />
+                    </a>
+                </div>
+            </div>
+
+            <div class="block blue">
+                <h3>عقارات قريبة</h3>
+                <div class="content">
+                    <ul>
+                        @for (int i = 0; i < 2; i++)
+                        {
+                            @Html.Partial("_miniRE")
+                        }
+                    </ul>
+                </div>
+            </div>
+
+            <div class="block">
+                <h3>نقاشات عقارية</h3>
+                <div class="content">
+                    @Html.Partial("_AskDiscuss")
+                </div>
+            </div>
+            <div class="block google">
+
+                <div class="content">
+                    <img src="@Url.Content("~/Content/images/google.png")" />
+                </div>
+            </div>
+        </aside>
+        <div class="clear"></div>
+    </div>
+</div>
