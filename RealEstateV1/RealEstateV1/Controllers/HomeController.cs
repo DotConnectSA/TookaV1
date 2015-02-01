@@ -123,7 +123,7 @@ namespace RealEstateV1.Controllers
             }
             int id = 0;
             bool isValid = Int32.TryParse(CityID, out id);
-            var result = Busniss.BusnissLayer.GetTownByCityIDDropDown2(id);
+            var result = Busniss.BusnissLayer.GetTownByCityIDDropDown(id);
             return Json(result, JsonRequestBehavior.AllowGet);        
         }
 

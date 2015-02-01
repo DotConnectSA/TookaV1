@@ -1,6 +1,6 @@
 ﻿@model RealEstateV1.Models.T_Owner
 <li>
-    <div style="position : relative;border:double;height:180px">
+    <div style="position : relative;border:double;height:220px">
         <div style="float:right;width:140px">
             <img width="150px" src=@Url.Content(Model.customer.ImgeUrl) alt="">
         </div>
@@ -9,7 +9,9 @@
                 @Html.DisplayFor(modelItem => Model.customer.Name)
             </div>
             <div style="margin-top:15px">
-                @Html.DisplayFor(modelItem => Model.customer.address.Street)
+                @Html.DisplayFor(modelItem => Model.customer.address.Street)<br />
+                المدينة : @Html.DisplayFor(modelItem => Model.customer.address.Town.TownName) <br />
+                الحي : @Html.DisplayFor(modelItem => Model.customer.address.Town.City.City) 
                 <br />
                 هاتف   @Html.DisplayFor(modelItem => Model.customer.Phone)
                 <br />

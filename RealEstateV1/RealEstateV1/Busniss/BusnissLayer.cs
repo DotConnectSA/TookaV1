@@ -579,18 +579,7 @@ namespace RealEstateV1.Busniss
             RealEstateContext DB = new RealEstateContext();
             return DB.TSale.SingleOrDefault(a => a.RealEstate.ID == REID);
         }
-        public static List<DropDown> GetTownByCityIDDropDown2(int cityID)
-        {
-            List<T_Town> states = GetTownByCityID(cityID);
-            var result = (from s in states
-                          select new DropDown
-                          {
-                              id = s.ID,
-                              name = s.TownName
-                          }).ToList();
 
-            return result;
-        }
         public static List<DropDown> GetTownByCityIDDropDown(int cityID)
         {
             List<T_Town> st = GetTownByCityID(cityID);
@@ -835,6 +824,8 @@ namespace RealEstateV1.Busniss
             {
                 List<T_Rent> rentList = new List<T_Rent>();
                 List<string> list = hideEstateList(customer.ID);
+                if (list == null)
+                    return result.ToList();
                 for (int i = 0; i < result.Count(); i++)
                 {
                     bool search = false;
@@ -905,6 +896,8 @@ namespace RealEstateV1.Busniss
             {
                 List<T_Sale> saleList = new List<T_Sale>();
                 List<string> list = hideEstateList(customer.ID);
+                if (list == null)
+                    return result.ToList();
                 for (int i=0;i<result.Count();i++)
                 {
                     bool search = false;
@@ -976,6 +969,8 @@ namespace RealEstateV1.Busniss
             {
                 List<T_Sale> saleList = new List<T_Sale>();
                 List<string> list = hideEstateList(customer.ID);
+                if (list == null)
+                    return result.ToList();
                 for (int i = 0; i < result.Count(); i++)
                 {
                     bool search = false;

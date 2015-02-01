@@ -26,7 +26,7 @@
         <span class="price rent">@Model.Price<b>ريال</b></span>
     </section>
     <section class="list-bottom">
-        <a href="#">مكتب صاحب العقار</a>
+        <a href="#" onclick="Ownerdetail(@(Model.RealEstate.Owner.ID))">>مكتب صاحب العقار</a>
         <input id="compareCheck" type="checkbox" name="compare" />قارن <label> قارن</label>
         <a href="#">خريطة</a>
         <a href="#" onclick="hide(@(Model.RealEstate.ID))">إخفاء</a>
@@ -60,6 +60,12 @@
         });
         }
     </script>
+     </script>
+    <script type="text/javascript">
+        function Ownerdetail(ownerid) {
+            window.location = '@Url.Action("Owner", "Home")/' + ownerid;
+        }
+    </script>
 }
 else
 {
@@ -72,5 +78,15 @@ else
                 show: 'true'
             });
         }
+    </script>
+    <script type="text/javascript">
+    function Ownerdetail() {
+        $("#Login-modal-body").load('@Url.Action("Login", "Account", new { returnUrl = ViewBag.returnUrl })');
+        $("#Register-modal-body").load('@Url.Action("Register", "Account")');
+        $("#forgetPass-modal-body").load('@Url.Action("ForgotPassword", "Account")');
+        $('#LoginModal').modal({
+            show: 'true'
+        });
+    }
     </script>
 }

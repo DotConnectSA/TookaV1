@@ -672,7 +672,8 @@
         var v=@item.townFeature.ID;
         if(Feature==v)
         {
-            var tab="<tr><td><div>"+"@item.townFeature.Feature  @item.Description"+"</div></td>"+"<td><div>"+"@item.Kind"+"</div></td>"+"<td><div>"+"@item.position.X"+"</div></td></tr>";
+            var dis = ((@item.position.X - @Model.realEstate.address.Postion.X)*(@item.position.X - @Model.realEstate.address.Postion.X))+((@item.position.Y - @Model.realEstate.address.Postion.Y)*(@item.position.Y - @Model.realEstate.address.Postion.Y));
+            var tab="<tr><td><div>"+"@item.townFeature.Feature  @item.Description"+"</div></td>"+"<td><div>"+"@item.Kind"+"</div></td>"+"<td><div>"+dis+"</div></td></tr>";
             $("#table").append(tab);
         }
         </text>
@@ -716,44 +717,61 @@
     });
 
 
-    function LikeEstate(Estateid) {
-
-        var id = Estateid;
-        $.ajax({
-            cache: false,
-            type: "POST",
-            url: "@(Url.Action("LikeEstate"))",
-            data: { "ID": id },
-        success: function (data) {
-            var dis = '<img style="cursor:pointer;width:35px;height:35px" onclick="DisLikeEstate('+id+')" src="/Content/images/Dislike.png" />';
-            $("#likeDislikeEstate"+id+"").html(dis);
-        },
-        error: function (xhr, ajaxOptions, thrownError) {
-            alert('Failed to retrieve states. ' + xhr + " - " + ajaxOptions + " - " + thrownError);
-        }
-    });
-    }
-
-
-    function DisLikeEstate(Estateid) {
-        var id = Estateid;
-        $.ajax({
-            cache: false,
-            type: "POST",
-            url: "@(Url.Action("DisLikeEstate"))",
-            data: { "ID": id },
-        success: function (data) {
-            var dis = '<img style="cursor:pointer;width:35px;height:35px" onclick="LikeEstate('+id+')" src="/Content/images/ico2.png" />';
-            $("#likeDislikeEstate"+id+"").html(dis);
-        },
-        error: function (xhr, ajaxOptions, thrownError) {
-            alert('Failed to retrieve states. ' + xhr + " - " + ajaxOptions + " - " + thrownError);
-
-        }
-    });
-    }
 </script>
+@if (Request.IsAuthenticated)
+{
+    <script type="text/javascript">
+        function LikeEstate(Estateid) {
 
+            var id = Estateid;
+            $.ajax({
+                cache: false,
+                type: "POST",
+                url: "@(Url.Action("LikeEstate"))",
+                data: { "ID": id },
+                success: function (data) {
+                    var dis = '<img style="cursor:pointer;width:35px;height:35px" onclick="DisLikeEstate('+id+')" src="/Content/images/Dislike.png" />';
+                    $("#likeDislikeEstate"+id+"").html(dis);
+                },
+                error: function (xhr, ajaxOptions, thrownError) {
+                    alert('Failed to retrieve states. ' + xhr + " - " + ajaxOptions + " - " + thrownError);
+                }
+            });
+        }
+
+
+        function DisLikeEstate(Estateid) {
+            var id = Estateid;
+            $.ajax({
+                cache: false,
+                type: "POST",
+                url: "@(Url.Action("DisLikeEstate"))",
+                data: { "ID": id },
+                success: function (data) {
+                    var dis = '<img style="cursor:pointer;width:35px;height:35px" onclick="LikeEstate('+id+')" src="/Content/images/ico2.png" />';
+                    $("#likeDislikeEstate"+id+"").html(dis);
+                },
+                error: function (xhr, ajaxOptions, thrownError) {
+                    alert('Failed to retrieve states. ' + xhr + " - " + ajaxOptions + " - " + thrownError);
+
+                }
+            });
+        }
+    </script>
+}
+else
+{
+    <script type="text/javascript">
+        function LikeEstate() {
+            $("#Login-modal-body").load('@Url.Action("Login", "Account", new { returnUrl = ViewBag.returnUrl })');
+            $("#Register-modal-body").load('@Url.Action("Register", "Account")');
+            $("#forgetPass-modal-body").load('@Url.Action("ForgotPassword", "Account")');
+            $('#LoginModal').modal({
+                show: 'true'
+            });
+        }
+    </script>
+}
 @if (Request.IsAuthenticated)
 {
     <script type="text/javascript">

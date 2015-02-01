@@ -159,11 +159,9 @@
                 success: function (data) {
                     ddtown.html('');
                     $("#list").html('');
-                    ddtown.append($('<option></option>').val(0).html("الحي"));
                     $.each(data, function (id, option) {
                         ddtown.append($('<option></option>').val(option.id).html(option.name));
                     });
-
                     getTownComm(0,selection,0);
                 },
                 error: function (xhr, ajaxOptions, thrownError) {

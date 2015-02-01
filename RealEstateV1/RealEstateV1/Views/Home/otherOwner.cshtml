@@ -21,7 +21,9 @@
 
                 <dd>
                     <img width="150px" src=@Url.Content(Model.customer.ImgeUrl) alt="">
-                    <p>@Html.DisplayFor(modelItem => Model.customer.address.Street)    </p>
+                    <p>@Html.DisplayFor(modelItem => Model.customer.address.Street)<br />
+                    المدينة : @Html.DisplayFor(modelItem => Model.customer.address.Town.TownName) <br />
+                    الحي : @Html.DisplayFor(modelItem => Model.customer.address.Town.City.City)     </p>
                     <p>@Html.DisplayNameFor(model => model.customer.Phone):@Html.DisplayFor(model => model.customer.Phone)</p>
                     <p>@Html.DisplayNameFor(model => model.customer.Mobile):@Html.DisplayFor(model => model.customer.Mobile)</p>
                     <br />
@@ -31,7 +33,21 @@
                     <br />
                     <br />
                     <p>عدد الموصى بهم : @Model.OwnerLike.Count()</p>
-                    <p>عدد المشاهدات : @Model.ShowNumber</p>
+                    <p>عدد المشاهدات : @Model.ShowNumber</p><br/>
+                    <p>
+                        @if (RealEstateV1.Busniss.BusnissLayer.isLikedOwner(Model.ID))
+                        {
+                            <div style="display:inline-block" id="likeDislike@(Model.ID)">
+                                <img style="cursor:pointer;width:35px;height:35px" onclick="DisLikeOwner(@(Model.ID))" src="/Content/images/Dislike.png" />
+                            </div>
+                        }
+                        else
+                        {
+                            <div style="display:inline-block" id="likeDislike@(Model.ID)">
+                                <img style="cursor:pointer" onclick="LikeOwner(@(Model.ID))" src="~/Content/images/ico2.png" />
+                            </div>
+                        }
+                    </p>
                 </dd>
 
             </dl>
@@ -159,3 +175,59 @@
     </div>
 
 
+@if (Request.IsAuthenticated)
+{
+    <script type="text/javascript">
+        function LikeOwner(Ownerid) {
+
+            var id = Ownerid;
+            $.ajax({
+                cache: false,
+                type: "POST",
+                url: "@(Url.Action("LikeOwner"))",
+                data: { "ID": id },
+                success: function (data) {
+                    var dis = '<img style="cursor:pointer;width:35px;height:35px" onclick="DisLikeOwner(' + Ownerid + ')" src="/Content/images/Dislike.png" />';
+                    $("#likeDislike" + Ownerid + "").html(dis);
+                },
+                error: function (xhr, ajaxOptions, thrownError) {
+                    alert('Failed to retrieve states. ' + xhr + " - " + ajaxOptions + " - " + thrownError);
+
+                }
+            });
+        }
+    </script>
+
+    <script type="text/javascript">
+        function DisLikeOwner(Ownerid) {
+            var id = Ownerid;
+            $.ajax({
+                cache: false,
+                type: "POST",
+                url: "@(Url.Action("DisLikeOwner"))",
+                data: { "ID": id },
+                success: function (data) {
+                    var dis = '<img style="cursor:pointer;width:35px;height:35px" onclick="LikeOwner(' + Ownerid + ')" src="/Content/images/ico2.png" />';
+                    $("#likeDislike" + Ownerid + "").html(dis);
+                },
+                error: function (xhr, ajaxOptions, thrownError) {
+                    alert('Failed to retrieve states. ' + xhr + " - " + ajaxOptions + " - " + thrownError);
+
+                }
+            });
+        }
+    </script>
+}
+else
+{
+    <script type="text/javascript">
+        function LikeOwner() {
+            $("#Login-modal-body").load('@Url.Action("Login", "Account", new { returnUrl = ViewBag.returnUrl })');
+            $("#Register-modal-body").load('@Url.Action("Register", "Account")');
+            $("#forgetPass-modal-body").load('@Url.Action("ForgotPassword", "Account")');
+            $('#LoginModal').modal({
+                show: 'true'
+            });
+        }
+    </script>
+}
