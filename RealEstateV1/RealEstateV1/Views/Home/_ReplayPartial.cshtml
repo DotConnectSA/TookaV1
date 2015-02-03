@@ -1,0 +1,12 @@
+﻿@model RealEstateV1.Models.T_Replay
+
+<div class="responde" style="margin-top:5px;">
+    <div class="comment-body">
+        <span class="avatar-name">@Model.Customer.Name</span>
+        <span class="time">@Model.CreatedDate</span>
+        <span class="comment-links">
+            <a href="#" onclick="reportR(@(Model.ID))">تبليغ</a>
+        </span>
+        <p>@Model.Replaytxt</p>
+    </div>
+</div>

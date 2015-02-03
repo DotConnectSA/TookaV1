@@ -1,0 +1,286 @@
+﻿@model IEnumerable<RealEstateV1.Models.T_TownComment>
+
+@{
+    ViewBag.Title = "TownInformation";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div style="position:absolute;left:50%;top:85px;">
+    @Html.DropDownList("City", (SelectList)ViewBag.Cites)
+    @Html.DropDownList("town", (SelectList)ViewBag.town)
+</div>
+
+<h2>معلومات محلية</h2>
+
+<div id="container">
+    <div class="row">
+        <div class="list col-lg-9 col-sm-7">
+            <hr />
+            <ul id="list">
+
+                @if (Model == null)
+                {
+                    <li id="div1">
+                        لايوجد بيانات
+                    </li>
+                }
+                else
+                {
+                    foreach (var it in Model)
+                    {
+                        @Html.Partial("_TownPartial", it, new ViewDataDictionary { { "returnUrl", @ViewBag.returnUrl } });
+                    }
+                }
+
+            </ul>
+
+            <div style="text-align: center;">
+                <button id="prevbtn" type="button" onclick="prev()" class="btn btn-default">السابق</button>
+                <span id="nav"></span>
+                <a id="nextbtn" onclick="next()" class="btn btn-default">التالي</a>
+            </div>
+
+        </div>
+
+        <div id="work"></div>
+
+
+        <aside class="left-col list col-lg-3 col-sm-5">
+            <div class="block ads">
+
+                <div class="content">
+                    <a href="#">
+                        <img src="@Url.Content("~/Content/images/ad1.jpg")" />
+                    </a>
+                </div>
+            </div>
+            <div class="block ads">
+
+                <div class="content">
+                    <a href="#">
+                        <img src="@Url.Content("~/Content/images/ad2.jpg")" />
+                    </a>
+                </div>
+            </div>
+
+            <div class="block blue">
+                <h3>عقارات قريبة</h3>
+                <div class="content">
+                    <ul>
+                        @for (int i = 0; i < 2; i++)
+                        {
+                            @Html.Partial("_miniRE")
+                        }
+                    </ul>
+                </div>
+            </div>
+
+
+        </aside>
+        <div class="clear"></div>
+
+    </div>
+</div>
+
+
+<script type="text/javascript">
+
+    function getComm(Commnet)
+    {
+        $.ajax({
+            cache: false,
+            type: "POST",
+            url: "@(Url.Action("GetCommentByID"))",
+            data: { "CommentID": Commnet },
+            success: function (data) {
+                $("#list").append(data);
+            },
+            error: function (xhr, ajaxOptions, thrownError) {
+                alert('Failed to retrieve states. ' + xhr + " - " + ajaxOptions + " - " + thrownError);
+
+            }
+        });
+    }
+
+    function getTownComm(start,city,town)
+    {
+        $.ajax({
+            cache: false,
+            type: "POST",
+            url: "@(Url.Action("CommentByIndexCount"))",
+            data: {"start":start, "cityID":city, "townID": town },
+            success: function (data) {
+                init(data);
+        },
+        error: function (xhr, ajaxOptions, thrownError) {
+
+            alert('Failed to retrieve states. ' + xhr + " - " + ajaxOptions + " - " + thrownError);
+
+        }
+    });
+
+        $.ajax({
+            cache: false,
+            type: "POST",
+            url: "@(Url.Action("CommentByIndex"))",
+            data: {"start":start, "cityID":city, "townID": town },
+            success: function (data) {
+                $("#list").html('');
+                
+
+                $.each(data, function (id, Comment) {
+                    getComm(Comment);
+                });
+
+            },
+            error: function (xhr, ajaxOptions, thrownError) {
+
+                alert('Failed to retrieve states. ' + xhr + " - " + ajaxOptions + " - " + thrownError);
+
+            }
+        });
+
+
+    }
+
+    $(function () {
+
+        $("#City").change(function () {
+            var selection = $(this).val();
+            var ddtown = $("#town");
+            $.ajax({
+                cache: false,
+                type: "POST",
+                url: "@(Url.Action("GetTown"))",
+                data: { "CityID": selection },
+                success: function (data) {
+                    ddtown.html('');
+                    $("#list").html('');
+                    $.each(data, function (id, option) {
+                        ddtown.append($('<option></option>').val(option.id).html(option.name));
+                    });
+                    getTownComm(0,selection,0);
+                },
+                error: function (xhr, ajaxOptions, thrownError) {
+                    alert('Failed to retrieve states. ' + xhr + " - " + ajaxOptions + " - " + thrownError);
+
+                }
+            });
+        });
+
+
+
+        $("#town").change(function () {
+            var town = $("#town").val();
+            var city = $("#City").val();
+            getTownComm(0,city,town);
+        });
+
+    });
+</script>
+
+<script type="text/javascript">
+    var showCount=@ViewBag.showCount;
+    var totalCount=@ViewBag.totalCount;
+    var numOfIndex=totalCount / showCount;
+    numOfIndex=Math.ceil(numOfIndex);
+    var navIndex;
+    var startNum=0;
+
+    function init(count)
+    {
+        $("#nav").html('');
+        totalCount=count;
+        numOfIndex=totalCount/showCount;
+        numOfIndex=Math.ceil(numOfIndex);
+
+        var n=(numOfIndex-1)*showCount;
+        for(i=numOfIndex;i>=1;i--)
+        {
+            $("#nav").append( "<a id='nav"+i+"' onclick='alter("+i+","+n+")' style='cursor: pointer;color:gray;padding:5px;'>"+i+"</a>");
+            n=n-showCount;
+        }
+        navIndex=1;
+        $("#prevbtn").removeClass("active");
+        $("#nextbtn").removeClass("active");
+        $("#prevbtn").addClass("active");
+        if (numOfIndex<=1)
+            $("#nextbtn").addClass("active");
+        $("#nav"+navIndex).css("color","blue");
+    }
+
+    $(document).ready(
+	function()
+	{
+	    init(totalCount);
+	}
+	);
+
+    function alter(index,start)
+    {
+        var town = $("#town").val();
+        var city = $("#City").val();
+
+        startNum=start;
+        for (i=1;i<=numOfIndex;i++)
+        {
+            $("#nav"+i).css("color","gray");
+        }
+        $("#nav"+index).css("color","blue");
+        
+
+        navIndex=index;
+        $("#prevbtn").removeClass("active");
+        $("#nextbtn").removeClass("active");
+        if (navIndex==numOfIndex)
+        {
+            $("#nextbtn").addClass("active");
+        }
+        if(navIndex==1)
+        {
+            $("#prevbtn").addClass("active");
+        }
+        
+        $.ajax({
+            cache: false,
+            type: "POST",
+            url: "@(Url.Action("CommentByIndex"))",
+            data: {"start":start,"CityID":city,"townID":town },
+            success: function (data) {
+                $("#list").html('');
+                $.each(data, function (id, Comment) {
+                    getComm(Comment);
+                });
+            },
+            error: function (xhr, ajaxOptions, thrownError) {
+                alert('Failed to retrieve states. ' + xhr + " - " + ajaxOptions + " - " + thrownError);
+            }
+        });
+    }
+
+    function prev()
+    {
+        if(navIndex-1>0)
+        {
+            if(navIndex-1==1)
+            {
+                $("#prevbtn").addClass("active");
+            }
+            $("#nextbtn").removeClass("active");
+            alter(navIndex-1,startNum-showCount);
+        }
+    }
+
+    function next()
+    {
+        if(navIndex+1<=numOfIndex)
+        {
+            if (navIndex+1==numOfIndex)
+            {
+                $("#nextbtn").addClass("active");
+            }
+            $("#prevbtn").removeClass("active");
+            alter(navIndex+1,startNum+showCount);
+        }
+    }
+</script>
