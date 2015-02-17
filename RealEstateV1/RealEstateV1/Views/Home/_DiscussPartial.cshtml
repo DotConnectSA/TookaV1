@@ -1,0 +1,228 @@
+﻿@model RealEstateV1.Models.T_Discuss
+@{
+    var returnUrl = (string)ViewData["returnUrl"];
+}
+<li>
+    <div class="comments-holder">
+        <div class="comment-links">
+            <a href="#" onclick="reportD(@(Model.ID))">تبليغ</a>
+            <a href="#" onclick="DisLikeD(@(Model.ID))"><div id="Dislikeme@(Model.ID)"> @Model.DisLikeNo</div></a>
+            <a href="#" onclick="LikeD(@(Model.ID))"><div id="likeme@(Model.ID)">@Model.LikeNo</div></a>
+        </div>
+        <div class="comment-body">
+            <div style="float:right;width:50px">
+                <img width="50px" src=@Url.Content(Model.Customer.ImgeUrl) alt="">
+            </div>
+            <span class="avatar-name">@Model.Customer.Name</span>
+            <span class="time">@Model.CreatedDate</span>
+            <p>@Model.Topic</p>
+
+            <a onclick="toggle(@(Model.ID))" class="responde btn">الردرود</a><span class="times">@Model.Replay.Count عدد الردود</span>
+            <br />
+            <div id="toggle@(Model.ID)" style="display:none;">
+                <div class="responde">
+                    <textarea id="sendR@(Model.ID)" placeholder="اضف تعليق" style="margin: 0 50px 10px 10px;max-width:500px"></textarea>
+                    <a onclick="AddRepaly(@(Model.ID))" class="responde btn">اضافة</a>
+                </div>
+                <div id="toggle@(Model.ID)Response">
+                    @foreach (var item in @Model.Replay)
+                    {
+                        <div class="responde" style="margin-top:5px;">
+                            <div class="comment-body">
+                                <span class="avatar-name">@item.Customer.Name</span>
+                                <span class="time">@item.CreatedDate</span>
+                                <span class="comment-links">
+                                    <a href="#" onclick="reportR(@(item.ID))">تبليغ</a>
+                                </span>
+                                <p>@item.Replaytxt</p>
+
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+
+
+            <div class="clear"></div>
+        </div>
+    </div>
+</li>
+
+@if (Request.IsAuthenticated)
+{
+    <script type="text/javascript">
+
+        function toggle(id) {
+            $("#toggle" + id).toggle();
+        }
+
+        function LikeD(id) {
+
+            $.ajax({
+                cache: false,
+                type: "POST",
+                url: "@(Url.Action("LikeD"))",
+                data: { "ID": id },
+                success: function (data) {
+                    if (data == true) {
+                        var like = $("#likeme" + id);
+                        var n = parseInt(like.text()) + 1;
+                        like.html(n);
+                    }
+                    else if (data == "addRem") {
+                        var like = $("#likeme" + id);
+                        var n = parseInt(like.text()) + 1;
+                        like.html(n);
+                        var like = $("#Dislikeme" + id);
+                        var n = parseInt(like.text()) - 1;
+                        like.html(n);
+                    }
+                    if (data == false) {
+                    }
+
+                },
+                error: function (xhr, ajaxOptions, thrownError) {
+                    alert('Failed to retrieve states. ' + xhr + " - " + ajaxOptions + " - " + thrownError);
+                }
+            });
+        }
+
+        function DisLikeD(id) {
+            $.ajax({
+                cache: false,
+                type: "POST",
+                url: "@(Url.Action("DisLikeD"))",
+                data: { "ID": id },
+                success: function (data) {
+
+                    if (data == true) {
+                        var dlike = $("#Dislikeme" + id);
+                        var n = parseInt(dlike.text()) + 1;
+                        dlike.html(n);
+                    }
+                    else if (data == "addRem") {
+                        var dlike = $("#Dislikeme" + id);
+                        var n = parseInt(dlike.text()) + 1;
+                        dlike.html(n);
+                        var dlike = $("#likeme" + id);
+                        var n = parseInt(dlike.text()) - 1;
+                        dlike.html(n);
+                    }
+                    if (data == false) {
+                    }
+                },
+                error: function (xhr, ajaxOptions, thrownError) {
+                    alert('Failed to retrieve states. ' + xhr + " - " + ajaxOptions + " - " + thrownError);
+                }
+            });
+        }
+
+        function reportD(id) {
+            $.ajax({
+                cache: false,
+                type: "POST",
+                url: "@(Url.Action("reportD"))",
+                data: { "ID": id },
+                success: function (data) {
+                    alert("تم التبليغ بنجاح");
+                },
+                error: function (xhr, ajaxOptions, thrownError) {
+                    alert('Failed to retrieve states. ' + xhr + " - " + ajaxOptions + " - " + thrownError);
+                }
+            });
+
+        }
+
+        function reportR(id) {
+            $.ajax({
+                cache: false,
+                type: "POST",
+                url: "@(Url.Action("reportR"))",
+                data: { "ID": id },
+                success: function (data) {
+                    alert("تم التبليغ بنجاح");
+                },
+                error: function (xhr, ajaxOptions, thrownError) {
+                    alert('Failed to retrieve states. ' + xhr + " - " + ajaxOptions + " - " + thrownError);
+                }
+            });
+
+        }
+
+        function AddRepaly(id) {
+            var i = "#sendR" + id;
+            var rep = $(i).val();
+            $.ajax({
+                cache: false,
+                type: "POST",
+                url: "@(Url.Action("AddDiscussRepaly"))",
+                data: { ID: id, test: rep },
+                success: function (data) {
+                    var rep = $("#toggle" + id + "Response");
+                    rep.append(data);
+                },
+                error: function (xhr, ajaxOptions, thrownError) {
+                    alert('Failed to retrieve states. ' + xhr + " - " + ajaxOptions + " - " + thrownError);
+                }
+            });
+
+        }
+
+
+    </script>
+}
+else
+{
+    <script type="text/javascript">
+
+        function toggle(id) {
+            $("#toggle" + id).toggle();
+        }
+
+        function LikeD(id) {
+            $("#Login-modal-body").load('@Url.Action("Login", "Account", new { returnUrl = ViewBag.returnUrl })');
+            $("#Register-modal-body").load('@Url.Action("Register", "Account")');
+            $("#forgetPass-modal-body").load('@Url.Action("ForgotPassword", "Account")');
+            $('#LoginModal').modal({
+                show: 'true'
+            });
+        }
+
+        function DisLikeD(id) {
+            $("#Login-modal-body").load('@Url.Action("Login", "Account", new { returnUrl = ViewBag.returnUrl })');
+            $("#Register-modal-body").load('@Url.Action("Register", "Account")');
+            $("#forgetPass-modal-body").load('@Url.Action("ForgotPassword", "Account")');
+            $('#LoginModal').modal({
+                show: 'true'
+            });
+        }
+
+        function reportD(id) {
+            $("#Login-modal-body").load('@Url.Action("Login", "Account", new { returnUrl = ViewBag.returnUrl })');
+            $("#Register-modal-body").load('@Url.Action("Register", "Account")');
+            $("#forgetPass-modal-body").load('@Url.Action("ForgotPassword", "Account")');
+            $('#LoginModal').modal({
+                show: 'true'
+            });
+        }
+
+        function reportR(id) {
+            $("#Login-modal-body").load('@Url.Action("Login", "Account", new { returnUrl = ViewBag.returnUrl })');
+            $("#Register-modal-body").load('@Url.Action("Register", "Account")');
+            $("#forgetPass-modal-body").load('@Url.Action("ForgotPassword", "Account")');
+            $('#LoginModal').modal({
+                show: 'true'
+            });
+        }
+
+        function AddRepaly(id) {
+            $("#Login-modal-body").load('@Url.Action("Login", "Account", new { returnUrl = ViewBag.returnUrl })');
+            $("#Register-modal-body").load('@Url.Action("Register", "Account")');
+            $("#forgetPass-modal-body").load('@Url.Action("ForgotPassword", "Account")');
+            $('#LoginModal').modal({
+                show: 'true'
+            });
+        }
+
+    </script>
+}

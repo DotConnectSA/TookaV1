@@ -1,0 +1,77 @@
+﻿@model RealEstateV1.Models.T_Owner
+<dd class="col-md-2 col-sm-2 profile">
+    <img width="150px" src=@Url.Content(Model.customer.ImgeUrl) alt="">
+</dd>
+<dd class="row">
+    <span class="col-md-4 col-sm-2">
+        <h3>@Html.DisplayFor(modelItem => Model.customer.Name)</h3>
+
+        <p class="address">
+            @Html.DisplayFor(modelItem => Model.customer.address.Street)<br />
+            المدينة : @Html.DisplayFor(modelItem => Model.customer.address.Town.TownName) <br />
+            الحي : @Html.DisplayFor(modelItem => Model.customer.address.Town.City.City)
+        </p>
+        <p class="phone">
+            هاتف   @Html.DisplayFor(modelItem => Model.customer.Phone)
+        </p>
+        <p class="mobile">
+            جوال   @Html.DisplayFor(modelItem => Model.customer.Mobile)
+        </p>
+        <img width="150px" src=@Url.Content(Model.logo) alt="">
+    </span>
+
+    <span class="col-md-3 col-sm-2 vcenter">
+
+
+
+        <p>
+            العقارات التي تم بيعها :   @RealEstateV1.Busniss.BusnissLayer.GetSoldRE(Model.ID).Count()
+        </p>
+        <p>
+            النشاطات : @RealEstateV1.Busniss.BusnissLayer.GetOwnerActivityNO(Model.ID)
+        </p>
+    </span>
+    <span class="col-md-3 col-sm-2 list-bottom vcenter">
+
+        <a href="#">مشاركة</a>
+
+        @if (RealEstateV1.Busniss.BusnissLayer.isLikedOwner(Model.ID))
+        {
+            <a href="#" id="likeDislike@(Model.ID)">
+                <span onclick="DisLikeOwner(@(Model.ID))" class="dislike">&nbsp;</span>
+            </a>
+        }
+        else
+        {
+            <a href="#" id="likeDislike@(Model.ID)">
+                <span onclick="LikeOwner(@(Model.ID))" class="like">&nbsp;</span>
+            </a>
+        }
+        <a href="#" onclick="detail(@(Model.ID))">تفاصيل</a>
+    </span>
+
+</dd>
+
+
+@if (Request.IsAuthenticated)
+{
+    <script type="text/javascript">
+        function detail(ownerid) {
+            window.location = '@Url.Action("Owner", "Home")/' + ownerid;
+        }
+    </script>
+}
+else
+{
+    <script type="text/javascript">
+        function detail() {
+            $("#Login-modal-body").load('@Url.Action("Login", "Account", new { returnUrl = ViewBag.returnUrl })');
+            $("#Register-modal-body").load('@Url.Action("Register", "Account")');
+            $("#forgetPass-modal-body").load('@Url.Action("ForgotPassword", "Account")');
+            $('#LoginModal').modal({
+                show: 'true'
+            });
+        }
+    </script>
+}
+

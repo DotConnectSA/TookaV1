@@ -1,0 +1,102 @@
+﻿@model RealEstateV1.Busniss.addRateInfo
+@{
+    ViewBag.Title = "AddRate";
+}
+
+
+<div class="row">
+    <div class="col-md-10" style="width:600px;height:480px">
+        <section id="AddRateForm">
+            @using (Html.BeginForm("AddRate", "Home", new { ReturnUrl = ViewBag.ReturnUrl, townId = @ViewBag.townId }, FormMethod.Post, new { @class = "form-horizontal", role = "form", id = "addrateform" }))
+            {
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+                <div class="form-group">
+                    @Html.LabelFor(m => m.townRate, new { @class = "col-md-3 control-label" })
+
+                    <div class="col-md-8">
+                        <button id="rate_1" onclick="btnclk('rate','1')" type="button" style="width:20px;height:20px;background-color:gray;"></button>
+                        <button id="rate_2" onclick="btnclk('rate','2')" type="button" style="width:20px;height:20px;background-color:gray;"></button>
+                        <button id="rate_3" onclick="btnclk('rate','3')" type="button" style="width:20px;height:20px;background-color:gray;"></button>
+                        <button id="rate_4" onclick="btnclk('rate','4')" type="button" style="width:20px;height:20px;background-color:gray;"></button>
+                        <button id="rate_5" onclick="btnclk('rate','5')" type="button" style="width:20px;height:20px;background-color:gray;"></button>
+                        <label id="rate_0">قيم</label>
+                        @Html.TextBoxFor(m => m.townRate, new { @class = "form-control", @type = "number", @id = "rate", style = "display: none;" })
+                        @Html.ValidationMessageFor(m => m.townRate, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <hr />
+                <label>تقييم بالفئات:</label>
+                for (int i = 0; i < Model.allFeature.Count(); i++)
+                {
+                    <div class="form-group">
+                        <label class="col-md-3 control-label">@Model.allFeature[i].Feature</label>
+                        <div class="col-md-8">
+                            <button id="rate@(i)_1" onclick="btnclk('rate@(i)', '1')" type="button" style="width:20px;height:20px;background-color:gray;"></button>
+                            <button id="rate@(i)_2" onclick="btnclk('rate@(i)', '2')" type="button" style="width:20px;height:20px;background-color:gray;"></button>
+                            <button id="rate@(i)_3" onclick="btnclk('rate@(i)', '3')" type="button" style="width:20px;height:20px;background-color:gray;"></button>
+                            <button id="rate@(i)_4" onclick="btnclk('rate@(i)', '4')" type="button" style="width:20px;height:20px;background-color:gray;"></button>
+                            <button id="rate@(i)_5" onclick="btnclk('rate@(i)', '5')" type="button" style="width:20px;height:20px;background-color:gray;"></button>
+                            <label id="rate@(i)_0">قيم</label>
+                            @Html.TextBoxFor(m => m.featureRate[i], new { @class = "form-control", @type = "number", @id = "rate" + i, style = "display: none;" })
+                            @Html.ValidationMessageFor(m => m.allFeature[i].Feature, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                }
+                <hr />
+                <div class="form-group">
+                    @Html.LabelFor(m => m.title, new { @class = "col-md-3 control-label" })
+                    <div class="col-md-8">
+                        @Html.TextBoxFor(m => m.title, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(m => m.title, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(m => m.comment, new { @class = "col-md-3 control-label" })
+                    <div class="col-md-8">
+                        @Html.TextAreaFor(m => m.comment, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(m => m.comment, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-md-3">
+                        <input type="submit" value="نشر التعليق" class="btn btn-default " />
+                    </div>
+                </div>
+
+            }
+        </section>
+    </div>
+</div>
+
+<script type="text/javascript">
+    function btnclk(id1, id2) {
+        if (id2 == 1) {
+            $("#" + id1 + "_0").html("سيء");
+        }
+        else if (id2 == 2) {
+            $("#" + id1 + "_0").html("مقبول");
+        }
+        else if (id2 == 3) {
+            $("#" + id1 + "_0").html("جيد");
+        }
+        else if (id2 == 4) {
+            $("#" + id1 + "_0").html("جيد جدأ");
+        }
+        else if (id2 == 5) {
+            $("#" + id1 + "_0").html("ممتاز");
+        }
+        $("#" + id1).val(id2);
+        var temp = 5;
+        while (temp > 0) {
+            $("#" + id1 + "_" + temp).css("background-color", "gray");
+            temp = temp - 1;
+        }
+        while (id2 > 0) {
+            $("#" + id1 + "_" + id2).css("background-color", "blue");
+            id2 = id2 - 1;
+        }
+    }
+</script>

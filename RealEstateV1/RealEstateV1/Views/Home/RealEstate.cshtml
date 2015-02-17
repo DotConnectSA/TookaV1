@@ -1,0 +1,861 @@
+﻿@model RealEstateV1.Busniss.RealEstateFull
+
+@{
+    ViewBag.Title = "RealEstate";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+
+<script type="text/javascript" src="~/Scripts/jssor.js"></script>
+<script type="text/javascript" src="~/Scripts/jssor.slider.js"></script>
+
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDY0kkJiTPVd2U7aTOAwhc9ySH6oHxOIYM&sensor=false"></script>
+
+<div id="container">
+    <div class="row">
+        <div class="list col-lg-9 col-sm-7">
+            <div class="estate-right">
+                <h2 class="blue">@Model.realEstate.Rekind.Kind</h2>
+                <h4>شقق تمليك بضمانات و أسعار مناسبة</h4>
+            </div>
+            <div class="estate-left">
+                <div class="top">
+                    <dl class="price">
+                        @if (Model.sale != null)
+                        {
+                            <dt> سعر البيع :</dt>
+                            <dd> @Model.sale.Price ريال</dd>
+
+                        }
+                        @if (Model.rent != null)
+                        {
+                            <dt>سعر الايجار :</dt>
+                            <dd>@Model.rent.RentPrice ريال</dd>
+                            <dt>نوع الايجار :</dt>
+                            <dd>@Model.rent.Status</dd>
+                        }
+
+                    </dl>
+
+                </div><!-- top div -->
+                <div class="bottom">
+                    <p>@Model.realEstate.address.Town.TownName</p>
+                    <p>
+                        <strong>عدد الغرف</strong>
+                        @Model.realEstate.RoomNo
+                    </p>
+                    <p>
+                        <strong>نوع العقار</strong>
+                        @Model.realEstate.Rekind.Kind
+                    </p>
+                    <p>
+                        <strong>عدد الحمامات</strong>
+                        @Model.realEstate.BathroomNo
+                    </p>
+                    <p>
+                        <strong>المساحه</strong>
+                        @Model.realEstate.Area
+                    </p>
+
+                </div><!-- bottom div -->
+            </div><!-- estate-left-->
+
+
+
+
+            <div>
+                <div id="maps">
+                    @Html.Partial("_Map", Model.realEstate.address.Postion)
+                </div>
+
+                <div id="video"></div>
+
+                <div id="image"></div>
+
+            </div>
+            <div class="estate-sec2 row">
+                <div class="right col-lg-5">
+                    <h3>@Model.realEstate.Rekind.Kind</h3>
+                    <p>
+                        @Model.realEstate.Description
+                    </p>
+                </div><!-- estate-sec2 right-->
+                <div class="left col-lg-6">
+                    <h3> مميزات</h3>
+                    <p>
+                        @{
+                            var q = 0;
+                        }
+                        @foreach (var item in Model.realEstate.RealEstateFeature)
+                        {
+                            if (q == 4)
+                            {
+                                @:</td><td>
+                                }
+                                <div>   @item.Feature</div>
+                            q++;
+                        }
+                </p>
+            </div><!-- estate-sec2 left-->
+
+
+
+        </div><!-- estate-sec2 -->
+        <div class="estate-sec3 row">
+            <h3> معلومات الحي</h3>
+            <div id="maps2">@Html.Partial("_MapTown", Model.realEstate.address)</div>
+        </div><!-- estate-sec3 -->
+        <div class="estate-sec4 row">
+            <div class="col-lg-4">@Html.DropDownList("feature", (SelectList)(ViewBag.featuer))</div>
+            <div class="col-lg-4">نوع</div>
+            <div class="col-lg-4">مسافة</div>
+            <div class="clear"></div><br />
+            <h4> المدارس بحي</h4>
+            <div id="table">
+
+            </div>
+        </div><!-- estate-sec4 -->
+
+
+
+
+
+        <div class="estate-sec5 row">
+            <h3>التقييم عن الحي</h3>
+
+            <table width="100%" style="background-color:#f3f3f3;">
+                <tr>
+                    <td>
+                        تقييم العام :
+                        @{int x = 0; int count = 0; int numberOfRater = 0;}
+                        @foreach (var item in Model.realEstate.address.Town.Comment)
+                        {
+                            x = x + (int)item.Rate;
+                            count++;
+                        }
+                        @{x = x / count; numberOfRater = count;}
+
+                        <div style="display:inline-block">
+                            @if (@x == 0)
+                            {
+                                <img src="~/Content/images/vote-grey.jpg">
+                                <img src="~/Content/images/vote-blue.jpg">
+                                <img src="~/Content/images/vote-blue.jpg">
+                                <img src="~/Content/images/vote-blue.jpg">
+                                <img src="~/Content/images/vote-blue.jpg">    <span>قيم</span>
+                            }
+                            @if (@x == 1)
+                            {
+                                <img src="~/Content/images/vote-grey.jpg">
+                                <img src="~/Content/images/vote-blue.jpg">
+                                <img src="~/Content/images/vote-blue.jpg">
+                                <img src="~/Content/images/vote-blue.jpg">
+                                <img src="~/Content/images/vote-blue.jpg"> <span>سيئ</span>
+                            }
+                            else if (@x == 2)
+                            {
+                                <img src="~/Content/images/vote-grey.jpg">
+                                <img src="~/Content/images/vote-grey.jpg">
+                                <img src="~/Content/images/vote-blue.jpg">
+                                <img src="~/Content/images/vote-blue.jpg">
+                                <img src="~/Content/images/vote-blue.jpg"><span>مقبول</span>
+                            }
+                            else if (@x == 3)
+                            {
+                                <img src="~/Content/images/vote-grey.jpg">
+                                <img src="~/Content/images/vote-grey.jpg">
+                                <img src="~/Content/images/vote-grey.jpg">
+                                <img src="~/Content/images/vote-blue.jpg">
+                                <img src="~/Content/images/vote-blue.jpg"><span>جيد</span>
+                            }
+                            else if (@x == 4)
+                            {
+                                <img src="~/Content/images/vote-grey.jpg">
+                                <img src="~/Content/images/vote-grey.jpg">
+                                <img src="~/Content/images/vote-grey.jpg">
+                                <img src="~/Content/images/vote-grey.jpg">
+                                <img src="~/Content/images/vote-blue.jpg"><span>جيد جداً</span>
+                            }
+                            else if (@x == 5)
+                            {
+                                <img src="~/Content/images/vote-grey.jpg">
+                                <img src="~/Content/images/vote-grey.jpg">
+                                <img src="~/Content/images/vote-grey.jpg">
+                                <img src="~/Content/images/vote-grey.jpg">
+                                <img src="~/Content/images/vote-grey.jpg"><span>ممتاز</span>
+                            }
+
+                        </div>
+                        <br />
+                        <br />
+
+                        تقييم بالفئات :
+
+                        @foreach (var item in Model.featureRate)
+                        {
+                            <div>
+                                @item.feature :
+                                @if (@item.rate == 0)
+                                {
+                                    <img src="~/Content/images/vote-grey.jpg">
+                                    <img src="~/Content/images/vote-blue.jpg">
+                                    <img src="~/Content/images/vote-blue.jpg">
+                                    <img src="~/Content/images/vote-blue.jpg">
+                                    <img src="~/Content/images/vote-blue.jpg">    <span>قيم</span>
+                                }
+                                @if (@item.rate == 1)
+                                {
+                                    <img src="~/Content/images/vote-grey.jpg">
+                                    <img src="~/Content/images/vote-blue.jpg">
+                                    <img src="~/Content/images/vote-blue.jpg">
+                                    <img src="~/Content/images/vote-blue.jpg">
+                                    <img src="~/Content/images/vote-blue.jpg"> <span>سيئ</span>
+                                }
+                                else if (@item.rate == 2)
+                                {
+                                    <img src="~/Content/images/vote-grey.jpg">
+                                    <img src="~/Content/images/vote-grey.jpg">
+                                    <img src="~/Content/images/vote-blue.jpg">
+                                    <img src="~/Content/images/vote-blue.jpg">
+                                    <img src="~/Content/images/vote-blue.jpg"><span>مقبول</span>
+                                }
+                                else if (@item.rate == 3)
+                                {
+                                    <img src="~/Content/images/vote-grey.jpg">
+                                    <img src="~/Content/images/vote-grey.jpg">
+                                    <img src="~/Content/images/vote-grey.jpg">
+                                    <img src="~/Content/images/vote-blue.jpg">
+                                    <img src="~/Content/images/vote-blue.jpg"><span>جيد</span>
+                                }
+                                else if (@item.rate == 4)
+                                {
+                                    <img src="~/Content/images/vote-grey.jpg">
+                                    <img src="~/Content/images/vote-grey.jpg">
+                                    <img src="~/Content/images/vote-grey.jpg">
+                                    <img src="~/Content/images/vote-grey.jpg">
+                                    <img src="~/Content/images/vote-blue.jpg"><span>جيد جداً</span>
+                                }
+                                else if (@item.rate == 5)
+                                {
+                                    <img src="~/Content/images/vote-grey.jpg">
+                                    <img src="~/Content/images/vote-grey.jpg">
+                                    <img src="~/Content/images/vote-grey.jpg">
+                                    <img src="~/Content/images/vote-grey.jpg">
+                                    <img src="~/Content/images/vote-grey.jpg"><span>ممتاز</span>
+                                }
+
+                            </div>
+                        }
+
+                        <br />
+
+                        عدد المقيمين
+                        @numberOfRater<br />
+                        <br />
+                        اخر تحديث
+                        @if (Model.realEstate.address.Town.Comment.Count != 0)
+                        {
+                            @Model.realEstate.address.Town.Comment.OrderBy(a => a.CreateDate).FirstOrDefault().CreateDate.ToShortDateString()
+                        }
+                    </td>
+                    <td>
+                        نتائج التقييم العام : <br />
+                        @{x = 0; count = 0;}
+                        @foreach (var item in Model.realEstate.address.Town.townLinkFeature)
+                        {
+                            x = x + @item.Rate.Rate;
+                            count++;
+                        }
+                        @{
+                            if (count != 0)
+                            {
+                                x = x / count;
+                            }
+
+
+                        }
+                        <div style="display:inline-block">
+                            @if (@x == 0)
+                            {
+                                <img src="~/Content/images/vote-grey.jpg">
+                                <img src="~/Content/images/vote-blue.jpg">
+                                <img src="~/Content/images/vote-blue.jpg">
+                                <img src="~/Content/images/vote-blue.jpg">
+                                <img src="~/Content/images/vote-blue.jpg">    <span>قيم</span>
+                            }
+                            @if (@x == 1)
+                            {
+                                <img src="~/Content/images/vote-grey.jpg">
+                                <img src="~/Content/images/vote-blue.jpg">
+                                <img src="~/Content/images/vote-blue.jpg">
+                                <img src="~/Content/images/vote-blue.jpg">
+                                <img src="~/Content/images/vote-blue.jpg"> <span>سيئ</span>
+                            }
+                            else if (@x == 2)
+                            {
+                                <img src="~/Content/images/vote-grey.jpg">
+                                <img src="~/Content/images/vote-grey.jpg">
+                                <img src="~/Content/images/vote-blue.jpg">
+                                <img src="~/Content/images/vote-blue.jpg">
+                                <img src="~/Content/images/vote-blue.jpg"><span>مقبول</span>
+                            }
+                            else if (@x == 3)
+                            {
+                                <img src="~/Content/images/vote-grey.jpg">
+                                <img src="~/Content/images/vote-grey.jpg">
+                                <img src="~/Content/images/vote-grey.jpg">
+                                <img src="~/Content/images/vote-blue.jpg">
+                                <img src="~/Content/images/vote-blue.jpg"><span>جيد</span>
+                            }
+                            else if (@x == 4)
+                            {
+                                <img src="~/Content/images/vote-grey.jpg">
+                                <img src="~/Content/images/vote-grey.jpg">
+                                <img src="~/Content/images/vote-grey.jpg">
+                                <img src="~/Content/images/vote-grey.jpg">
+                                <img src="~/Content/images/vote-blue.jpg"><span>جيد جداً</span>
+                            }
+                            else if (@x == 5)
+                            {
+                                <img src="~/Content/images/vote-grey.jpg">
+                                <img src="~/Content/images/vote-grey.jpg">
+                                <img src="~/Content/images/vote-grey.jpg">
+                                <img src="~/Content/images/vote-grey.jpg">
+                                <img src="~/Content/images/vote-grey.jpg"><span>ممتاز</span>
+                            }
+
+                        </div>
+                        <br />
+                        <br />
+                        اكثر الاقسام تقييماً : <br />
+                        @for (int num = 5; num >= 0; num--)
+                        {
+                            foreach (var item in Model.featureRate)
+                            {
+                                if (item.rate == num)
+                                {
+                                    <div>
+                                        @item.feature :
+                                        @if (@item.rate == 0)
+                                        {
+                                            <img src="~/Content/images/vote-grey.jpg">
+                                            <img src="~/Content/images/vote-blue.jpg">
+                                            <img src="~/Content/images/vote-blue.jpg">
+                                            <img src="~/Content/images/vote-blue.jpg">
+                                            <img src="~/Content/images/vote-blue.jpg">    <span>قيم</span>
+                                        }
+                                        @if (@item.rate == 1)
+                                        {
+                                            <img src="~/Content/images/vote-grey.jpg">
+                                            <img src="~/Content/images/vote-blue.jpg">
+                                            <img src="~/Content/images/vote-blue.jpg">
+                                            <img src="~/Content/images/vote-blue.jpg">
+                                            <img src="~/Content/images/vote-blue.jpg"> <span>سيئ</span>
+                                        }
+                                        else if (@item.rate == 2)
+                                        {
+                                            <img src="~/Content/images/vote-grey.jpg">
+                                            <img src="~/Content/images/vote-grey.jpg">
+                                            <img src="~/Content/images/vote-blue.jpg">
+                                            <img src="~/Content/images/vote-blue.jpg">
+                                            <img src="~/Content/images/vote-blue.jpg"><span>مقبول</span>
+                                        }
+                                        else if (@item.rate == 3)
+                                        {
+                                            <img src="~/Content/images/vote-grey.jpg">
+                                            <img src="~/Content/images/vote-grey.jpg">
+                                            <img src="~/Content/images/vote-grey.jpg">
+                                            <img src="~/Content/images/vote-blue.jpg">
+                                            <img src="~/Content/images/vote-blue.jpg"><span>جيد</span>
+                                        }
+                                        else if (@item.rate == 4)
+                                        {
+                                            <img src="~/Content/images/vote-grey.jpg">
+                                            <img src="~/Content/images/vote-grey.jpg">
+                                            <img src="~/Content/images/vote-grey.jpg">
+                                            <img src="~/Content/images/vote-grey.jpg">
+                                            <img src="~/Content/images/vote-blue.jpg"><span>جيد جداً</span>
+                                        }
+                                        else if (@item.rate == 5)
+                                        {
+                                            <img src="~/Content/images/vote-grey.jpg">
+                                            <img src="~/Content/images/vote-grey.jpg">
+                                            <img src="~/Content/images/vote-grey.jpg">
+                                            <img src="~/Content/images/vote-grey.jpg">
+                                            <img src="~/Content/images/vote-grey.jpg"><span>ممتاز</span>
+                                        }
+
+                                    </div>
+                                }
+                            }
+                        }
+                        <br />
+                        @*<a data-toggle="modal" data-target="#mmyRateModal" class="btn wide" id="registerLink">قيم العقار - تعليفك</a>*@
+                        <a href="#" onclick="addRate()" class="btn wide orange less-round">قيم العقار - تعليقك</a>
+                    </td>
+                </tr>
+            </table>
+
+        </div>
+        <br />
+        <div class="estate-sec7 row">
+            <h3>للتواصل</h3>
+            <div class="row col-lg-9">
+                <div class="col-lg-2"><img width="125px" src=@Url.Content(@Model.realEstate.Owner.logo) alt="" /></div>
+                <div class="col-lg-2"><img width="100px" src=@Url.Content(@Model.realEstate.Owner.customer.ImgeUrl) alt="" /></div>
+                <div class="col-lg-3">
+                    @Model.realEstate.Owner.customer.Name
+                    <span><strong> هاتف</strong>@Model.realEstate.Owner.customer.Phone</span>
+                    <span><strong>جوال</strong>@Model.realEstate.Owner.customer.Mobile</span>
+                </div>
+                <div class="col-lg-2">
+                    <p><a class="likes-no" href="#">@Model.realEstate.Owner.OwnerLike.Count</a></p>
+                    <p><a href="#" class="btn btn-primary btn-xs less-round" onclick="detail(@(Model.realEstate.Owner.ID))">تفاصيل</a></p>
+                </div>
+
+            </div><!-- row col-lg-8 -->
+            <div class="row col-lg-3">&nbsp;</div>
+            <div class="clear"></div>
+            <br />
+
+            <div class="row">
+                <div class="clear"></div>
+                <div class="col-lg-5">
+                    <div class="form-group"><input size="60px" class="form-control" id="name" type="text" placeholder="الاسم" /></div>
+                    <div class="form-group"><input size="60px" class="form-control" id="mobile" type="text" placeholder="الجوال" /></div>
+                    <div class="form-group"><input size="60px" class="form-control" id="email" type="email" placeholder="البريد الالكتروني" /></div>
+                    <div class="checkbox"><label><input type="checkbox" id="accept">   أن تحصل على موافقة مسبقة من قبل المقرض</label></div>
+                </div><!-- row col-lg-6 -->
+                <div class="col-lg-7">
+                    <div class="form-group"><textarea class="form-control" rows="5" cols="200" id="pargraph" placeholder="الموضوع" style="max-width:100%;"></textarea></div>
+                    <div class="form-group" style="text-align:left;"><button type="submit" class="btn btn-primary btn-sm less-round" id="sendEmail1" style="width:70%;" />ارسال</button></div>
+
+                </div><!-- row col-lg-6 -->
+
+            </div><!-- form-control -->
+        </div><!-- estate-sec7 -->
+
+
+
+
+    </div>
+    <aside class="left-col list col-lg-3 col-sm-5">
+        <div>
+            <br />
+            <div class="list-bottom row">
+
+                <div class="col-lg-4">
+                    <a href="#">مشاركة</a>
+                </div>
+                <div class="col-lg-4">
+                    <a href="#" onclick="hide(@(Model.realEstate.ID))">اخفاء</a>
+                </div>
+                @if (RealEstateV1.Busniss.BusnissLayer.isLikedEstate(Model.realEstate.ID))
+                {
+                    <div class="col-lg-4" id="likeDislikeEstate@(Model.realEstate.ID)">
+                        <a href="#" onclick="DisLikeEstate(@(Model.realEstate.ID))">&nbsp;</a>
+                    </div>
+                }
+                else
+                {
+                    <div class="col-lg-4" id="likeDislikeEstate@(Model.realEstate.ID)">
+                        <a href="#" onclick="LikeEstate(@(Model.realEstate.ID))">&nbsp;</a>
+                    </div>
+                }
+
+
+                <div class="clear"></div>
+
+                <br />
+
+            </div><!-- list-bottom -->
+            <div class="row">
+                <div class="col-lg-3"><img width="60px" src=@Url.Content(@Model.realEstate.Owner.logo) alt="" /></div>
+                <div class="col-lg-3"><img width="60px" src=@Url.Content(@Model.realEstate.Owner.customer.ImgeUrl) alt="" /></div>
+                <div class="col-lg-6">
+                    <span>@Model.realEstate.Owner.customer.Name</span>
+                    </span>@Model.realEstate.Owner.customer.Phone</span>
+                    <div class="row">
+                        <div class="col-lg-12" style="padding:0px;"><a href="#" class="btn btn-primary btn-xs less-round" onclick="detail(@(Model.realEstate.Owner.ID))">تفاصيل</a>&nbsp;<a class="likes-no" href="#">@Model.realEstate.Owner.OwnerLike.Count</a></div>
+
+                    </div>
+
+                </div>
+
+                <div class="clear"></div>
+
+                <br />
+            </div><!-- div row -->
+
+
+            <div class="form-group"><input class="form-control" size="100%" id="name" type="text" placeholder="الاسم" /></div>
+            <div class="form-group"><input class="form-control" size="100%" id="mobile" type="text" placeholder="الجوال" /></div>
+            <div class="form-group"><input class="form-control" size="100%" id="email" type="email" placeholder="البريد الالكتروني" /></div>
+            <div class="form-group"><textarea class="form-control" rows="5" cols="100" id="pargraph" placeholder="الموضوع"></textarea></div>
+            <button type="submit" class="btn btn-primary less-round wide" id="sendEmail2">ارسال</button>
+
+            <div class="clear"></div>
+
+        </div>
+        <div class="block">
+            <h3>نقاشات عقارية</h3>
+            <div class="content">
+                @Html.Partial("_AskDiscuss")
+            </div>
+        </div>
+        <div class="block ads">
+
+            <div class="content">
+                <a href="#">
+                    <img src="@Url.Content("~/Content/images/ad1.jpg")" />
+                </a>
+            </div>
+        </div>
+        <div class="block blue">
+            <h3>عقارات شبية</h3>
+            <div class="content">
+                <ul>
+                    @for (int i = 0; i < 2; i++)
+                    {
+                        @Html.Partial("_miniRE")
+                    }
+                </ul>
+            </div>
+        </div>
+
+        <div class="block blue">
+            <h3>عقارات قريبة</h3>
+            <div class="content">
+                <ul>
+                    @for (int j = 0; j < 2; j++)
+                    {
+                        @Html.Partial("_miniRE")
+                    }
+                </ul>
+            </div>
+        </div>
+    </aside>
+</div>
+</div>
+
+@*<script type="text/javascript">
+
+        $(function () {
+            $("#sendD").click(function () {
+                var name = $("#name").val();
+                var email = $("#email").val();
+                var mobile = $("#mobile").val();
+                var pargraph = $("#pargraph").val();
+                var id = @Model.realEstate.ID;
+                $.ajax({
+                    cache: false,
+                    type: "POST",
+                    url: "@(Url.Action("SendEmail"))",
+                    data: { Username : name , Phone : mobile , Email : email , Pargraph : pargraph , id : id },
+                    success: function (data) {
+                        alert('Done');
+                    },
+                    error: function (xhr, ajaxOptions, thrownError) {
+                        alert('Failed to retrieve states. ' + xhr + " - " + ajaxOptions + " - " + thrownError);
+                    }
+                });
+            });
+        });
+    </script>*@
+
+<script type="text/javascript">
+
+    $(document).ready(function () {
+        loadImg("@RealEstateV1.Busniss.MyEnumType.imageKind.pic");
+        $("#video").html('');
+        $("#maps").hide();
+    });
+    $("#Bpic").click(function () {
+        loadImg("@RealEstateV1.Busniss.MyEnumType.imageKind.pic");
+        $("#video").html('');
+        $("#maps").hide();
+    });
+    $("#Bmaps").click(function () {
+        $("#maps").show();
+        $("#video").html('');
+        $("#image").html('');
+    });
+    $("#Bvideo").click(function () {
+        loadVideo();
+        $("#image").html('');
+        $("#maps").hide();
+    });
+    $("#BPanorama").click(function () {
+        loadImg("@RealEstateV1.Busniss.MyEnumType.imageKind.Panorama");
+        $("#video").html('');
+        $("#maps").hide();
+    });
+    $("#Bblueprint").click(function () {
+        loadImg("@RealEstateV1.Busniss.MyEnumType.imageKind.blueprint");
+        $("#video").html('');
+        $("#maps").hide();
+    });
+
+    function reLoad(kind)
+    {
+        if (kind=="Bpic")
+        {
+            loadImg("@RealEstateV1.Busniss.MyEnumType.imageKind.pic");
+            $("#video").html('');
+            $("#maps").hide();
+        }
+        else if(kind=="Bmaps")
+        {
+            $("#maps").show();
+            $("#video").html('');
+            $("#image").html('');
+        }
+        else if(kind=="Bvideo")
+        {
+            loadVideo();
+            $("#image").html('');
+            $("#maps").hide();
+        }
+        else if(kind=="BPanorama")
+        {
+            loadImg("@RealEstateV1.Busniss.MyEnumType.imageKind.Panorama");
+            $("#video").html('');
+            $("#maps").hide();
+        }
+        else if(kind=="Bblueprint")
+        {
+            loadImg("@RealEstateV1.Busniss.MyEnumType.imageKind.blueprint");
+            $("#video").html('');
+            $("#maps").hide();
+        }
+    }
+
+    function loadImg(kind)
+    {
+        var id=@Model.realEstate.ID;
+        $.ajax({
+            cache: false,
+            type: "POST",
+            url: "@(Url.Action("LoadImage"))",
+            data: { "ID": id,"kind":kind },
+            success: function (data) {
+                $("#image").html(data);
+            },
+            error: function (xhr, ajaxOptions, thrownError) {
+                alert('Failed to retrieve states. ' + xhr + " - " + ajaxOptions + " - " + thrownError);
+            }
+        });
+    }
+
+    function loadVideo()
+    {
+        var id=@Model.realEstate.ID;
+        $.ajax({
+            cache: false,
+            type: "POST",
+            url: "@(Url.Action("LoadVideo"))",
+            data: { "ID": id },
+            success: function (data) {
+                $("#video").html(data);
+            },
+            error: function (xhr, ajaxOptions, thrownError) {
+                alert('Failed to retrieve states. ' + xhr + " - " + ajaxOptions + " - " + thrownError);
+            }
+        });
+    }
+
+
+    $(document).ready(function () {
+        var Feature = $("#feature").val();
+        $("#table").html('');
+        @foreach (var item in Model.realEstate.address.Town.townFeatureKind){
+            <text>
+        var v=@item.townFeature.ID;
+        if(Feature==v){
+            var dis = ((@item.position.X - @Model.realEstate.address.Postion.X)*(@item.position.X - @Model.realEstate.address.Postion.X))+((@item.position.Y - @Model.realEstate.address.Postion.Y)*(@item.position.Y - @Model.realEstate.address.Postion.Y));
+            var tab="<div class=\"row\"><div class=\"col-lg-4 schools\">"+"@item.townFeature.Feature  @item.Description"+"</div><div class=\"col-lg-4 types\">"+"@item.Kind"+"</div>"+"<div class=\"col-lg-4 disten\">"+dis+"</div></div>";
+            $("#table").append(tab);
+        }
+        </text>
+
+        }
+
+
+        $("#feature").change(function () {
+            var Feature = $("#feature").val();
+            $("#table").html('');
+            @foreach (var item in Model.realEstate.address.Town.townFeatureKind)
+            {
+               <text>
+            var v=@item.townFeature.ID.ToString();
+            if(Feature==v){
+
+                var tab="<div class=\"row\"><div class=\"col-lg-4\">"+"@item.townFeature.Feature  @item.Description"+"</div><div class=\"col-lg-4 types\">"+"@item.Kind"+"</div><div class=\"col-lg-4 disten\">"+@item.position.X+"</div></div>";
+                $("#table").append(tab);
+            }
+            </text>
+           }
+
+
+        });
+    });
+</script>
+
+<div class="modal fade" id="mmyRateModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content" style="margin-top:50px;height:550px">
+            <div class="modal-body" id="addRate-modal-body">
+
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+
+<script type="text/javascript">
+
+    $(document).ready(function () {
+        $("#addRate-modal-body").load('@Url.Action("AddRate", "Home", new { id = @Model.realEstate.address.Town.ID })');
+    });
+
+
+</script>
+@if (Request.IsAuthenticated)
+{
+    <script type="text/javascript">
+        function LikeEstate(Estateid) {
+
+            var id = Estateid;
+            $.ajax({
+                cache: false,
+                type: "POST",
+                url: "@(Url.Action("LikeEstate"))",
+                data: { "ID": id },
+                success: function (data) {
+                    var dis = '<img style="cursor:pointer;width:35px;height:35px" onclick="DisLikeEstate('+id+')" src="/Content/images/Dislike.png" />';
+                    $("#likeDislikeEstate"+id+"").html(dis);
+                },
+                error: function (xhr, ajaxOptions, thrownError) {
+                    alert('Failed to retrieve states. ' + xhr + " - " + ajaxOptions + " - " + thrownError);
+                }
+            });
+        }
+
+
+        function DisLikeEstate(Estateid) {
+            var id = Estateid;
+            $.ajax({
+                cache: false,
+                type: "POST",
+                url: "@(Url.Action("DisLikeEstate"))",
+                data: { "ID": id },
+                success: function (data) {
+                    var dis = '<img style="cursor:pointer;width:35px;height:35px" onclick="LikeEstate('+id+')" src="/Content/images/ico2.png" />';
+                    $("#likeDislikeEstate"+id+"").html(dis);
+                },
+                error: function (xhr, ajaxOptions, thrownError) {
+                    alert('Failed to retrieve states. ' + xhr + " - " + ajaxOptions + " - " + thrownError);
+
+                }
+            });
+        }
+    </script>
+}
+else
+{
+    <script type="text/javascript">
+        function LikeEstate() {
+            $("#Login-modal-body").load('@Url.Action("Login", "Account", new { returnUrl = ViewBag.returnUrl })');
+            $("#Register-modal-body").load('@Url.Action("Register", "Account")');
+            $("#forgetPass-modal-body").load('@Url.Action("ForgotPassword", "Account")');
+            $('#LoginModal').modal({
+                show: 'true'
+            });
+        }
+    </script>
+}
+@if (Request.IsAuthenticated)
+{
+    <script type="text/javascript">
+        function addRate()
+        {
+            $("#addRate-modal-body").load('@Url.Action("AddRate", "Home", new { id = @Model.realEstate.address.Town.ID })');
+            $('#mmyRateModal').modal({
+                show: 'true'
+            });
+        }
+
+
+    </script>
+}
+else
+{
+    <script type="text/javascript">
+        function addRate()
+        {
+            $("#Login-modal-body").load('@Url.Action("Login", "Account", new { returnUrl = ViewBag.returnUrl })');
+            $("#Register-modal-body").load('@Url.Action("Register", "Account")');
+            $("#forgetPass-modal-body").load('@Url.Action("ForgotPassword", "Account")');
+            $('#LoginModal').modal({
+                show: 'true'
+            });
+        }
+
+    </script>
+}
+
+@if (Request.IsAuthenticated)
+{
+    <script type="text/javascript">
+        function detail(ownerid) {
+            window.location = '@Url.Action("Owner", "Home")/' + ownerid;
+        }
+    </script>
+}
+else
+{
+    <script type="text/javascript">
+        function detail() {
+            $("#Login-modal-body").load('@Url.Action("Login", "Account", new { returnUrl = ViewBag.returnUrl })');
+            $("#Register-modal-body").load('@Url.Action("Register", "Account")');
+            $("#forgetPass-modal-body").load('@Url.Action("ForgotPassword", "Account")');
+            $('#LoginModal').modal({
+                show: 'true'
+            });
+        }
+    </script>
+}
+
+@if (Request.IsAuthenticated)
+{
+    <script type="text/javascript">
+        function hide(id) {
+            $.ajax({
+                cache: false,
+                type: "POST",
+                url: "@(Url.Action("HideEstate"))",
+                data: { "estateID": id },
+                success: function (data) {
+                    window.location = '@Url.Action("Index", "Home")';
+                },
+                error: function (xhr, ajaxOptions, thrownError) {
+                    alert('Failed to retrieve states. ' + xhr + " - " + ajaxOptions + " - " + thrownError);
+                }
+            });
+        }
+    </script>
+}
+else
+{
+    <script type="text/javascript">
+        function hide(id) {
+            $("#Login-modal-body").load('@Url.Action("Login", "Account", new { returnUrl = ViewBag.returnUrl })');
+            $("#Register-modal-body").load('@Url.Action("Register", "Account")');
+            $("#forgetPass-modal-body").load('@Url.Action("ForgotPassword", "Account")');
+            $('#LoginModal').modal({
+                show: 'true'
+            });
+        }
+    </script>
+}

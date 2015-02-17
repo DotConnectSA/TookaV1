@@ -1,0 +1,219 @@
+﻿@model RealEstateV1.Busniss.SearchItem
+
+
+@{
+    ViewBag.Title = "Tooka - Real Estate";
+}
+<body class="home">
+
+    @section Logo {
+        <div class="header holder">
+            <a class="home logo" href="/"></a>
+            <div class="right-logo">
+                <div class="sell-cost">قيمة العقارات المباعة <b>@ViewBag.allcost</b></div>
+                <div class="subscribe">
+                    الاشتراك بالنشرة الإخبارية
+                    <input type="email" id="email" />
+                    <input type="button" id="semail" value="اشترك" />
+                </div>
+            </div>
+            <div class="clear"></div>
+        </div>
+    }
+    @*@section login {
+            @Html.Partial("_LoginPartial")
+        }*@
+</body>
+
+<script type="text/javascript">
+    function clickTab(i) {
+        if (i == 1) {
+            document.getElementById("a1").className = "active";
+            document.getElementById("a2").className = " ";
+            document.getElementById("a3").className = " ";
+            document.getElementById("kind").value = 1;
+        }
+        else if (i == 2) {
+            document.getElementById("a2").className = "active";
+            document.getElementById("a1").className = " ";
+            document.getElementById("a3").className = " ";
+            document.getElementById("kind").value = 2;
+        }
+        else {
+            document.getElementById("a3").className = "active";
+            document.getElementById("a1").className = " ";
+            document.getElementById("a2").className = " ";
+            document.getElementById("kind").value = 3;
+        }
+    }
+</script>
+
+<div class="banner">
+    @using (Html.BeginForm())
+    {
+        <input type="hidden" id="kind" name="kind" />
+        <div class="searchbox">
+
+            <div class="tabs">
+                <ul class="tab-links">
+                    <li id="a1" class="active"><a href="#" onclick="clickTab(1)">عقار للبيع</a></li>
+                    <li id="a2"><a href="#" onclick="clickTab(2)">عقار للإيجار</a></li>
+                    <li id="a3"><a href="#" onclick="clickTab(3)">عقارات مباعة</a></li>
+
+                </ul>
+
+                <div class="tab-content">
+                    <div id="tab1" class="tab"></div>
+                    <div id="tab2" class="tab"></div>
+                    <div id="tab3" class="tab"></div>
+                </div>
+
+                <div>
+
+
+                    @Html.AntiForgeryToken()
+
+                    @Html.DropDownListFor(Model => Model.City, (SelectList)ViewBag.Cites)
+
+                    @Html.DropDownListFor(Model => Model.Town, (SelectList)ViewBag.VBtown)
+                    @Html.ValidationMessageFor(Model => Model.Town)
+                    <span id="states-loading-progress" style="display: none;">Please wait..</span>
+
+                    @Html.DropDownListFor(Model => Model.RoomNo, (SelectList)ViewBag.VBroomno)
+
+                    @Html.DropDownListFor(Model => Model.Bathno, (SelectList)ViewBag.VBbathno)
+                    <input type="submit" value="search" id="btn" class="search" />
+                    <br />
+
+                    @Html.DropDownListFor(Model => Model.RealEstateKind, (SelectList)ViewBag.RSkind)
+
+                    @Html.DropDownListFor(Model => Model.LowerPrice, (SelectList)ViewBag.VBlowerprice)
+
+                    @Html.DropDownListFor(Model => Model.UperPrice, (SelectList)ViewBag.VBuperprice)
+
+                    @Html.DropDownListFor(Model => Model.Area, (SelectList)ViewBag.VBarea)
+
+
+                </div>
+                <input type="button" id="hid" value="بحث متقدم">
+            </div> <!-- tabs -->
+        </div><!-- searchbox -->
+
+        <div class="tabs" id="FeaturesDIV">
+            @foreach (var feature in (IEnumerable<RealEstateV1.Models.T_REFeature>)ViewBag.REFeature)
+            {
+                @Html.Label(feature.Feature)
+                <input name="feature" type="checkbox" id="@feature.ID" value="@feature.ID" />
+            }
+        </div>
+    }
+</div>
+
+<div class="clear"></div>
+
+<div class="three-columns">
+    <div class="right-col col col-md-4">
+        <h3>عقارات جده اليوم</h3>
+        <a href="@Url.Content("~/content/images/" +ViewBag.jeddahImage)">
+            <img src="@Url.Content("~/content/images/" + ViewBag.jeddahImage)" />
+        </a>
+        <div class="counts">@ViewBag.jeddahcountToday</div>
+    </div>
+
+    <div class="middle-col col col-md-4">
+        <h3>عقارات الرياض اليوم</h3>
+        <a href="@Url.Content("~/content/images/" +ViewBag.RyadImage)">
+            <img src="@Url.Content("~/content/images/" + ViewBag.RyadImage)" />
+        </a>
+        <div class="counts">@ViewBag.RyadcountToday</div>
+    </div>
+    <div class="left-col col col-md-4">
+        <h3>عقارات الشرقية اليوم</h3>
+        <a href="@Url.Content("~/content/images/" +ViewBag.EstImage)">
+            <img src="@Url.Content("~/content/images/" + ViewBag.estImage)" />
+        </a>
+        <div class="counts">@ViewBag.estcountToday</div>
+    </div>
+</div>
+
+
+<div class="two-columns">
+    <div class="right-col col col-md-6">
+
+        <a href="@Url.Content("~/content/images/" + ViewBag.imageads2)">
+            <img src="@Url.Content("~/content/images/" + ViewBag.imageads2)" />
+        </a>
+    </div>
+    <div class="left-col col col-md-6">
+        <div>
+            @Html.DropDownList("ROOM", (SelectList)ViewBag.room)
+
+            @Html.DropDownList("AISA", (SelectList)ViewBag.asia)
+        </div>
+        <a href="@Url.Content("~/content/images/" +ViewBag.ImageAds)">
+            <img src="@Url.Content("~/content/images/"+ViewBag.ImageAds)" />
+        </a>
+    </div>
+    <div class="clear"></div>
+</div>
+
+@section Scripts {
+    <script type="text/javascript">
+
+
+
+
+        $(function () {
+            $("#hid").click(function () {
+                $("#FeaturesDIV").toggle("blind");
+            });
+
+
+            $("#City").change(function () {
+                var selection = $(this).val();
+                var ddtown = $("#Town");
+                var statesProgress = $("#states-loading-progress");
+                $.ajax({
+                    cache: false,
+                    type: "POST",
+                    url: "@(Url.Action("GetTown"))",
+                    data: { "CityID": selection },
+                    success: function (data) {
+                        ddtown.html('');
+                        $.each(data, function (id, option) {
+                            ddtown.append($('<option></option>').val(option.id).html(option.name));
+                        });
+
+                        statesProgress.hide();
+                    },
+                    error: function (xhr, ajaxOptions, thrownError) {
+                        alert('Failed to retrieve states. ' + xhr + " - " + ajaxOptions + " - " + thrownError);
+                        statesProgress.hide();
+                    }
+                });
+            });
+
+
+
+            $("#semail").click(function () {
+                var email = $("#email").val();
+                $.ajax({
+                    cache: false,
+                    type: "POST",
+                    url: "@(Url.Action("Email"))",
+                    data: { "email": email },
+                    success: function () {
+                        $("#email").val("");
+                    },
+                    error: function (xhr, ajaxOptions, thrownError) {
+                        alert('Failed to retrieve states. ' + xhr + " - " + ajaxOptions + " - " + thrownError);
+                        statesProgress.hide();
+                    }
+                });
+            });
+
+
+
+        });
+    </script>
+}

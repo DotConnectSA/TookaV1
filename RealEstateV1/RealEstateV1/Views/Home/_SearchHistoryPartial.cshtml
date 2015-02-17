@@ -1,0 +1,104 @@
+﻿@model RealEstateV1.Busniss.RealEstateFull
+
+<li id="div@(Model.realEstate.ID)">
+
+    <a href="@Url.Content(Model.realEstate.ImageURL)">
+        <img src="@Url.Content(Model.realEstate.ImageURL)" />
+    </a>
+
+    <section class="list-top">
+        <span class="title">@Model.realEstate.Rekind.Kind</span>
+        <br />
+        <dl>
+            <dt>المدينة</dt>
+            <dd>@Model.realEstate.address.Town.TownName</dd>
+            <dt>العنوان</dt>
+            <dd>@Model.realEstate.address.Street</dd>
+            <dt>عدد الغرف</dt>
+            <dd>@Model.realEstate.RoomNo</dd>
+            <dt>عدد الحمامات</dt>
+            <dd>@Model.realEstate.BathroomNo</dd>
+            <dt>المساحة</dt>
+            <dd>@Model.realEstate.Area</dd>
+            <dt>تاريخ العرض</dt>
+            <dd></dd>
+        </dl>
+        <span class="price rent">
+            @if (Model.sale != null)
+            {
+                <text>
+                    سعر البيع : @Model.sale.Price ريال
+                </text>
+            }
+            @if (Model.rent != null)
+            {
+                <text>
+                    سعر الاجار : @Model.rent.Price ريال
+                </text>
+            }
+        </span>
+    </section>
+    <section class="list-bottom">
+        <a href="#" onclick="Ownerdetail(@(Model.realEstate.Owner.ID))">مكتب صاحب العقار</a>
+        <input id="compareCheck" type="checkbox" name="compare" />قارن <label> قارن</label>
+        <a href="#">خريطة</a>
+        <a href="#" onclick="hide(@(Model.realEstate.ID))">إخفاء</a>
+        <a href="#">fav</a>
+        <a href="#" onclick="detail(@(Model.realEstate.ID))">تفاصيل</a>
+    </section>
+</li>
+
+
+<script type="text/javascript">
+    function detail(id) {
+        window.location = '@Url.Action("RealEstate", "Home")/' + id;
+    }
+</script>
+
+@if (Request.IsAuthenticated)
+{
+    <script type="text/javascript">
+        function hide(id) {
+            $.ajax({
+                cache: false,
+                type: "POST",
+                url: "@(Url.Action("HideEstate"))",
+                data: { "estateID": id },
+                success: function (data) {
+                    $('#div' + id).hide();
+                },
+                error: function (xhr, ajaxOptions, thrownError) {
+                    alert('Failed to retrieve states. ' + xhr + " - " + ajaxOptions + " - " + thrownError);
+                }
+            });
+        }
+    </script>
+    <script type="text/javascript">
+    function Ownerdetail(ownerid) {
+        window.location = '@Url.Action("Owner", "Home")/' + ownerid;
+    }
+    </script>
+}
+else
+{
+    <script type="text/javascript">
+        function hide(id) {
+            $("#Login-modal-body").load('@Url.Action("Login", "Account", new { returnUrl = ViewBag.returnUrl })');
+            $("#Register-modal-body").load('@Url.Action("Register", "Account")');
+            $("#forgetPass-modal-body").load('@Url.Action("ForgotPassword", "Account")');
+            $('#LoginModal').modal({
+                show: 'true'
+            });
+        }
+    </script>
+    <script type="text/javascript">
+    function Ownerdetail() {
+        $("#Login-modal-body").load('@Url.Action("Login", "Account", new { returnUrl = ViewBag.returnUrl })');
+        $("#Register-modal-body").load('@Url.Action("Register", "Account")');
+        $("#forgetPass-modal-body").load('@Url.Action("ForgotPassword", "Account")');
+        $('#LoginModal').modal({
+            show: 'true'
+        });
+    }
+    </script>
+}

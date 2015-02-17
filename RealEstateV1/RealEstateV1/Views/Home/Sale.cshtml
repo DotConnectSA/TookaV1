@@ -1,0 +1,243 @@
+﻿@model IEnumerable<RealEstateV1.Models.T_Sale>
+
+@{
+    ViewBag.Title = "Sale";
+}
+
+@{
+    RealEstateV1.Busniss.SearchItem se = null;
+    if (RealEstateV1.Busniss.SessionManager.searchKey != null)
+    {
+        se = RealEstateV1.Busniss.SessionManager.searchKey;
+    }
+    else
+    {
+        se = new RealEstateV1.Busniss.SearchItem() { SearchKind = RealEstateV1.Busniss.MyEnumType.SearchKind.Sale };
+    }
+    @Html.Partial("_SearchBar", se)
+}
+
+<script src="~/Scripts/jquery-1.10.2.js"></script>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDY0kkJiTPVd2U7aTOAwhc9ySH6oHxOIYM&sensor=false"></script>
+
+<h2>بيع</h2>
+
+<div class="view-controls-list" id="viewcontrols">
+    <a class="mapview"><i class="fa fa-map fa-2x">خريطة</i></a>
+    <a class="gridview"><i class="fa fa-th fa-2x">صور</i></a>
+    <a class="listview active"><i class="fa fa-list fa-2x">قائمة</i></a>
+
+</div>
+<div class="clear"></div>
+
+<div id="container">
+    <div class="row rent">
+        <div class="map">
+            <div style="float:left;max-width: 20%; width: 20%; max-height:456px;overflow: scroll;" >
+                <ul>
+                    @foreach (var item in RealEstateV1.Busniss.BusnissLayer.getSaleMapView())
+                    {
+                        @Html.Partial("_MapViewEstatePartial", item, new ViewDataDictionary { { "returnUrl", @ViewBag.returnUrl } });
+                    }
+                </ul>
+            </div>
+            <div style="max-width: 80%; width: 80%;">
+                @Html.Partial("_MapView", @RealEstateV1.Busniss.BusnissLayer.getSaleMapView())
+            </div>
+        </div>
+        <div class="col-lg-9 col-sm-7">
+
+            <ul class="list" id="list">
+
+                @if (Model == null)
+                {
+                    <li>
+                        لايوجد بيانات
+                    </li>
+                }
+                else
+                {
+                    foreach (var item in Model)
+                    {
+                        @Html.Partial("_SalePartial", item, new ViewDataDictionary { { "returnUrl", @ViewBag.returnUrl } });
+                    }
+                }
+
+            </ul>
+            <div class="clear"></div>
+            <div style="text-align: center;" class="paging">
+                <button id="prevbtn" type="button" onclick="prev()" class="btn btn-default">السابق</button>
+                <span id="nav"></span>
+                <a id="nextbtn" onclick="next()" class="btn btn-default">التالي</a>
+            </div>
+        </div>
+
+        <aside class="left-col list col-lg-3 col-sm-5">
+            <div class="block ads">
+
+                <div class="content">
+                    <a href="#">
+                        <img src="@Url.Content("~/Content/images/ad1.jpg")" />
+                    </a>
+                </div>
+            </div>
+            <div class="block ads">
+
+                <div class="content">
+                    <a href="#">
+                        <img src="@Url.Content("~/Content/images/ad2.jpg")" />
+                    </a>
+                </div>
+            </div>
+
+            <div class="block blue">
+                <h3>عقارات قريبة</h3>
+                <div class="content">
+                    <ul>
+                        @for (int i = 0; i < 2; i++)
+                        {
+                            @Html.Partial("_miniRE")
+                        }
+                    </ul>
+                </div>
+            </div>
+            <div class="clear"></div>
+            <div class="block">
+                <h3>نقاشات عقارية</h3>
+                <div class="content">
+                    @Html.Partial("_AskDiscuss")
+                </div>
+            </div>
+            <div class="block google">
+
+                <div class="content">
+                    <img src="@Url.Content("~/Content/images/google.png")" />
+                </div>
+            </div>
+        </aside>
+        <div class="clear"></div>
+    </div>
+</div>
+
+
+<script type="text/javascript">
+    var showCount=@ViewBag.showCount;
+    var totalCount=@ViewBag.totalCount;
+    var numOfIndex=totalCount / showCount;
+    numOfIndex=Math.ceil(numOfIndex);
+    var navIndex;
+    var startNum=0;
+
+    function init(count)
+    {
+        $("#nav").html('');
+        totalCount=count;
+        numOfIndex=totalCount/showCount;
+        numOfIndex=Math.ceil(numOfIndex);
+
+        var n=(numOfIndex-1)*showCount;
+        for(i=numOfIndex;i>=1;i--)
+        {
+            $("#nav").append( "<a id='nav"+i+"' onclick='alter("+i+","+n+")' style='cursor: pointer;color:gray;padding:5px;'>"+i+"</a>");
+            n=n-showCount;
+        }
+        navIndex=1;
+        $("#prevbtn").removeClass("active");
+        $("#nextbtn").removeClass("active");
+        $("#prevbtn").addClass("active");
+        if (numOfIndex<=1)
+            $("#nextbtn").addClass("active");
+        $("#nav"+navIndex).css("color","blue");
+    }
+
+    function getSale(saleid)
+    {
+        $.ajax({
+            cache: false,
+            type: "POST",
+            url: "@(Url.Action("GetSaleByID"))",
+            data: { "SaleID": saleid },
+            success: function (data) {
+                $("#list").append(data);
+            },
+            error: function (xhr, ajaxOptions, thrownError) {
+                alert('Failed to retrieve states. ' + xhr + " - " + ajaxOptions + " - " + thrownError);
+
+            }
+        });
+    }
+
+    $(document).ready(
+	function()
+	{
+	    $('#container div.map').hide();
+	    init(totalCount);
+	}
+	);
+
+    function alter(index,start)
+    {
+        
+        startNum=start;
+        for (i=1;i<=numOfIndex;i++)
+        {
+            $("#nav"+i).css("color","gray");
+        }
+        $("#nav"+index).css("color","blue");
+
+
+        navIndex=index;
+        $("#prevbtn").removeClass("active");
+        $("#nextbtn").removeClass("active");
+        if (navIndex==numOfIndex)
+        {
+            $("#nextbtn").addClass("active");
+        }
+        if(navIndex==1)
+        {
+            $("#prevbtn").addClass("active");
+        }
+
+        $.ajax({
+            cache: false,
+            type: "POST",
+            url: "@(Url.Action("SaleByIndex"))",
+            data: {"start":start },
+            success: function (data) {
+                $("#list").html('');
+                $.each(data, function (id, Comment) {
+                    getSale(Comment);
+                });
+            },
+            error: function (xhr, ajaxOptions, thrownError) {
+                alert('Failed to retrieve states. ' + xhr + " - " + ajaxOptions + " - " + thrownError);
+            }
+        });
+    }
+
+    function prev()
+    {
+        if(navIndex-1>0)
+        {
+            if(navIndex-1==1)
+            {
+                $("#prevbtn").addClass("active");
+            }
+            $("#nextbtn").removeClass("active");
+            alter(navIndex-1,startNum-showCount);
+        }
+    }
+
+    function next()
+    {
+        if(navIndex+1<=numOfIndex)
+        {
+            if (navIndex+1==numOfIndex)
+            {
+                $("#nextbtn").addClass("active");
+            }
+            $("#prevbtn").removeClass("active");
+            alter(navIndex+1,startNum+showCount);
+        }
+    }
+</script>

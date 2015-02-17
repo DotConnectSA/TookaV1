@@ -1,0 +1,235 @@
+﻿@model RealEstateV1.Models.T_Owner
+<script src="~/Scripts/prettyprint.js"></script>
+<script src="~/Scripts/jquery.form-validator.min.js"></script>
+<script type="text/javascript">
+    $(document).on("click", "#btn_edit_ok", function () {
+        alert("save");
+
+        $.validate({
+            form: '#frm_profile',
+            onError: function () {
+                alert("error");
+
+            },
+            onSuccess: function () {
+                alert("success");
+                var formData = new FormData();
+                var totalFiles = document.getElementById("fle_upload").files.length;
+                for (var i = 0; i < totalFiles; i++) {
+                    var file = document.getElementById("fle_upload").files[i];
+
+                    formData.append("fle_upload", file);
+                }
+                $.ajax({
+                    type: "POST",
+                    url: "@(Url.Action("Upload"))",
+                    data: formData,
+                    dataType: 'json',
+                    contentType: false,
+                    processData: false,
+                    success: function (response) {
+                        //  alert('succes!!');
+                    },
+                    error: function (xhr, ajaxOptions, thrownError) {
+                        alert('Failed to retrieve states. ' + xhr + " - " + ajaxOptions + " - " + thrownError);
+                    }
+                });
+
+                $.ajax({
+                    cache: false,
+                    type: "POST",
+                    url: "@(Url.Action("edit_customer"))",
+                    data: {
+                        "fle_upload": document.getElementById("fle_upload").value,
+                        "ID": document.getElementById("ID").value,
+                        "Name": document.getElementById("txt_mktb_name").value,
+                        "cities": document.getElementById("lst_cities").options[document.getElementById("lst_cities").selectedIndex].value,
+                        "townes": document.getElementById("lst_townes").options[document.getElementById("lst_townes").selectedIndex].value,
+                        "street": document.getElementById("lbl_street").value,
+                        "building": document.getElementById("lbl_building").value,
+                        "floor": document.getElementById("lbl_floor").value,
+                        "tel": document.getElementById("lbl_tel").value,
+                        "mob": document.getElementById("lbl_mob").value,
+                        "door": document.getElementById("lbl_door").value,
+                        "email": document.getElementById("txt_mktb_email").value
+                    },
+                    success: function (data) {
+                        edit_disable();
+                        document.getElementById('lbl_name').innerHTML = document.getElementById("txt_mktb_name").value;
+
+                    },
+                    error: function (xhr, ajaxOptions, thrownError) {
+                        alert('Failed to retrieve states. ' + xhr + " - " + ajaxOptions + " - " + thrownError);
+                    }
+                });
+                return false; // Will stop the submission of the form
+            },
+        });
+    });
+
+
+    function edit_enable() {
+        document.getElementById("lbl_street").disabled = false;
+        document.getElementById("lbl_building").disabled = false;
+        document.getElementById("lbl_floor").disabled = false;
+        document.getElementById("lbl_door").disabled = false;
+        document.getElementById("lbl_tel").disabled = false;
+        document.getElementById("lbl_mob").disabled = false;
+        document.getElementById("lst_townes").disabled = false;
+        document.getElementById("lst_cities").disabled = false;
+        document.getElementById("fle_upload").style.display = "inherit";
+        document.getElementById("mktb").style.display = "inherit";
+        document.getElementById("mktb2").style.display = "inherit";
+        document.getElementById("btn_edit_profile").className = "btn btn-default hide";
+        document.getElementById("btn_edit_ok").className = "btn btn-default view";
+        document.getElementById("btn_edit_cancel").className = "btn btn-default view";
+
+    }
+
+    function edit_disable() {
+        document.getElementById("lbl_street").disabled = true;
+        document.getElementById("lbl_building").disabled = true;
+        document.getElementById("lbl_floor").disabled = true;
+        document.getElementById("lbl_door").disabled = true;
+        document.getElementById("lbl_tel").disabled = true;
+        document.getElementById("lbl_mob").disabled = true;
+        document.getElementById("lst_townes").disabled = true;
+        document.getElementById("lst_cities").disabled = true;
+        document.getElementById("mktb").style.display = "none";
+        document.getElementById("mktb2").style.display = "none";
+        document.getElementById("fle_upload").style.display = "none";
+        document.getElementById("btn_edit_profile").className = "btn btn-default view";
+        document.getElementById("btn_edit_ok").className = "btn btn-default hide";
+        document.getElementById("btn_edit_cancel").className = "btn btn-default hide";
+
+    }
+
+    $(document).on("change", "#lst_cities", function () {
+        var selection = $('#lst_cities').find(":selected").val();
+        var ddtown = $("#lst_townes");
+        $.ajax({
+            cache: false,
+            type: "POST",
+            url: "@(Url.Action("GetTown"))",
+            data: { "CityID": selection },
+            success: function (data) {
+                ddtown.html('');
+                $.each(data, function (id, option) {
+                    ddtown.append($('<option></option>').val(option.id).html(option.name));
+                });
+            },
+            error: function (xhr, ajaxOptions, thrownError) {
+                alert('Failed to retrieve states. ' + xhr + " - " + ajaxOptions + " - " + thrownError);
+            }
+        });
+    });
+
+
+</script>
+
+@using (Html.BeginForm(null, null, new { @id = string.Empty }, FormMethod.Post, new { @id = "frm_profile", @class = "col-lg-4 col-sm-5 owner-right" }))
+{
+    <fieldset>
+        <div class="">
+            <dl>
+                <dt>
+                    <label id="lbl_name">@Html.DisplayFor(model => model.customer.Name)</label>
+                </dt>
+                <dd>
+                    <img alt="" id="img_owner" src=@Url.Content(Model.customer.ImgeUrl) width="130" height="130" />
+                    <div id="pnl_riht"></div>
+                    <input id="fle_upload" type="file" name="file" style="display:none" data-validation="extension" data-validation-error-msg="الرجاء اختيار صورةjpg, png, gif" data-validation-allowing="jpg,png,gif" />
+                    <input id="ID" name="ID" type="hidden" value=@Html.DisplayFor(model => model.ID) />
+                    <br />
+                    <div class="row" id="mktb" style="display:none">
+                        <div class="col-lg-3">
+                            <label class="col-lg-4" for="txt_mktb_name">المكتب:</label>
+                        </div>
+                        <div class="col-lg-9">
+                            <input id="txt_mktb_name" data-validation="required" data-validation-error-msg="الرجاء أدخال إسم المكتب" class="form-control" name="txt_mktb_name" type="text" value=@Html.DisplayFor(model => model.customer.Name) />
+                        </div>
+
+                    </div>
+                    <div class="row" id="mktb2" style="display:none">
+                        <div class="col-lg-3">
+                            <label class="col-lg-4">البريد:</label>
+                        </div>
+                        <div class="col-lg-9">
+                            <input id="txt_mktb_email" data-validation="email required" data-validation-error-msg="الرجاء إدخال أو التأكد من البريد الإلكتروني" name="txt_mktb_email" type="text" class="form-control" value=@Html.DisplayFor(model => model.customer.Email) />
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-3">
+                            <label class="col-lg-4">المدينة:</label>
+                        </div>
+                        <div class="col-lg-9">
+                            @Html.DropDownListFor(model => model.customer.address.Town.City, (SelectList)ViewBag.Cites, new { id = "lst_cities", disabled = "true", name = "lst_cities", @class = "form-control" })
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-3">
+                            <label class="col-lg-4">الحي:</label>
+                        </div>
+                        <div class="col-lg-9">
+                            @Html.DropDownListFor(model => Model.customer.address.Town, (SelectList)ViewBag.town, new { id = "lst_townes", disabled = "true", name = "lst_townes", @class = "form-control" })
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-lg-3">
+                            <label class="col-lg-4">الشارع:</label>
+                        </div>
+                        <div class="col-lg-9">
+                            <input id="lbl_street" data-validation="required" data-validation-error-msg="الرجاء إدخال إسم الشارع" type=" text" name="lbl_street" disabled="true" class="form-control" value=@Html.DisplayFor(model => model.customer.address.Street) />
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-lg-3">
+                            <label class="col-lg-4">البناء:</label>
+                        </div>
+                        <div class="col-lg-9">
+                            <input id="lbl_building" data-validation="required" data-validation-error-msg="الرجاء إدخال إسم أو رقم البناء" name=" lbl_building" type="text" disabled="true" class="form-control" value=@Html.DisplayFor(model => model.customer.address.building) />
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-lg-3">
+                            <label class="col-lg-4">الطابق:</label>
+                        </div>
+                        <div class="col-lg-9">
+                            <input id="lbl_floor" name="lbl_floor" type="text" disabled="true" data-validation="number required" data-validation-error-msg="الرجاء إدخال رقم الطابق" data-validation-allowing=" range[-2;100]" class="form-control" value=@Html.DisplayFor(model => model.customer.address.floor) />
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-3">
+                            <label class="col-lg-4">الباب:</label>
+                        </div>
+                        <div class="col-lg-9">
+                            <input id="lbl_door" disabled="true" name="lbl_door" data-validation="number required" data-validation-error-msg="الرجاء إدخال رقم الباب" data-validation-allowing=" range[0;1000]" type="text" class="form-control" value=@Html.DisplayFor(model => model.customer.address.door) />
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-3">
+                            <label class="col-lg-4">الهاتف:</label>
+                        </div>
+                        <div class="col-lg-9">
+                            <input id="lbl_tel" disabled="true" name="lbl_tel" type="text" data-validation="number required" data-validation-error-msg="الرجاء إدخال رقم الهاتف" data-validation-allowing=" range[0;99999999999999999999]" class="form-control" value=@Html.DisplayFor(model => model.customer.Phone) />
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-3">
+                            <label class="col-lg-4">الجوال:</label>
+                        </div>
+                        <div class="col-lg-9">
+                            <input id="lbl_mob" disabled="true" name="lbl_mob" type="text" class="form-control" data-validation="number" data-validation-error-msg="الرجاء إدخال رقم الجوال" data-validation-allowing=" range[0;99999999999999999999]" value=@Html.DisplayFor(model => model.customer.Mobile) />
+                        </div>
+                    </div>
+                    <input id="btn_edit_profile" class="btn btn-default view" type="button" value="تعديل" onclick="edit_enable()" />
+                    <input id="btn_edit_ok" class="btn btn-default hide" type="submit" value="موافق" />
+                    <input id="btn_edit_cancel" class="btn btn-default hide" type="button" onclick="edit_disable()" value=" الغاء" />
+                </dd>
+            </dl>
+        </div>
+    </fieldset>
+}
