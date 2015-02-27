@@ -214,6 +214,12 @@ namespace RealEstateV1.Busniss
             }
         }
 
+        public static List<T_RealEstate> nearEstate(int townId)
+        {
+            RealEstateContext DB = new RealEstateContext();
+            return DB.TRealEstate.Where(a => a.address.Town.ID == townId).ToList();
+        }
+
         internal static int GetAdressOfCustomer(int customerId)
         {
             RealEstateContext DB = new RealEstateContext();

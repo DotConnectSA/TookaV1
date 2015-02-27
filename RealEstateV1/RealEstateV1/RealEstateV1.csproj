@@ -378,6 +378,7 @@
     <Content Include="Views\Home\_FavoritPartial.cshtml" />
     <Content Include="Views\Home\_MapView.cshtml" />
     <Content Include="Views\Home\_MapViewEstatePartial.cshtml" />
+    <Content Include="Views\Home\_nearEstatePartial.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
